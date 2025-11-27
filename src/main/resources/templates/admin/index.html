@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="include :: head('管理系统平台')"></head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/yadmin.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div th:include="include :: header"></div>
@@ -47,13 +46,13 @@
             <div class="layui-icon admin-tabs-control layui-icon-refresh-3" lay-event="refresh"></div>
             <div class="layui-tab" lay-unauto lay-allowclose="true" lay-filter="lay-tab">
                 <ul class="layui-tab-title">
-                    <li lay-id="home" lay-url="welcome.html" class="layui-this">
+                    <li lay-id="home" lay-url="/admin/welcome" class="layui-this">
                         <i class="layui-icon layui-icon-home"></i>
                     </li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src="welcome.html" class="layui-iframe" scrolling="yes"></iframe>
+                        <iframe src="/admin/welcome" class="layui-iframe" scrolling="yes"></iframe>
                     </div>
                 </div>
             </div>

@@ -76,11 +76,6 @@ public class ResourcesController extends BaseController {
     public Object tree() {
         List<ZTreeNode> tree = this.ztreeNodeService.menuZtree();
         tree.add(ZTreeNode.createParent());
-        for (ZTreeNode zTreeNode : tree) {
-            List<ZTreeNode.CheckArr> checkArr = new ArrayList<ZTreeNode.CheckArr>();
-            checkArr.add(new ZTreeNode.CheckArr());
-            zTreeNode.setCheckArr(checkArr);
-        }
         return AjaxResult.tree(tree);
     }
 }

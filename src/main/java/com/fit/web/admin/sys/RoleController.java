@@ -6,13 +6,12 @@ import com.fit.entity.SysRole;
 import com.fit.entity.SysRoleAuth;
 import com.fit.entity.ZTreeNode;
 import com.fit.service.SysRoleAuthService;
+import com.fit.service.SysRoleService;
 import com.fit.service.ZtreeNodeService;
 import com.fit.util.BeanUtil;
 import com.fit.util.OftenUtil;
 import com.fit.util.WebUtil;
-import com.fit.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author AIM
@@ -122,6 +122,7 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/tree")
     @ResponseBody
     public Object tree() {
+
         List<ZTreeNode> tree = this.ztreeNodeService.roleZtree();
         tree.add(ZTreeNode.createParent());
         return AjaxResult.success(tree);
@@ -133,15 +134,8 @@ public class RoleController extends BaseController {
     @RequestMapping("/setAssign")
     public String setRoleView(String id, Model model) {
         if (OftenUtil.isNotEmpty(id)) {
-            StringBuffer sb = new StringBuffer();
-            List<SysRoleAuth> roles = this.roleAuthService.selectBySQL("SELECT AUTH_ID FROM `sys_role_auth` WHERE `ROLE_ID` =" + id);
-            if (roles.size() > 0) {
-                for (SysRoleAuth ra : roles) {
-                    sb.append(ra.getAuthId()).append(",");
-                }
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            model.addAttribute("menuIds", sb.toString());
+            List<String> auths = this.ztreeNodeService.auths(id);
+            model.addAttribute("menuIds", String.join(",", auths));
         }
         model.addAttribute("roleId", id);
         return PREFIX + "permiss.html";

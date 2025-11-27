@@ -20,7 +20,7 @@
     </div>
 </div>
 <script>
-    layui.use(['jquery', 'dtree', 'form', 'layer', 'laydate'], function ($, dtree, form, layer, laydate) {
+    layui.use(['jquery', 'dtree', 'form'], function ($, dtree, form) {
     dtree.on("node('roleTree')", function (obj) {
         let typeDom = $('#roleId');
         if (typeDom.val() === obj.param.nodeId) {

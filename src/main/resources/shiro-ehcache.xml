@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache updateCheck="false" name="shiroCache">
-    <diskStore path="java.io.tmpdir/movie/ehcache/shiro"/>
+    <diskStore path="java.io.tmpdir/fit/ehcache/shiro"/>
     <!--
        name:缓存名称。
        maxElementsInMemory:缓存最大数目

@@ -56,6 +56,10 @@ public class ZTreeNode {
      */
     private List<CheckArr> checkArr = new ArrayList<>();
 
+    public ZTreeNode() {
+        this.checkArr.add(new CheckArr());
+    }
+
     /**
      * 创建ztree的父级节点
      */

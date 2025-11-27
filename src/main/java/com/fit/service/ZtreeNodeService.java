@@ -19,6 +19,12 @@ public class ZtreeNodeService {
     @Resource
     private JdbcTemplate jdbcTemplate;
 
+    public List<String> auths(String roleId) {
+        StringBuffer sb = new StringBuffer("SELECT a.`RES_ID` FROM `sys_authorities_res` a ");
+        sb.append(" left join `sys_role_auth` r on r.`AUTH_ID`=a.`AUTH_ID` where r.`ROLE_ID`=?");
+        return jdbcTemplate.queryForList(sb.toString(), new Object[]{roleId}, String.class);
+    }
+
     /**
      * 获取部门树节点集合
      */
@@ -32,12 +38,11 @@ public class ZtreeNodeService {
         return list;
     }
 
-    /**
-     * 获取角色树节点集合
-     */
-    public List<ZTreeNode> roleZtree() {
+    public List<ZTreeNode> dictZtree() {
         StringBuffer sb = new StringBuffer();
-        sb.append("SELECT ID AS id, '0' AS parentId, `ROLE_NAME` AS NAME, 'true' AS OPEN FROM sys_role");
+        sb.append("SELECT `ID` AS id,`PID` AS parentId,`NAME`,");
+        sb.append("'false' AS OPEN ");
+        sb.append(" FROM `sys_dict`");
 
         return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }
@@ -54,11 +59,12 @@ public class ZtreeNodeService {
         return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }
 
-    public List<ZTreeNode> dictZtree() {
+    /**
+     * 获取角色树节点集合
+     */
+    public List<ZTreeNode> roleZtree() {
         StringBuffer sb = new StringBuffer();
-        sb.append("SELECT `ID` AS id,`PID` AS parentId,`NAME`,");
-        sb.append("'false' AS OPEN ");
-        sb.append(" FROM `sys_dict`");
+        sb.append("SELECT ID AS id, '0' AS parentId, `ROLE_NAME` AS NAME, 'true' AS OPEN FROM sys_role");
 
         return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }

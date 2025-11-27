@@ -1,7 +1,6 @@
 package com.fit.base;
 
 import com.fit.util.JSONUtil;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import java.io.PrintWriter;
  * @Author AIM
  * @DATE 2019/4/19
  */
-@Slf4j
 public class BaseController {
 
     protected final String REDIRECT = "redirect:";
@@ -56,7 +54,6 @@ public class BaseController {
      */
     protected void writeJson(HttpServletResponse response, String json) {
         try {
-            log.info("<== Response：{}", json);
             this.getPrintWriter(response).write(json);
         } catch (IOException e) {
             e.printStackTrace();

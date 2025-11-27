@@ -27,7 +27,7 @@ public class WebUtil {
 
     public static String ADMIN_URL = "/admin";
 
-    public static String ADMIN_MAIN_URL = "/main";
+    public static String ADMIN_MAIN_URL = "/index";
     /**
      * 后台登录地址
      */

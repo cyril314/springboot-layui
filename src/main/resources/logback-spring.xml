@@ -8,23 +8,19 @@
     <!-- ****************************** 本地开发只在控制台打印日志 ************************************ -->
     <!-- ****************************************************************************************** -->
     <springProfile name="dev">
-        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
                 <charset>utf-8</charset>
             </encoder>
         </appender>
+        <!--各个服务的包在本地执行的时候，打开debug模式-->
+        <logger name="com.fit.dao" level="DEBUG"/>
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG"/>
         <!--默认所有的包以info-->
         <root level="info">
-            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="CONSOLE"/>
         </root>
-        <!--各个服务的包在本地执行的时候，打开debug模式-->
-        <logger name="com.fit" level="debug" additivity="false">
-            <appender-ref ref="STDOUT"/>
-        </logger>
-        <logger name="org.springframework.jdbc.core" additivity="false" level="DEBUG">
-            <appender-ref ref="STDOUT"/>
-        </logger>
     </springProfile>
 
     <!-- ********************************************************************************************** -->
