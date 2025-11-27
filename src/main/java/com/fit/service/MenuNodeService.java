@@ -108,11 +108,11 @@ public class MenuNodeService {
 	public List<Map<String, Object>> getMenuTreeList(String condition, String level) {
 		List<String> params = new LinkedList<String>();
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT MENU_ID AS id, CODE AS code, PCODE AS pcode, NAME AS name, ICON AS icon,");
+		sb.append("SELECT ID AS id, CODE AS code, PCODE AS pcode, NAME AS name, ICON AS icon,");
 		sb.append("URL AS url, SORT AS sort, LEVELS AS levels, MENU_FLAG AS ismenu, DESCRIPTION AS description,");
-		sb.append("STATUS AS status, NEW_PAGE_FLAG AS newPageFlag, OPEN_FLAG AS openFlag, CREATE_TIME AS createTime, ");
-		sb.append("UPDATE_TIME AS updateTime, CREATE_USER AS createUser, UPDATE_USER AS updateUser ");
-		sb.append(" FROM sys_menu WHERE STATUS = 'ENABLE' ");
+		sb.append("STATUS AS status, NEW_PAGE_FLAG AS newPageFlag, OPEN_FLAG AS openFlag, CTIME AS createTime, ");
+		sb.append("ETIME AS updateTime, CUSER AS createUser, EUSER AS updateUser ");
+		sb.append(" FROM sys_resources WHERE ENABLED = 1 ");
 		if (OftenUtil.isNotEmpty(condition)) {
 			sb.append(" AND (NAME LIKE CONCAT('%',?,'%') OR CODE LIKE CONCAT('%',?,'%')) ");
 			params.add(condition);

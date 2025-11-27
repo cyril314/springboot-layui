@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>System error!</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/favicon.ico}"/>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+<body>
+<div class="error__container">
+    <div class="error__code">
+        <!-- 状态码显示 -->
+        <th:block th:if="${status != null}">
+            <p th:each="v : ${#strings.arraySplit(#strings.toString(status),'')}" th:text="${v}"></p>
+        </th:block>
+        <!-- 如果没有状态码，显示默认错误码 -->
+        <th:block th:unless="${status != null}">
+            <p>5</p>
+            <p>0</p>
+            <p>0</p>
+        </th:block>
+    </div>
+    <div class="error__title" th:text="${error != null ? error : '系统错误'}">System Error Page</div>
+    <div class="error__description" th:text="${message != null ? message : '不好意思，您访问的页面出现问题~'}">Internal system error</div>
+    <button class="action" onclick="window.location.href='/'">Go Home</button>
+
+    <!-- 开发环境下显示详细错误信息 -->
+    <div th:if="${@environment.getProperty('spring.profiles.active') == 'dev'}"
+         class="error__details">
+        <h4>Error Details:</h4>
+        <p th:if="${exception != null}" th:text="${exception.message}"></p>
+        <p th:if="${timestamp != null}" th:text="${timestamp}"></p>
+        <p th:if="${error != null}" th:text="${error}"></p>
+        <p th:if="${path != null}" th:text="'Path: ' + ${path}"></p>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 错误处理相关的 JavaScript 代码
+    document.querySelector('.action').addEventListener('click', function() {
+        window.location.href = /*[[@{/}]]*/ '/';
+    });
+
+    // 可选：添加键盘事件支持
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            document.querySelector('.action').click();
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

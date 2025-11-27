@@ -3,22 +3,19 @@ package com.fit.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.alibaba.fastjson.support.spring.FastJsonJsonView;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,23 +23,9 @@ import java.util.List;
  * @Author AIM
  * @DATE 2019/4/24
  */
+@EnableAsync
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    @Value("${spring.mvc.view.prefix}")
-    private String prefix = "/jsp/";
-    @Value("${spring.mvc.view.suffix}")
-    private String suffix = ".jsp";
-
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver(prefix, suffix);
-        resolver.setExposeContextBeansAsAttributes(true);
-        resolver.setCache(true);
-        registry.viewResolver(resolver);
-        resolver.setContentType("text/html;charset=UTF-8");
-        registry.enableContentNegotiation(new FastJsonJsonView());
-    }
 
     /**
      * 访问根路径默认跳转 index.html页面 （简化部署方案： 可以把前端打包直接放到项目的 webapp，上面的配置）
@@ -78,14 +61,20 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        /* 是否通过请求Url的扩展名来决定media type */
+        configurer.favorPathExtension(true).favorParameter(false)
+                /* 不检查Accept请求头 */.ignoreAcceptHeader(false).parameterName("mediaType")
+                /* 设置默认的media yype */.defaultContentType(MediaType.TEXT_HTML)
+                /* 请求以.html结尾的会被当成MediaType.TEXT_HTML*/.mediaType("html", MediaType.TEXT_HTML)
+                /* 请求以.json结尾的会被当成MediaType.APPLICATION_JSON*/.mediaType("json", MediaType.APPLICATION_JSON);
+    }
+
+    @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        //解决返回字符串带双引号问题
-        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
-        stringHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_PLAIN, MediaType.TEXT_HTML));
-        stringHttpMessageConverter.setDefaultCharset(StandardCharsets.UTF_8);
-        converters.add(stringHttpMessageConverter);
         //定义一个convert转换消息的对象
         FastJsonConfig config = new FastJsonConfig();
+        config.setDateFormat("yyyy-MM-dd HH:mm:ss");
         config.setSerializerFeatures(
                 // 保留map空的字段
                 SerializerFeature.WriteMapNullValue,
@@ -103,10 +92,15 @@ public class WebConfig implements WebMvcConfigurer {
         //在convert中添加配置信息
         fastConverter.setFastJsonConfig(config);
         //设置支持的媒体类型
-        fastConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
+        fastConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8));
         //设置默认字符集
         fastConverter.setDefaultCharset(StandardCharsets.UTF_8);
         //将convert添加到converters
-        converters.add(fastConverter);
+        converters.add(0, fastConverter);
+        //解决返回字符串带双引号问题
+        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+        stringHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_PLAIN, MediaType.TEXT_HTML));
+        stringHttpMessageConverter.setDefaultCharset(StandardCharsets.UTF_8);
+        converters.add(stringHttpMessageConverter);
     }
 }

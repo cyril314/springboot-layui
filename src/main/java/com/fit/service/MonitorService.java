@@ -1,6 +1,6 @@
 package com.fit.service;
 
-import com.fit.entity.MonitorInfoBean;
+import com.fit.entity.MonitorInfo;
 import com.sun.management.OperatingSystemMXBean;
 
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class MonitorService {
      * @return 返回构造好的监控对象
      */
    
-	public MonitorInfoBean getMonitorInfoBean() {
+	public MonitorInfo getMonitorInfo() {
         int kb = 1024;
 
         // 可使用内存
@@ -64,7 +64,7 @@ public class MonitorService {
         }
 
         // 构造返回对象
-        MonitorInfoBean infoBean = new MonitorInfoBean();
+        MonitorInfo infoBean = new MonitorInfo();
         infoBean.setFreeMemory(freeMemory);
         infoBean.setFreePhysicalMemorySize(freePhysicalMemorySize);
         infoBean.setMaxMemory(maxMemory);
@@ -188,7 +188,7 @@ public class MonitorService {
      */
     public static void main(String[] args) throws Exception {
         MonitorService service = new MonitorService();
-        MonitorInfoBean monitorInfo = service.getMonitorInfoBean();
+        MonitorInfo monitorInfo = service.getMonitorInfo();
         System.out.println("cpu占有率=" + monitorInfo.getCpuRatio());
 
         System.out.println("可使用内存=" + monitorInfo.getTotalMemory());

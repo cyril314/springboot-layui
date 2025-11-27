@@ -11,37 +11,26 @@ import java.util.Date;
  */
 public abstract class BaseEntity<T> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 实体编号（唯一标识）
-	 */
-	protected Long id;
+    /**
+     * 实体编号（唯一标识）
+     */
+    protected Long id;
 
-	protected Date creatdate = new Date();
+    public BaseEntity() {
+    }
 
-	public BaseEntity() {
+    public BaseEntity(Long id) {
+        this();
+        this.id = id;
+    }
 
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public BaseEntity(Long id) {
-		this();
-		this.id = id;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Date getCreatdate() {
-		return creatdate;
-	}
-
-	public void setCreatdate(Date creatdate) {
-		this.creatdate = creatdate;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

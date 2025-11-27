@@ -11,13 +11,16 @@ server:
       max: 200
       min-spare: 10
   error:
-    path: /error.jsp
+    path: /error
+
+Fit:
+  captcha-open: true #是否开启登录时验证码 (true/false)
 
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/kinde?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/fit?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: root
     hikari:
@@ -32,6 +35,11 @@ spring:
       validation-timeout: 30000
       transaction-isolation: TRANSACTION_READ_COMMITTED
       readOnly: false
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: html/**,static/**,templates/**,mapper/**
   main:
     allow-circular-references: true
   messages:
@@ -47,13 +55,20 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
     static-path-pattern: /**
-    view:
-      prefix: /jsp/
-      suffix: .jsp
   servlet:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
+  thymeleaf:
+    cache: false
+    check-template: true
+    enabled: true
+    encoding: utf-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
   web:
     resources:
       static-locations: classpath:/static/,classpath:/html/

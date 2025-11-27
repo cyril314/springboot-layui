@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: head('部门编辑')"></head>
+<body style="background-color:#fff">
+<div class="yadmin-body animated fadeIn">
+    <div class="layui-form layui-form-pane">
+        <input type="hidden" name="id" th:value="${dept?.id}"/>
+        <div class="layui-form-item">
+            <label for="depTree" class="layui-form-label"><span class="yadmin-red">*</span>上级名称</label>
+            <div class="layui-input-block">
+                <ul id="depTree" class="dtree" data-id="-1" data-value="选择上级名称"></ul>
+                <input type="hidden" id="pid" name="pid" th:value="${dept?.pid}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="simpleName" class="layui-form-label"><span class="yadmin-red">*</span>简称</label>
+            <div class="layui-input-block">
+                <input type="text" id="simpleName" placeholder="请输入部门名称" name="simpleName" th:value="${dept?.simpleName}"
+                       lay-verify="required" lay-vertype="tips" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="fullName" class="layui-form-label"><span class="yadmin-red">*</span>全称</label>
+            <div class="layui-input-block">
+                <input type="text" id="fullName" placeholder="请输入部门全称" name="fullName" th:value="${dept?.fullName}"
+                       lay-verify="required" lay-vertype="tips" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="description" class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" id="description" placeholder="请输入备注" name="description" th:value="${dept?.description}"
+                       autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="sort" class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" id="sort" placeholder="请输入序号" name="sort" th:value="${dict?.sort}" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block layui-align">
+                <button class="layui-btn layui-btn-normal btn-w100" lay-submit="" lay-filter="submit-form">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'dtree', 'form', 'layer'], function ($, dtree, form, layer) {
+        dtree.on("node('depTree')", function (obj) {
+            let typeDom = $('#pid');
+            if (typeDom.val() === obj.param.nodeId) {
+                typeDom.val('');
+                $("input[dtree-id='pid']").val('请选择');
+            } else {
+                typeDom.val(obj.param.nodeId)
+            }
+        });
+
+        dtree.renderSelect({
+            elem: "#depTree",
+            url: "/admin/dept/tree",
+            dataStyle: "layuiStyle",
+            selectInitVal: 0,
+            width: "100%",
+            method: "post",
+            menubar: true,
+            dataFormat: "list",
+            ficon: ["1", "-1"],
+            response: {
+                statusCode: 0,
+                message: "msg",
+                title: "name"
+            }, done: function (data, obj, first) {
+                if (first) {
+                    dtree.dataInit("depTree", $('#pid').val());
+                    dtree.selectVal("depTree");
+                }
+            }
+        });
+
+        form.on('submit(submit-form)', function (obj) {
+            $.ajax({
+                type: "POST",
+                url: '/admin/dept/save',
+                data: obj.field,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    advices(data, parent);
+                },
+                error: function (event) {
+                    errors(event);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

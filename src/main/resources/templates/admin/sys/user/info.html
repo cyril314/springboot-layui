@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: head('用户详情')"></head>
+<body style="background-color:#fff">
+<div class="yadmin-body animated fadeIn">
+    <div class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label for="dept_name" class="layui-form-label">部门</label>
+            <div class="layui-input-block">
+                <input type="text" id="dept_name" th:value="${user?.deptName}" class="layui-input" disabled/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="account" class="layui-form-label">账号名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="account" name="account" th:value="${user?.username}" class="layui-input" disabled/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" name="name" th:value="${user?.name}" class="layui-input" disabled/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="desc" class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <input type="text" id="desc" name="desc" th:value="${user?.desc}" class="layui-input" disabled/>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

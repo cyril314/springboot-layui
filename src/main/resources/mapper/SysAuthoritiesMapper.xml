@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fit.dao.SysAuthoritiesDao">
+  <resultMap id="BaseResultMap" type="com.fit.entity.SysAuthorities">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="DESC" jdbcType="VARCHAR" property="desc" />
+    <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
+    <result column="ENABLED" jdbcType="BIT" property="enabled" />
+    <result column="ISYS" jdbcType="INTEGER" property="isys" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CTIME, `NAME`, `DESC`, ETIME, ENABLED, ISYS
+  </sql>
+  <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_authorities
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from sys_authorities
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="save" parameterType="com.fit.entity.SysAuthorities">
+    insert into sys_authorities
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="ctime != null">
+        CTIME,
+      </if>
+      <if test="name != null">
+        `NAME`,
+      </if>
+      <if test="desc != null">
+        `DESC`,
+      </if>
+      <if test="etime != null">
+        ETIME,
+      </if>
+      <if test="enabled != null">
+        ENABLED,
+      </if>
+      <if test="isys != null">
+        ISYS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="etime != null">
+        #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+      <if test="isys != null">
+        #{isys,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.fit.entity.SysAuthorities">
+    update sys_authorities
+    <set>
+      <if test="ctime != null">
+        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        `NAME` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        `DESC` = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="etime != null">
+        ETIME = #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null">
+        ENABLED = #{enabled,jdbcType=BIT},
+      </if>
+      <if test="isys != null">
+        ISYS = #{isys,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="Base_Where_List">
+    <where>
+      <if test="id != null and id != ''">
+         and ID = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="ctime != null ">
+         and CTIME &gt;= #{ctime }
+      </if>
+      <if test="etime != null ">
+         and CTIME &lt;= #{etime } 
+      </if>
+      <if test="name != null and name != ''">
+         and `NAME` = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="desc != null and desc != ''">
+         and `DESC` = #{desc,jdbcType=VARCHAR}
+      </if>
+      <if test="ctime != null ">
+         and ETIME &gt;= #{ctime }
+      </if>
+      <if test="etime != null ">
+         and ETIME &lt;= #{etime } 
+      </if>
+      <if test="enabled != null and enabled != ''">
+         and ENABLED = #{enabled,jdbcType=BIT}
+      </if>
+      <if test="isys != null and isys != ''">
+         and ISYS = #{isys,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+  <select id="findList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM sys_authorities
+    <include refid="Base_Where_List" />
+    order by ID desc
+    <if test="pageNumber != null and pageSize != null">
+      limit ${pageNumber}, ${pageSize}
+    </if>
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    SELECT count(1) FROM sys_authorities
+    <include refid="Base_Where_List" />
+  </select>
+  <select id="selectBySQL" parameterType="java.lang.String" resultMap="BaseResultMap">
+    ${value}
+  </select>
+  <delete id="batchDelete" parameterType="[Ljava.lang.String;">
+    <foreach close=")" collection="array" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <update id="deleteTable">
+    truncate table sys_authorities
+  </update>
+</mapper>

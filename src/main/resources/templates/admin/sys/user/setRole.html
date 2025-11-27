@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: head('设置角色')"></head>
+<body style="background-color:#fff">
+<div class="yadmin-body animated fadeIn">
+    <div class="layui-form layui-form-pane">
+        <input type="hidden" name="userId" th:value="${userId}" />
+        <div class="layui-form-item">
+            <label for="roleTree" class="layui-form-label"><span class="yadmin-red">*</span>角色名称</label>
+            <div class="layui-input-block">
+                <ul id="roleTree" class="dtree" data-id="0" data-value="选择角色名称"></ul>
+                <input type="hidden" name="roleId" th:value="${roleId}" id="roleId" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block layui-align">
+                <button class="layui-btn layui-btn-normal btn-w100" lay-submit="" lay-filter="submit-form">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'dtree', 'form', 'layer', 'laydate'], function ($, dtree, form, layer, laydate) {
+    dtree.on("node('roleTree')", function (obj) {
+        let typeDom = $('#roleId');
+        if (typeDom.val() === obj.param.nodeId) {
+            typeDom.val('');
+            $("input[dtree-id='roleTree']").val('请选择');
+        } else {
+            typeDom.val(obj.param.nodeId)
+        }
+    });
+    
+    dtree.renderSelect({
+        elem: "#roleTree",
+        url: "/admin/role/tree",
+        dataStyle: "layuiStyle",
+        selectInitVal: 1,
+        width: "100%",
+        method: "post",
+        menubar: true,
+        dataFormat: "list",
+        ficon: ["1", "-1"],
+        response: {
+            statusCode: 0,
+            message: "msg",
+            title: "name"
+        }, done: function (data, obj, first) {
+            if (first) {
+                dtree.dataInit("roleTree", $('#roleId').val());
+                dtree.selectVal("roleTree");
+            }
+        }
+    });
+    
+    form.on('submit(submit-form)', function (obj) {
+        $.ajax({
+            type: "POST",
+            url: '/admin/user/authRole',
+            data: obj.field,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                advices(data, parent);
+            },
+            error: function (event) {
+                errors(event);
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

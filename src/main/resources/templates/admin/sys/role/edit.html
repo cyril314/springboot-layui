@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="include :: head('用户编辑')"></head>
+<body style="background-color:#fff">
+<div class="yadmin-body animated fadeIn">
+    <div class="layui-form layui-form-pane">
+        <input type="hidden" name="id" th:value="${role?.id}"/>
+        <div class="layui-form-item">
+            <label for="name" class="layui-form-label"><span class="yadmin-red">*</span>角色名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="name" placeholder="请输入名称" name="roleName" th:value="${role?.roleName}" lay-verify="required"
+                       lay-vertype="tips" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="description" class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" id="description" placeholder="请输入备注" name="roleDesc" th:value="${role?.roleDesc}"
+                       lay-vertype="tips" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item" pane="">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="enabled" value="true" title="正常"/>
+                <input type="radio" name="enabled" value="false" title="冻结" checked/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block layui-align">
+                <button class="layui-btn layui-btn-normal btn-w100" lay-submit="" lay-filter="submit-form">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'form', 'layer', 'dtree'], function ($, form, layer, dtree) {
+        $('input:radio[name=enabled][value="[[${role?.enabled}]]"]').prop('checked', true);
+        form.render('radio');
+        form.on('submit(submit-form)', function (obj) {
+            $.ajax({
+                type: "POST",
+                url: '/admin/role/save',
+                data: obj.field,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    advices(data, parent);
+                },
+                error: function (event) {
+                    errors(event);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

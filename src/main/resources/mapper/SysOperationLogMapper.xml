@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fit.dao.SysOperationLogDao">
+  <resultMap id="BaseResultMap" type="com.fit.entity.SysOperationLog">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="LOG_TYPE" jdbcType="VARCHAR" property="logType" />
+    <result column="LOG_NAME" jdbcType="VARCHAR" property="logName" />
+    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="SUCCEED" jdbcType="VARCHAR" property="succeed" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fit.entity.SysOperationLog">
+    <result column="METHOD" jdbcType="LONGVARCHAR" property="method" />
+    <result column="MESSAGE" jdbcType="LONGVARCHAR" property="message" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOG_TYPE, LOG_NAME, USER_ID, CLASS_NAME, CTIME, SUCCEED
+  </sql>
+  <sql id="Blob_Column_List">
+    `METHOD`, MESSAGE
+  </sql>
+  <select id="get" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_operation_log
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from sys_operation_log
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="save" parameterType="com.fit.entity.SysOperationLog">
+    insert into sys_operation_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="logType != null">
+        LOG_TYPE,
+      </if>
+      <if test="logName != null">
+        LOG_NAME,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="ctime != null">
+        CTIME,
+      </if>
+      <if test="succeed != null">
+        SUCCEED,
+      </if>
+      <if test="method != null">
+        `METHOD`,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="logType != null">
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logName != null">
+        #{logName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="succeed != null">
+        #{succeed,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.fit.entity.SysOperationLog">
+    update sys_operation_log
+    <set>
+      <if test="logType != null">
+        LOG_TYPE = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logName != null">
+        LOG_NAME = #{logName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="className != null">
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="succeed != null">
+        SUCCEED = #{succeed,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        `METHOD` = #{method,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="message != null">
+        MESSAGE = #{message,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="Base_Where_List">
+    <where>
+      <if test="id != null and id != ''">
+         and ID = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="logType != null and logType != ''">
+         and LOG_TYPE = #{logType,jdbcType=VARCHAR}
+      </if>
+      <if test="logName != null and logName != ''">
+         and LOG_NAME = #{logName,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''">
+         and USER_ID = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="className != null and className != ''">
+         and CLASS_NAME = #{className,jdbcType=VARCHAR}
+      </if>
+      <if test="ctime != null ">
+         and CTIME &gt;= #{ctime }
+      </if>
+      <if test="etime != null ">
+         and CTIME &lt;= #{etime } 
+      </if>
+      <if test="succeed != null and succeed != ''">
+         and SUCCEED = #{succeed,jdbcType=VARCHAR}
+      </if>
+      <if test="method != null and method != ''">
+         and `METHOD` = #{method,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="message != null and message != ''">
+         and MESSAGE = #{message,jdbcType=LONGVARCHAR}
+      </if>
+    </where>
+  </sql>
+  <select id="findList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM sys_operation_log
+    <include refid="Base_Where_List" />
+    order by ID desc
+    <if test="pageNumber != null and pageSize != null">
+      limit ${pageNumber}, ${pageSize}
+    </if>
+  </select>
+  <select id="findCount" resultType="java.lang.Integer">
+    SELECT count(1) FROM sys_operation_log
+    <include refid="Base_Where_List" />
+  </select>
+  <select id="selectBySQL" parameterType="java.lang.String" resultMap="BaseResultMap">
+    ${value}
+  </select>
+  <delete id="batchDelete" parameterType="[Ljava.lang.String;">
+    <foreach close=")" collection="array" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <update id="deleteTable">
+    truncate table sys_operation_log
+  </update>
+</mapper>

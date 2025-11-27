@@ -16,94 +16,116 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public abstract class BaseCrudService<D extends BaseCrudDao<T>, T extends BaseEntity<T>> {
 
-	/**
-	 * 持久层对象
-	 */
-	@Autowired
-	protected D dao;
+    /**
+     * 持久层对象
+     */
+    @Autowired
+    protected D dao;
 
-	/**
-	 * 获取单条数据
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public T get(Long id) {
-		return dao.get(id);
-	}
+    /**
+     * 获取单条数据
+     *
+     * @param id
+     */
+    public T get(Long id) {
+        return dao.get(id);
+    }
 
-	/**
-	 * 获取单条数据
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	public T get(T entity) {
-		return dao.get(entity);
-	}
+    /**
+     * 获取单条数据
+     *
+     * @param entity
+     */
+    public T get(T entity) {
+        return dao.get(entity);
+    }
 
-	/**
-	 * 查询列表数据
-	 * 
-	 * @param entity
-	 */
-	public List<T> findList(T entity) {
-		return dao.findList(entity);
-	}
+    /**
+     * 查询全部数据
+     */
+    public List<T> findList() {
+        return dao.findList();
+    }
 
-	public List<T> findListAll(Map<String, Object> map) {
-		return dao.findListAll(map);
-	}
+    /**
+     * 查询列表数据
+     *
+     * @param entity
+     */
+    public List<T> findList(T entity) {
+        return dao.findList(entity);
+    }
 
-	/**
-	 * 查询列表总数量
-	 */
-	public int findCount(Map<String, Object> map) {
-		return dao.findCount(map);
-	}
+    public List<T> findList(Map<String, Object> map) {
+        return dao.findList(map);
+    }
 
-	/**
-	 * 保存数据（插入或更新）
-	 * 
-	 * @param entity
-	 */
-	@Transactional
-	public void save(T entity) {
-		if (null == entity.getId()) {
-			dao.save(entity);
-		} else {
-			dao.update(entity);
-		}
-	}
+    /**
+     * 查询列表总数量
+     */
+    public int findCount(Map<String, Object> map) {
+        return dao.findCount(map);
+    }
 
-	/**
-	 * 更新数据
-	 * 
-	 * @param entity
-	 */
-	@Transactional
-	public int update(T entity) {
-		return dao.update(entity);
-	}
+    /**
+     * 保存数据（插入或更新）
+     *
+     * @param entity
+     */
+    @Transactional
+    public void save(T entity) {
+        dao.save(entity);
+    }
 
-	/**
-	 * 删除数据
-	 * 
-	 * @param entity
-	 */
-	@Transactional
-	public int delete(T entity) {
-		return dao.delete(entity);
-	}
+    /**
+     * 更新数据
+     *
+     * @param entity
+     */
+    @Transactional
+    public int update(T entity) {
+        return dao.update(entity);
+    }
 
-	/**
-	 * 删除数据
-	 * 
-	 * @param id
-	 */
-	@Transactional
-	public int delete(Long id) {
-		return dao.delete(id);
-	}
+    /**
+     * 删除数据
+     *
+     * @param entity
+     */
+    @Transactional
+    public int delete(T entity) {
+        return dao.delete(entity);
+    }
 
+    /**
+     * 删除数据
+     *
+     * @param id
+     */
+    @Transactional
+    public int delete(Long id) {
+        return dao.delete(id);
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param ids
+     */
+    @Transactional
+    public int batchDelete(String[] ids) {
+        return dao.batchDelete(ids);
+    }
+
+    public List<T> selectBySQL(String sql) {
+        return dao.selectBySQL(sql);
+    }
+
+    /**
+     * 清空表数据
+     */
+    @Transactional
+    public int deleteTable() {
+        return dao.deleteTable();
+    }
 }
