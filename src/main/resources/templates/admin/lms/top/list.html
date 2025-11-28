@@ -21,6 +21,10 @@
                     </div>
                 </form>
             </div>
+            <table class="layui-hide" id="table-list"></table>
+            <script type="text/html" id="statusTpl">
+                <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="正常|冻结" lay-filter="status" {{d.enabled?"checked":"" }}>
+            </script>
             <script type="text/html" id="toolbar">
                 <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="add">
                     <i class="layui-icon layui-icon-addition">新增</i>
@@ -29,7 +33,6 @@
                     <i class="layui-icon layui-icon-delete" title="删除">删除</i>
                 </button>
             </script>
-            <table class="layui-hide" id="table-list"></table>
             <script type="text/html" id="column-toolbar">
                 <button type="button" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
                     <i class="layui-icon layui-icon-edit" title="编辑">编辑</i>
@@ -42,7 +45,7 @@
     layui.use(['jquery', 'table', 'form', 'layer'], function ($, table, form, layer) {
         table.render({
             elem: '#table-list',
-            url: '/admin/dict/list',
+            url: '/admin/lms/top/list',
             method: 'post',
             dataType: 'JSON',
             page: true,
@@ -57,17 +60,8 @@
                         }
                     },
                     {field: 'name', title: '名称', minWidth: 80},
-                    {
-                        field: 'sign', title: '类型', minWidth: 80, templet: function (res) {
-                            if (res.sign == "Y") {
-                                return "系统类型";
-                            }
-                            return "类型值";
-                        }
-                    },
-                    {field: 'code', title: '字典编码', minWidth: 80},
                     {field: 'sort', title: '排序', minWidth: 80},
-                    {field: 'notes', title: '备注', minWidth: 80},
+                    {field: 'enabled', title: '状态', align: 'center', templet: "#statusTpl", width: 100},
                     {fixed: 'right', title: '操作', align: 'center', toolbar: '#column-toolbar'}
                 ]
             ], parseData: function (res) {
@@ -83,7 +77,7 @@
         // 工具条点击事件
         table.on('toolbar', function (obj) {
             if (obj.event === 'add') {
-                editView("/admin/dict/edit", "添加通知");
+                editView("/admin/lms/top/add", "添加通知");
             } else if (obj.event === 'del') {
                 layer.confirm('真的删除行么?', function (index) {
                     let selectData = table.checkStatus('table-list').data;
@@ -93,7 +87,7 @@
                             idsArray.push(selectData[i].id);
                         }
                         let ids = idsArray.toString();
-                        changeReq(ids, '/admin/dict/del')
+                        changeReq(ids, '/admin/lms/top/del')
                         layer.close(index);
                     }
                 });
@@ -103,7 +97,7 @@
         table.on('tool', function (obj) {
             let data = obj.data, event = obj.event;
             if (event === 'edit') {
-                editView("/admin/dict/edit?id=" + data.id, "编辑通知");
+                editView("/admin/lms/top/update?id=" + data.id, "编辑通知");
             }
         });
 

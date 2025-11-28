@@ -8,6 +8,10 @@ import lombok.*;
 public class SysDict extends BaseEntity<SysDict> {
     private Long id;
 
+    private Date ctime;
+
+    private Long cuser;
+
     private Long pid;
 
     private String name;
@@ -16,13 +20,9 @@ public class SysDict extends BaseEntity<SysDict> {
 
     private String sign;
 
-    private String description;
+    private String notes;
 
     private Integer sort;
-
-    private Long cuser;
-
-    private Date ctime;
 
     private Long euser;
 
@@ -35,14 +35,14 @@ public class SysDict extends BaseEntity<SysDict> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", ctime=").append(ctime);
+        sb.append(", cuser=").append(cuser);
         sb.append(", pid=").append(pid);
         sb.append(", name=").append(name);
         sb.append(", code=").append(code);
         sb.append(", sign=").append(sign);
-        sb.append(", description=").append(description);
+        sb.append(", notes=").append(notes);
         sb.append(", sort=").append(sort);
-        sb.append(", cuser=").append(cuser);
-        sb.append(", ctime=").append(ctime);
         sb.append(", euser=").append(euser);
         sb.append(", etime=").append(etime);
         sb.append("]");

@@ -4,14 +4,16 @@
   <resultMap id="BaseResultMap" type="com.fit.entity.SysRole">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="CUSER" jdbcType="BIGINT" property="cuser" />
     <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
-    <result column="ROLE_DESC" jdbcType="VARCHAR" property="roleDesc" />
-    <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
     <result column="ENABLED" jdbcType="BIT" property="enabled" />
     <result column="ISYS" jdbcType="INTEGER" property="isys" />
+    <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
+    <result column="EUSER" jdbcType="BIGINT" property="euser" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, ROLE_NAME, ROLE_DESC, ETIME, ENABLED, ISYS
+    ID, CTIME, CUSER, ROLE_NAME, NOTES, ENABLED, ISYS, ETIME, EUSER
   </sql>
   <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -32,20 +34,26 @@
       <if test="ctime != null">
         CTIME,
       </if>
+      <if test="cuser != null">
+        CUSER,
+      </if>
       <if test="roleName != null">
         ROLE_NAME,
       </if>
-      <if test="roleDesc != null">
-        ROLE_DESC,
-      </if>
-      <if test="etime != null">
-        ETIME,
+      <if test="notes != null">
+        NOTES,
       </if>
       <if test="enabled != null">
         ENABLED,
       </if>
       <if test="isys != null">
         ISYS,
+      </if>
+      <if test="etime != null">
+        ETIME,
+      </if>
+      <if test="euser != null">
+        EUSER,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -55,20 +63,26 @@
       <if test="ctime != null">
         #{ctime,jdbcType=TIMESTAMP},
       </if>
+      <if test="cuser != null">
+        #{cuser,jdbcType=BIGINT},
+      </if>
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleDesc != null">
-        #{roleDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="etime != null">
-        #{etime,jdbcType=TIMESTAMP},
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
       </if>
       <if test="enabled != null">
         #{enabled,jdbcType=BIT},
       </if>
       <if test="isys != null">
         #{isys,jdbcType=INTEGER},
+      </if>
+      <if test="etime != null">
+        #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="euser != null">
+        #{euser,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -78,20 +92,26 @@
       <if test="ctime != null">
         CTIME = #{ctime,jdbcType=TIMESTAMP},
       </if>
+      <if test="cuser != null">
+        CUSER = #{cuser,jdbcType=BIGINT},
+      </if>
       <if test="roleName != null">
         ROLE_NAME = #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleDesc != null">
-        ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="etime != null">
-        ETIME = #{etime,jdbcType=TIMESTAMP},
+      <if test="notes != null">
+        NOTES = #{notes,jdbcType=VARCHAR},
       </if>
       <if test="enabled != null">
         ENABLED = #{enabled,jdbcType=BIT},
       </if>
       <if test="isys != null">
         ISYS = #{isys,jdbcType=INTEGER},
+      </if>
+      <if test="etime != null">
+        ETIME = #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="euser != null">
+        EUSER = #{euser,jdbcType=BIGINT},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -107,11 +127,20 @@
       <if test="etime != null ">
          and CTIME &lt;= #{etime } 
       </if>
+      <if test="cuser != null and cuser != ''">
+         and CUSER = #{cuser,jdbcType=BIGINT}
+      </if>
       <if test="roleName != null and roleName != ''">
          and ROLE_NAME = #{roleName,jdbcType=VARCHAR}
       </if>
-      <if test="roleDesc != null and roleDesc != ''">
-         and ROLE_DESC = #{roleDesc,jdbcType=VARCHAR}
+      <if test="notes != null and notes != ''">
+         and NOTES = #{notes,jdbcType=VARCHAR}
+      </if>
+      <if test="enabled != null and enabled != ''">
+         and ENABLED = #{enabled,jdbcType=BIT}
+      </if>
+      <if test="isys != null and isys != ''">
+         and ISYS = #{isys,jdbcType=INTEGER}
       </if>
       <if test="ctime != null ">
          and ETIME &gt;= #{ctime }
@@ -119,11 +148,8 @@
       <if test="etime != null ">
          and ETIME &lt;= #{etime } 
       </if>
-      <if test="enabled != null and enabled != ''">
-         and ENABLED = #{enabled,jdbcType=BIT}
-      </if>
-      <if test="isys != null and isys != ''">
-         and ISYS = #{isys,jdbcType=INTEGER}
+      <if test="euser != null and euser != ''">
+         and EUSER = #{euser,jdbcType=BIGINT}
       </if>
     </where>
   </sql>

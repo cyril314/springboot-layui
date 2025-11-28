@@ -3,11 +3,11 @@
 <mapper namespace="com.fit.dao.SysOperationLogDao">
   <resultMap id="BaseResultMap" type="com.fit.entity.SysOperationLog">
     <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
     <result column="LOG_TYPE" jdbcType="VARCHAR" property="logType" />
     <result column="LOG_NAME" jdbcType="VARCHAR" property="logName" />
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
-    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
     <result column="SUCCEED" jdbcType="VARCHAR" property="succeed" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fit.entity.SysOperationLog">
@@ -15,7 +15,7 @@
     <result column="MESSAGE" jdbcType="LONGVARCHAR" property="message" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, LOG_TYPE, LOG_NAME, USER_ID, CLASS_NAME, CTIME, SUCCEED
+    ID, CTIME, LOG_TYPE, LOG_NAME, USER_ID, CLASS_NAME, SUCCEED
   </sql>
   <sql id="Blob_Column_List">
     `METHOD`, MESSAGE
@@ -38,6 +38,9 @@
       <if test="id != null">
         ID,
       </if>
+      <if test="ctime != null">
+        CTIME,
+      </if>
       <if test="logType != null">
         LOG_TYPE,
       </if>
@@ -49,9 +52,6 @@
       </if>
       <if test="className != null">
         CLASS_NAME,
-      </if>
-      <if test="ctime != null">
-        CTIME,
       </if>
       <if test="succeed != null">
         SUCCEED,
@@ -67,6 +67,9 @@
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
       <if test="logType != null">
         #{logType,jdbcType=VARCHAR},
       </if>
@@ -78,9 +81,6 @@
       </if>
       <if test="className != null">
         #{className,jdbcType=VARCHAR},
-      </if>
-      <if test="ctime != null">
-        #{ctime,jdbcType=TIMESTAMP},
       </if>
       <if test="succeed != null">
         #{succeed,jdbcType=VARCHAR},
@@ -96,6 +96,9 @@
   <update id="update" parameterType="com.fit.entity.SysOperationLog">
     update sys_operation_log
     <set>
+      <if test="ctime != null">
+        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      </if>
       <if test="logType != null">
         LOG_TYPE = #{logType,jdbcType=VARCHAR},
       </if>
@@ -107,9 +110,6 @@
       </if>
       <if test="className != null">
         CLASS_NAME = #{className,jdbcType=VARCHAR},
-      </if>
-      <if test="ctime != null">
-        CTIME = #{ctime,jdbcType=TIMESTAMP},
       </if>
       <if test="succeed != null">
         SUCCEED = #{succeed,jdbcType=VARCHAR},
@@ -128,6 +128,12 @@
       <if test="id != null and id != ''">
          and ID = #{id,jdbcType=BIGINT}
       </if>
+      <if test="ctime != null ">
+         and CTIME &gt;= #{ctime }
+      </if>
+      <if test="etime != null ">
+         and CTIME &lt;= #{etime } 
+      </if>
       <if test="logType != null and logType != ''">
          and LOG_TYPE = #{logType,jdbcType=VARCHAR}
       </if>
@@ -139,12 +145,6 @@
       </if>
       <if test="className != null and className != ''">
          and CLASS_NAME = #{className,jdbcType=VARCHAR}
-      </if>
-      <if test="ctime != null ">
-         and CTIME &gt;= #{ctime }
-      </if>
-      <if test="etime != null ">
-         and CTIME &lt;= #{etime } 
       </if>
       <if test="succeed != null and succeed != ''">
          and SUCCEED = #{succeed,jdbcType=VARCHAR}

@@ -1,22 +1,22 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="include :: head('用户编辑')"></head>
+<head th:include="include :: head('展示编辑')"></head>
 <body style="background-color:#fff">
 <div class="yadmin-body animated fadeIn">
     <div class="layui-form layui-form-pane">
-        <input type="hidden" name="id" th:value="${role?.id}"/>
+        <input type="hidden" name="id" th:value="${top?.id}"/>
         <div class="layui-form-item">
-            <label for="name" class="layui-form-label"><span class="yadmin-red">*</span>角色名称</label>
+            <label for="name" class="layui-form-label"><span class="yadmin-red">*</span>字典名称</label>
             <div class="layui-input-block">
-                <input type="text" id="name" placeholder="请输入名称" name="roleName" th:value="${role?.roleName}" lay-verify="required"
-                       lay-vertype="tips" autocomplete="off" class="layui-input"/>
+                <input type="text" id="name" placeholder="请输入名称，例如：状态标识" name="name" th:value="${top?.name}"
+                       lay-verify="required" lay-vertype="tips" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="notes" class="layui-form-label">备注</label>
+            <label for="sort" class="layui-form-label">排序</label>
             <div class="layui-input-block">
-                <input type="text" id="notes" placeholder="请输入备注" name="notes" th:value="${role?.notes}"
-                       lay-vertype="tips" autocomplete="off" class="layui-input"/>
+                <input type="text" id="sort" placeholder="请输入序号" name="sort" th:value="${top?.sort}" autocomplete="off"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item" pane="">
@@ -34,13 +34,11 @@
     </div>
 </div>
 <script>
-    layui.use(['jquery', 'form', 'layer', 'dtree'], function ($, form, layer, dtree) {
-        $('input:radio[name=enabled][value="[[${role?.enabled}]]"]').prop('checked', true);
-        form.render('radio');
+    layui.use(['jquery', 'form', 'layer'], function ($, form, layer) {
         form.on('submit(submit-form)', function (obj) {
             $.ajax({
                 type: "POST",
-                url: '/admin/role/save',
+                url: '/admin/lms/top/save',
                 data: obj.field,
                 dataType: 'json',
                 cache: false,

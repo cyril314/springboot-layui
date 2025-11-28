@@ -1,0 +1,109 @@
+package com.fit.web.admin.lms;
+
+import com.fit.base.AjaxResult;
+import com.fit.base.BaseController;
+import com.fit.entity.LmsTop;
+import com.fit.entity.SysDict;
+import com.fit.entity.ZTreeNode;
+import com.fit.service.LmsTopService;
+import com.fit.service.ZtreeNodeService;
+import com.fit.util.BeanUtil;
+import com.fit.util.OftenUtil;
+import com.fit.util.WebUtil;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @AUTO 展示控制器
+ * @Author AIM
+ * @DATE 2019/4/26
+ */
+@Controller
+@RequestMapping("/admin/lms/top")
+public class TopController extends BaseController {
+
+    private static String PREFIX = "/admin/lms/top/";
+
+    @Autowired
+    private LmsTopService service;
+    @Autowired
+    private ZtreeNodeService ztreeNodeService;
+
+    /**
+     * 列表页面
+     */
+    @GetMapping("/list")
+    public String index() {
+        return PREFIX + "list";
+    }
+
+    /**
+     * 查询列表
+     */
+    @PostMapping("/list")
+    @ResponseBody
+    public Object list(HttpServletRequest request) {
+        Map<String, Object> params = WebUtil.getRequestMap(request);
+        List<LmsTop> list = this.service.findList(params);
+        int count = this.service.findCount(params);
+        return AjaxResult.tables(count, list);
+    }
+
+    /**
+     * 添加编辑页面
+     */
+    @GetMapping("/edit")
+    public String editView(Long id, Model model) {
+        if (OftenUtil.isNotEmpty(id)) {
+            LmsTop top = this.service.get(id);
+            model.addAttribute("top", top);
+        }
+        return PREFIX + "edit";
+    }
+
+    /**
+     * 保存
+     */
+    @PostMapping("/save")
+    @ResponseBody
+    public Object save(LmsTop top) {
+        LmsTop lmsTop = this.service.get(top.getId());
+        Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
+        if (null == lmsTop) {
+            top.setCtime(new Date());
+            this.service.save(top);
+        } else {
+            BeanUtil.copyProperties(top, lmsTop);
+            lmsTop.setEtime(new Date());
+            this.service.update(lmsTop);
+        }
+        return AjaxResult.success();
+    }
+
+    /**
+     * 删除
+     *
+     * @param ids 删除ID集合
+     */
+    @PostMapping("/del")
+    @ResponseBody
+    public Object del(String ids) {
+        if (OftenUtil.isNotEmpty(ids)) {
+            this.service.batchDelete(ids.split(","));
+            return AjaxResult.success();
+        } else {
+            return AjaxResult.error("参数异常");
+        }
+    }
+}

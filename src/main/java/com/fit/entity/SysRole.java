@@ -10,15 +10,19 @@ public class SysRole extends BaseEntity<SysRole> {
 
     private Date ctime;
 
+    private Long cuser;
+
     private String roleName;
 
-    private String roleDesc;
-
-    private Date etime;
+    private String notes;
 
     private Boolean enabled;
 
     private Integer isys;
+
+    private Date etime;
+
+    private Long euser;
 
     @Override
     public String toString() {
@@ -28,11 +32,13 @@ public class SysRole extends BaseEntity<SysRole> {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", ctime=").append(ctime);
+        sb.append(", cuser=").append(cuser);
         sb.append(", roleName=").append(roleName);
-        sb.append(", roleDesc=").append(roleDesc);
-        sb.append(", etime=").append(etime);
+        sb.append(", notes=").append(notes);
         sb.append(", enabled=").append(enabled);
         sb.append(", isys=").append(isys);
+        sb.append(", etime=").append(etime);
+        sb.append(", euser=").append(euser);
         sb.append("]");
         return sb.toString();
     }

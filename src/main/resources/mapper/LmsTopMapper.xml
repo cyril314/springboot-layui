@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fit.dao.SysAuthoritiesDao">
-  <resultMap id="BaseResultMap" type="com.fit.entity.SysAuthorities">
+<mapper namespace="com.fit.dao.LmsTopDao">
+  <resultMap id="BaseResultMap" type="com.fit.entity.LmsTop">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
     <result column="CUSER" jdbcType="BIGINT" property="cuser" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
+    <result column="MODEL" jdbcType="INTEGER" property="model" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="IMG_ID" jdbcType="BIGINT" property="imgId" />
+    <result column="MOLD" jdbcType="INTEGER" property="mold" />
+    <result column="VISITS" jdbcType="INTEGER" property="visits" />
+    <result column="SORT" jdbcType="INTEGER" property="sort" />
     <result column="ENABLED" jdbcType="BIT" property="enabled" />
-    <result column="ISYS" jdbcType="INTEGER" property="isys" />
     <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
     <result column="EUSER" jdbcType="BIGINT" property="euser" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fit.entity.LmsTop">
+    <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
+    <result column="URL" jdbcType="LONGVARCHAR" property="url" />
+  </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, CUSER, `NAME`, NOTES, ENABLED, ISYS, ETIME, EUSER
+    ID, CTIME, CUSER, MODEL, TITLE, IMG_ID, MOLD, VISITS, SORT, ENABLED, ETIME, EUSER
   </sql>
-  <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    CONTENT, URL
+  </sql>
+  <select id="get" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
-    from sys_authorities
+    ,
+    <include refid="Blob_Column_List" />
+    from lms_top
     where ID = #{id,jdbcType=BIGINT}
   </select>
   <delete id="delete" parameterType="java.lang.Long">
-    delete from sys_authorities
+    delete from lms_top
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="save" parameterType="com.fit.entity.SysAuthorities">
-    insert into sys_authorities
+  <insert id="save" parameterType="com.fit.entity.LmsTop">
+    insert into lms_top
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -37,23 +49,38 @@
       <if test="cuser != null">
         CUSER,
       </if>
-      <if test="name != null">
-        `NAME`,
+      <if test="model != null">
+        MODEL,
       </if>
-      <if test="notes != null">
-        NOTES,
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="imgId != null">
+        IMG_ID,
+      </if>
+      <if test="mold != null">
+        MOLD,
+      </if>
+      <if test="visits != null">
+        VISITS,
+      </if>
+      <if test="sort != null">
+        SORT,
       </if>
       <if test="enabled != null">
         ENABLED,
-      </if>
-      <if test="isys != null">
-        ISYS,
       </if>
       <if test="etime != null">
         ETIME,
       </if>
       <if test="euser != null">
         EUSER,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="url != null">
+        URL,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -66,17 +93,26 @@
       <if test="cuser != null">
         #{cuser,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="model != null">
+        #{model,jdbcType=INTEGER},
       </if>
-      <if test="notes != null">
-        #{notes,jdbcType=VARCHAR},
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imgId != null">
+        #{imgId,jdbcType=BIGINT},
+      </if>
+      <if test="mold != null">
+        #{mold,jdbcType=INTEGER},
+      </if>
+      <if test="visits != null">
+        #{visits,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
       </if>
       <if test="enabled != null">
         #{enabled,jdbcType=BIT},
-      </if>
-      <if test="isys != null">
-        #{isys,jdbcType=INTEGER},
       </if>
       <if test="etime != null">
         #{etime,jdbcType=TIMESTAMP},
@@ -84,10 +120,16 @@
       <if test="euser != null">
         #{euser,jdbcType=BIGINT},
       </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
-  <update id="update" parameterType="com.fit.entity.SysAuthorities">
-    update sys_authorities
+  <update id="update" parameterType="com.fit.entity.LmsTop">
+    update lms_top
     <set>
       <if test="ctime != null">
         CTIME = #{ctime,jdbcType=TIMESTAMP},
@@ -95,23 +137,38 @@
       <if test="cuser != null">
         CUSER = #{cuser,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        `NAME` = #{name,jdbcType=VARCHAR},
+      <if test="model != null">
+        MODEL = #{model,jdbcType=INTEGER},
       </if>
-      <if test="notes != null">
-        NOTES = #{notes,jdbcType=VARCHAR},
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imgId != null">
+        IMG_ID = #{imgId,jdbcType=BIGINT},
+      </if>
+      <if test="mold != null">
+        MOLD = #{mold,jdbcType=INTEGER},
+      </if>
+      <if test="visits != null">
+        VISITS = #{visits,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        SORT = #{sort,jdbcType=INTEGER},
       </if>
       <if test="enabled != null">
         ENABLED = #{enabled,jdbcType=BIT},
-      </if>
-      <if test="isys != null">
-        ISYS = #{isys,jdbcType=INTEGER},
       </if>
       <if test="etime != null">
         ETIME = #{etime,jdbcType=TIMESTAMP},
       </if>
       <if test="euser != null">
         EUSER = #{euser,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -130,17 +187,26 @@
       <if test="cuser != null and cuser != ''">
          and CUSER = #{cuser,jdbcType=BIGINT}
       </if>
-      <if test="name != null and name != ''">
-         and `NAME` = #{name,jdbcType=VARCHAR}
+      <if test="model != null and model != ''">
+         and MODEL = #{model,jdbcType=INTEGER}
       </if>
-      <if test="notes != null and notes != ''">
-         and NOTES = #{notes,jdbcType=VARCHAR}
+      <if test="title != null and title != ''">
+         and TITLE = #{title,jdbcType=VARCHAR}
+      </if>
+      <if test="imgId != null and imgId != ''">
+         and IMG_ID = #{imgId,jdbcType=BIGINT}
+      </if>
+      <if test="mold != null and mold != ''">
+         and MOLD = #{mold,jdbcType=INTEGER}
+      </if>
+      <if test="visits != null and visits != ''">
+         and VISITS = #{visits,jdbcType=INTEGER}
+      </if>
+      <if test="sort != null and sort != ''">
+         and SORT = #{sort,jdbcType=INTEGER}
       </if>
       <if test="enabled != null and enabled != ''">
          and ENABLED = #{enabled,jdbcType=BIT}
-      </if>
-      <if test="isys != null and isys != ''">
-         and ISYS = #{isys,jdbcType=INTEGER}
       </if>
       <if test="ctime != null ">
          and ETIME &gt;= #{ctime }
@@ -151,12 +217,18 @@
       <if test="euser != null and euser != ''">
          and EUSER = #{euser,jdbcType=BIGINT}
       </if>
+      <if test="content != null and content != ''">
+         and CONTENT = #{content,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="url != null and url != ''">
+         and URL = #{url,jdbcType=LONGVARCHAR}
+      </if>
     </where>
   </sql>
   <select id="findList" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT 
     <include refid="Base_Column_List" />
-    FROM sys_authorities
+    FROM lms_top
     <include refid="Base_Where_List" />
     order by ID desc
     <if test="pageNumber != null and pageSize != null">
@@ -164,7 +236,7 @@
     </if>
   </select>
   <select id="findCount" resultType="java.lang.Integer">
-    SELECT count(1) FROM sys_authorities
+    SELECT count(1) FROM lms_top
     <include refid="Base_Where_List" />
   </select>
   <select id="selectBySQL" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -176,6 +248,6 @@
     </foreach>
   </delete>
   <update id="deleteTable">
-    truncate table sys_authorities
+    truncate table lms_top
   </update>
 </mapper>

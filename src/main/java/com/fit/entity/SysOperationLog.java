@@ -8,6 +8,8 @@ import lombok.*;
 public class SysOperationLog extends BaseEntity<SysOperationLog> {
     private Long id;
 
+    private Date ctime;
+
     private String logType;
 
     private String logName;
@@ -15,8 +17,6 @@ public class SysOperationLog extends BaseEntity<SysOperationLog> {
     private Long userId;
 
     private String className;
-
-    private Date ctime;
 
     private String succeed;
 
@@ -31,11 +31,11 @@ public class SysOperationLog extends BaseEntity<SysOperationLog> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", ctime=").append(ctime);
         sb.append(", logType=").append(logType);
         sb.append(", logName=").append(logName);
         sb.append(", userId=").append(userId);
         sb.append(", className=").append(className);
-        sb.append(", ctime=").append(ctime);
         sb.append(", succeed=").append(succeed);
         sb.append(", method=").append(method);
         sb.append(", message=").append(message);

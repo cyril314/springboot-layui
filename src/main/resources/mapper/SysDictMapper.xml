@@ -3,19 +3,19 @@
 <mapper namespace="com.fit.dao.SysDictDao">
   <resultMap id="BaseResultMap" type="com.fit.entity.SysDict">
     <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="CUSER" jdbcType="BIGINT" property="cuser" />
     <result column="PID" jdbcType="BIGINT" property="pid" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="CODE" jdbcType="VARCHAR" property="code" />
     <result column="SIGN" jdbcType="VARCHAR" property="sign" />
-    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
     <result column="SORT" jdbcType="INTEGER" property="sort" />
-    <result column="CUSER" jdbcType="BIGINT" property="cuser" />
-    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
     <result column="EUSER" jdbcType="BIGINT" property="euser" />
     <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PID, `NAME`, CODE, SIGN, DESCRIPTION, SORT, CUSER, CTIME, EUSER, ETIME
+    ID, CTIME, CUSER, PID, `NAME`, CODE, SIGN, NOTES, SORT, EUSER, ETIME
   </sql>
   <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -33,6 +33,12 @@
       <if test="id != null">
         ID,
       </if>
+      <if test="ctime != null">
+        CTIME,
+      </if>
+      <if test="cuser != null">
+        CUSER,
+      </if>
       <if test="pid != null">
         PID,
       </if>
@@ -45,17 +51,11 @@
       <if test="sign != null">
         SIGN,
       </if>
-      <if test="description != null">
-        DESCRIPTION,
+      <if test="notes != null">
+        NOTES,
       </if>
       <if test="sort != null">
         SORT,
-      </if>
-      <if test="cuser != null">
-        CUSER,
-      </if>
-      <if test="ctime != null">
-        CTIME,
       </if>
       <if test="euser != null">
         EUSER,
@@ -67,6 +67,12 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cuser != null">
+        #{cuser,jdbcType=BIGINT},
       </if>
       <if test="pid != null">
         #{pid,jdbcType=BIGINT},
@@ -80,17 +86,11 @@
       <if test="sign != null">
         #{sign,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
-      </if>
-      <if test="cuser != null">
-        #{cuser,jdbcType=BIGINT},
-      </if>
-      <if test="ctime != null">
-        #{ctime,jdbcType=TIMESTAMP},
       </if>
       <if test="euser != null">
         #{euser,jdbcType=BIGINT},
@@ -103,6 +103,12 @@
   <update id="update" parameterType="com.fit.entity.SysDict">
     update sys_dict
     <set>
+      <if test="ctime != null">
+        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cuser != null">
+        CUSER = #{cuser,jdbcType=BIGINT},
+      </if>
       <if test="pid != null">
         PID = #{pid,jdbcType=BIGINT},
       </if>
@@ -115,17 +121,11 @@
       <if test="sign != null">
         SIGN = #{sign,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      <if test="notes != null">
+        NOTES = #{notes,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
         SORT = #{sort,jdbcType=INTEGER},
-      </if>
-      <if test="cuser != null">
-        CUSER = #{cuser,jdbcType=BIGINT},
-      </if>
-      <if test="ctime != null">
-        CTIME = #{ctime,jdbcType=TIMESTAMP},
       </if>
       <if test="euser != null">
         EUSER = #{euser,jdbcType=BIGINT},
@@ -141,6 +141,15 @@
       <if test="id != null and id != ''">
          and ID = #{id,jdbcType=BIGINT}
       </if>
+      <if test="ctime != null ">
+         and CTIME &gt;= #{ctime }
+      </if>
+      <if test="etime != null ">
+         and CTIME &lt;= #{etime } 
+      </if>
+      <if test="cuser != null and cuser != ''">
+         and CUSER = #{cuser,jdbcType=BIGINT}
+      </if>
       <if test="pid != null and pid != ''">
          and PID = #{pid,jdbcType=BIGINT}
       </if>
@@ -153,20 +162,11 @@
       <if test="sign != null and sign != ''">
          and SIGN = #{sign,jdbcType=VARCHAR}
       </if>
-      <if test="description != null and description != ''">
-         and DESCRIPTION = #{description,jdbcType=VARCHAR}
+      <if test="notes != null and notes != ''">
+         and NOTES = #{notes,jdbcType=VARCHAR}
       </if>
       <if test="sort != null and sort != ''">
          and SORT = #{sort,jdbcType=INTEGER}
-      </if>
-      <if test="cuser != null and cuser != ''">
-         and CUSER = #{cuser,jdbcType=BIGINT}
-      </if>
-      <if test="ctime != null ">
-         and CTIME &gt;= #{ctime }
-      </if>
-      <if test="etime != null ">
-         and CTIME &lt;= #{etime } 
       </if>
       <if test="euser != null and euser != ''">
          and EUSER = #{euser,jdbcType=BIGINT}

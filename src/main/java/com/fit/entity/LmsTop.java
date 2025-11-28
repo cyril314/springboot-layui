@@ -5,38 +5,34 @@ import java.util.Date;
 import lombok.*;
 
 @Data
-public class SysResources extends BaseEntity<SysResources> {
+public class LmsTop extends BaseEntity<LmsTop> {
     private Long id;
 
     private Date ctime;
 
     private Long cuser;
 
-    private Long pid;
+    private Integer model;
 
-    private String name;
+    private String title;
 
-    private String icon;
+    private Long imgId;
 
-    private String type;
+    private Integer mold;
 
-    private String url;
+    private Integer visits;
 
     private Integer sort;
 
-    private String notes;
-
-    private Integer levels;
-
-    private String ismenu;
-
-    private Integer enabled;
-
-    private Integer isys;
+    private Boolean enabled;
 
     private Date etime;
 
     private Long euser;
+
+    private String content;
+
+    private String url;
 
     @Override
     public String toString() {
@@ -47,19 +43,17 @@ public class SysResources extends BaseEntity<SysResources> {
         sb.append(", id=").append(id);
         sb.append(", ctime=").append(ctime);
         sb.append(", cuser=").append(cuser);
-        sb.append(", pid=").append(pid);
-        sb.append(", name=").append(name);
-        sb.append(", icon=").append(icon);
-        sb.append(", type=").append(type);
-        sb.append(", url=").append(url);
+        sb.append(", model=").append(model);
+        sb.append(", title=").append(title);
+        sb.append(", imgId=").append(imgId);
+        sb.append(", mold=").append(mold);
+        sb.append(", visits=").append(visits);
         sb.append(", sort=").append(sort);
-        sb.append(", notes=").append(notes);
-        sb.append(", levels=").append(levels);
-        sb.append(", ismenu=").append(ismenu);
         sb.append(", enabled=").append(enabled);
-        sb.append(", isys=").append(isys);
         sb.append(", etime=").append(etime);
         sb.append(", euser=").append(euser);
+        sb.append(", content=").append(content);
+        sb.append(", url=").append(url);
         sb.append("]");
         return sb.toString();
     }

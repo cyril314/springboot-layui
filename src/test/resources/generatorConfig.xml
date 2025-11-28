@@ -158,14 +158,11 @@
          -->
         <!--生成对应表及类名-->
         <!-- 生成所有表信息
-        <table schema="" tableName="%" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
+        <table schema="" tableName="%" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!-- 生成指定表信息-->
-        <table tableName="%"
-               enableSelectByExample="false"
-               enableDeleteByExample="false"
-               enableCountByExample="false"
-               enableUpdateByExample="false">
+        <table tableName="%" enableSelectByExample="false" enableDeleteByExample="false"
+               enableCountByExample="false" enableUpdateByExample="false">
         </table>
     </context>
 </generatorConfiguration>

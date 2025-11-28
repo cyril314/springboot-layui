@@ -8,6 +8,10 @@ import lombok.*;
 public class SysDept extends BaseEntity<SysDept> {
     private Long id;
 
+    private Date ctime;
+
+    private Long cuser;
+
     private Long pid;
 
     private String pids;
@@ -16,19 +20,15 @@ public class SysDept extends BaseEntity<SysDept> {
 
     private String fullName;
 
-    private String description;
+    private String notes;
 
     private Integer version;
 
     private Integer sort;
 
-    private Long cuser;
-
-    private Date ctime;
+    private Date etime;
 
     private Long euser;
-
-    private Date etime;
 
     @Override
     public String toString() {
@@ -37,17 +37,17 @@ public class SysDept extends BaseEntity<SysDept> {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", ctime=").append(ctime);
+        sb.append(", cuser=").append(cuser);
         sb.append(", pid=").append(pid);
         sb.append(", pids=").append(pids);
         sb.append(", simpleName=").append(simpleName);
         sb.append(", fullName=").append(fullName);
-        sb.append(", description=").append(description);
+        sb.append(", notes=").append(notes);
         sb.append(", version=").append(version);
         sb.append(", sort=").append(sort);
-        sb.append(", cuser=").append(cuser);
-        sb.append(", ctime=").append(ctime);
-        sb.append(", euser=").append(euser);
         sb.append(", etime=").append(etime);
+        sb.append(", euser=").append(euser);
         sb.append("]");
         return sb.toString();
     }

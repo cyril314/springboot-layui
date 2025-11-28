@@ -3,21 +3,21 @@
 <mapper namespace="com.fit.dao.SysDeptDao">
   <resultMap id="BaseResultMap" type="com.fit.entity.SysDept">
     <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="CUSER" jdbcType="BIGINT" property="cuser" />
     <result column="PID" jdbcType="BIGINT" property="pid" />
     <result column="PIDS" jdbcType="VARCHAR" property="pids" />
     <result column="SIMPLE_NAME" jdbcType="VARCHAR" property="simpleName" />
     <result column="FULL_NAME" jdbcType="VARCHAR" property="fullName" />
-    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
     <result column="SORT" jdbcType="INTEGER" property="sort" />
-    <result column="CUSER" jdbcType="BIGINT" property="cuser" />
-    <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
-    <result column="EUSER" jdbcType="BIGINT" property="euser" />
     <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
+    <result column="EUSER" jdbcType="BIGINT" property="euser" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PID, PIDS, SIMPLE_NAME, FULL_NAME, DESCRIPTION, VERSION, SORT, CUSER, CTIME, 
-    EUSER, ETIME
+    ID, CTIME, CUSER, PID, PIDS, SIMPLE_NAME, FULL_NAME, NOTES, VERSION, SORT, ETIME, 
+    EUSER
   </sql>
   <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,6 +35,12 @@
       <if test="id != null">
         ID,
       </if>
+      <if test="ctime != null">
+        CTIME,
+      </if>
+      <if test="cuser != null">
+        CUSER,
+      </if>
       <if test="pid != null">
         PID,
       </if>
@@ -47,8 +53,8 @@
       <if test="fullName != null">
         FULL_NAME,
       </if>
-      <if test="description != null">
-        DESCRIPTION,
+      <if test="notes != null">
+        NOTES,
       </if>
       <if test="version != null">
         VERSION,
@@ -56,22 +62,22 @@
       <if test="sort != null">
         SORT,
       </if>
-      <if test="cuser != null">
-        CUSER,
-      </if>
-      <if test="ctime != null">
-        CTIME,
+      <if test="etime != null">
+        ETIME,
       </if>
       <if test="euser != null">
         EUSER,
-      </if>
-      <if test="etime != null">
-        ETIME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cuser != null">
+        #{cuser,jdbcType=BIGINT},
       </if>
       <if test="pid != null">
         #{pid,jdbcType=BIGINT},
@@ -85,8 +91,8 @@
       <if test="fullName != null">
         #{fullName,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
@@ -94,23 +100,23 @@
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
       </if>
-      <if test="cuser != null">
-        #{cuser,jdbcType=BIGINT},
-      </if>
-      <if test="ctime != null">
-        #{ctime,jdbcType=TIMESTAMP},
+      <if test="etime != null">
+        #{etime,jdbcType=TIMESTAMP},
       </if>
       <if test="euser != null">
         #{euser,jdbcType=BIGINT},
-      </if>
-      <if test="etime != null">
-        #{etime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="update" parameterType="com.fit.entity.SysDept">
     update sys_dept
     <set>
+      <if test="ctime != null">
+        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cuser != null">
+        CUSER = #{cuser,jdbcType=BIGINT},
+      </if>
       <if test="pid != null">
         PID = #{pid,jdbcType=BIGINT},
       </if>
@@ -123,8 +129,8 @@
       <if test="fullName != null">
         FULL_NAME = #{fullName,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      <if test="notes != null">
+        NOTES = #{notes,jdbcType=VARCHAR},
       </if>
       <if test="version != null">
         VERSION = #{version,jdbcType=INTEGER},
@@ -132,17 +138,11 @@
       <if test="sort != null">
         SORT = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="cuser != null">
-        CUSER = #{cuser,jdbcType=BIGINT},
-      </if>
-      <if test="ctime != null">
-        CTIME = #{ctime,jdbcType=TIMESTAMP},
+      <if test="etime != null">
+        ETIME = #{etime,jdbcType=TIMESTAMP},
       </if>
       <if test="euser != null">
         EUSER = #{euser,jdbcType=BIGINT},
-      </if>
-      <if test="etime != null">
-        ETIME = #{etime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -151,6 +151,15 @@
     <where>
       <if test="id != null and id != ''">
          and ID = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="ctime != null ">
+         and CTIME &gt;= #{ctime }
+      </if>
+      <if test="etime != null ">
+         and CTIME &lt;= #{etime } 
+      </if>
+      <if test="cuser != null and cuser != ''">
+         and CUSER = #{cuser,jdbcType=BIGINT}
       </if>
       <if test="pid != null and pid != ''">
          and PID = #{pid,jdbcType=BIGINT}
@@ -164,8 +173,8 @@
       <if test="fullName != null and fullName != ''">
          and FULL_NAME = #{fullName,jdbcType=VARCHAR}
       </if>
-      <if test="description != null and description != ''">
-         and DESCRIPTION = #{description,jdbcType=VARCHAR}
+      <if test="notes != null and notes != ''">
+         and NOTES = #{notes,jdbcType=VARCHAR}
       </if>
       <if test="version != null and version != ''">
          and VERSION = #{version,jdbcType=INTEGER}
@@ -173,23 +182,14 @@
       <if test="sort != null and sort != ''">
          and SORT = #{sort,jdbcType=INTEGER}
       </if>
-      <if test="cuser != null and cuser != ''">
-         and CUSER = #{cuser,jdbcType=BIGINT}
-      </if>
-      <if test="ctime != null ">
-         and CTIME &gt;= #{ctime }
-      </if>
-      <if test="etime != null ">
-         and CTIME &lt;= #{etime } 
-      </if>
-      <if test="euser != null and euser != ''">
-         and EUSER = #{euser,jdbcType=BIGINT}
-      </if>
       <if test="ctime != null ">
          and ETIME &gt;= #{ctime }
       </if>
       <if test="etime != null ">
          and ETIME &lt;= #{etime } 
+      </if>
+      <if test="euser != null and euser != ''">
+         and EUSER = #{euser,jdbcType=BIGINT}
       </if>
     </where>
   </sql>
