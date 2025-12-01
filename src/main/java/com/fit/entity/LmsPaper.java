@@ -5,26 +5,24 @@ import java.util.Date;
 import lombok.*;
 
 @Data
-public class LmsTop extends BaseEntity<LmsTop> {
+public class LmsPaper extends BaseEntity<LmsPaper> {
     private Long id;
 
     private Date ctime;
 
     private Long cuser;
 
-    private Integer model;
+    private String uuid;
+
+    private Long examTypeId;
+
+    private Integer adviceTime;
 
     private String title;
 
-    private String content;
+    private String intro;
 
-    private String url;
-
-    private Long imgId;
-
-    private Integer mold;
-
-    private Integer visits;
+    private String notes;
 
     private Integer sort;
 
@@ -43,13 +41,12 @@ public class LmsTop extends BaseEntity<LmsTop> {
         sb.append(", id=").append(id);
         sb.append(", ctime=").append(ctime);
         sb.append(", cuser=").append(cuser);
-        sb.append(", model=").append(model);
+        sb.append(", uuid=").append(uuid);
+        sb.append(", examTypeId=").append(examTypeId);
+        sb.append(", adviceTime=").append(adviceTime);
         sb.append(", title=").append(title);
-        sb.append(", content=").append(content);
-        sb.append(", url=").append(url);
-        sb.append(", imgId=").append(imgId);
-        sb.append(", mold=").append(mold);
-        sb.append(", visits=").append(visits);
+        sb.append(", intro=").append(intro);
+        sb.append(", notes=").append(notes);
         sb.append(", sort=").append(sort);
         sb.append(", enabled=").append(enabled);
         sb.append(", etime=").append(etime);
