@@ -2,8 +2,9 @@ package com.fit.web.admin.lms;
 
 import com.fit.base.AjaxResult;
 import com.fit.base.BaseController;
-import com.fit.entity.LmsTop;
-import com.fit.service.LmsTopService;
+import com.fit.entity.LmsSubjectType;
+import com.fit.entity.ZTreeNode;
+import com.fit.service.LmsSubjectTypeService;
 import com.fit.service.ZtreeNodeService;
 import com.fit.util.BeanUtil;
 import com.fit.util.OftenUtil;
@@ -28,33 +29,33 @@ import java.util.Map;
  * @DATE 2019/4/26
  */
 @Controller
-@RequestMapping("/admin/lms/top")
-public class TopController extends BaseController {
+@RequestMapping("/admin/lms/subject/type")
+public class SubjectTypeController extends BaseController {
 
-    private static String PREFIX = "/admin/lms/top/";
+    private static String PREFIX = "/admin/lms/subject/";
 
     @Autowired
-    private LmsTopService service;
+    private LmsSubjectTypeService subjectTypeService;
     @Autowired
     private ZtreeNodeService ztreeNodeService;
 
     /**
-     * 列表页面
+     * 答案列表页面
      */
     @GetMapping("/list")
-    public String index() {
-        return PREFIX + "list";
+    public String types() {
+        return PREFIX + "typeList";
     }
 
     /**
-     * 查询列表
+     * 答案查询列表
      */
     @PostMapping("/list")
     @ResponseBody
-    public Object list(HttpServletRequest request) {
+    public Object types(HttpServletRequest request) {
         Map<String, Object> params = WebUtil.getRequestMap(request);
-        List<LmsTop> list = this.service.findList(params);
-        int count = this.service.findCount(params);
+        List<LmsSubjectType> list = this.subjectTypeService.findList(params);
+        int count = this.subjectTypeService.findCount(params);
         return AjaxResult.tables(count, list);
     }
 
@@ -64,10 +65,10 @@ public class TopController extends BaseController {
     @GetMapping("/edit")
     public String editView(Long id, Model model) {
         if (OftenUtil.isNotEmpty(id)) {
-            LmsTop top = this.service.get(id);
-            model.addAttribute("top", top);
+            LmsSubjectType types = this.subjectTypeService.get(id);
+            model.addAttribute("types", types);
         }
-        return PREFIX + "edit";
+        return PREFIX + "typeEdit";
     }
 
     /**
@@ -75,18 +76,18 @@ public class TopController extends BaseController {
      */
     @PostMapping("/save")
     @ResponseBody
-    public Object save(LmsTop top) {
-        LmsTop lmsTop = this.service.get(top.getId());
+    public Object save(LmsSubjectType types) {
+        LmsSubjectType subjectType = this.subjectTypeService.get(types.getId());
         Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
-        if (null == lmsTop) {
-            top.setCtime(new Date());
-            top.setCuser(userId);
-            this.service.save(top);
+        if (null == subjectType) {
+            types.setCtime(new Date());
+            types.setCuser(userId);
+            this.subjectTypeService.save(types);
         } else {
-            BeanUtil.copyProperties(top, lmsTop);
-            lmsTop.setEtime(new Date());
-            lmsTop.setEuser(userId);
-            this.service.update(lmsTop);
+            BeanUtil.copyProperties(types, subjectType);
+            subjectType.setEtime(new Date());
+            subjectType.setEuser(userId);
+            this.subjectTypeService.update(subjectType);
         }
         return AjaxResult.success();
     }
@@ -100,10 +101,21 @@ public class TopController extends BaseController {
     @ResponseBody
     public Object del(String ids) {
         if (OftenUtil.isNotEmpty(ids)) {
-            this.service.batchDelete(ids.split(","));
+            this.subjectTypeService.batchDelete(ids.split(","));
             return AjaxResult.success();
         } else {
             return AjaxResult.error("参数异常");
         }
+    }
+
+    /**
+     * 获取tree列表
+     */
+    @RequestMapping("/tree")
+    @ResponseBody
+    public AjaxResult tree() {
+        List<ZTreeNode> tree = this.ztreeNodeService.subjectTypeZtree();
+        tree.add(ZTreeNode.createParent());
+        return AjaxResult.tree(tree);
     }
 }

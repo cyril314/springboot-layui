@@ -2,8 +2,12 @@ package com.fit.web.admin.lms;
 
 import com.fit.base.AjaxResult;
 import com.fit.base.BaseController;
-import com.fit.entity.LmsTop;
-import com.fit.service.LmsTopService;
+import com.fit.entity.LmsSubject;
+import com.fit.entity.LmsSubjectAnswers;
+import com.fit.entity.LmsSubjectType;
+import com.fit.service.LmsSubjectAnswersService;
+import com.fit.service.LmsSubjectService;
+import com.fit.service.LmsSubjectTypeService;
 import com.fit.service.ZtreeNodeService;
 import com.fit.util.BeanUtil;
 import com.fit.util.OftenUtil;
@@ -28,15 +32,13 @@ import java.util.Map;
  * @DATE 2019/4/26
  */
 @Controller
-@RequestMapping("/admin/lms/top")
-public class TopController extends BaseController {
+@RequestMapping("/admin/lms/subject")
+public class SubjectController extends BaseController {
 
-    private static String PREFIX = "/admin/lms/top/";
+    private static String PREFIX = "/admin/lms/subject/";
 
     @Autowired
-    private LmsTopService service;
-    @Autowired
-    private ZtreeNodeService ztreeNodeService;
+    private LmsSubjectService service;
 
     /**
      * 列表页面
@@ -53,7 +55,7 @@ public class TopController extends BaseController {
     @ResponseBody
     public Object list(HttpServletRequest request) {
         Map<String, Object> params = WebUtil.getRequestMap(request);
-        List<LmsTop> list = this.service.findList(params);
+        List<LmsSubject> list = this.service.findList(params);
         int count = this.service.findCount(params);
         return AjaxResult.tables(count, list);
     }
@@ -64,8 +66,8 @@ public class TopController extends BaseController {
     @GetMapping("/edit")
     public String editView(Long id, Model model) {
         if (OftenUtil.isNotEmpty(id)) {
-            LmsTop top = this.service.get(id);
-            model.addAttribute("top", top);
+            LmsSubject subject = this.service.get(id);
+            model.addAttribute("subject", subject);
         }
         return PREFIX + "edit";
     }
@@ -75,18 +77,18 @@ public class TopController extends BaseController {
      */
     @PostMapping("/save")
     @ResponseBody
-    public Object save(LmsTop top) {
-        LmsTop lmsTop = this.service.get(top.getId());
+    public Object save(LmsSubject subject) {
+        LmsSubject lmSubject = this.service.get(subject.getId());
         Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
-        if (null == lmsTop) {
-            top.setCtime(new Date());
-            top.setCuser(userId);
-            this.service.save(top);
+        if (null == lmSubject) {
+            subject.setCtime(new Date());
+            subject.setCuser(userId);
+            this.service.save(subject);
         } else {
-            BeanUtil.copyProperties(top, lmsTop);
-            lmsTop.setEtime(new Date());
-            lmsTop.setEuser(userId);
-            this.service.update(lmsTop);
+            BeanUtil.copyProperties(subject, lmSubject);
+            lmSubject.setEtime(new Date());
+            lmSubject.setEuser(userId);
+            this.service.update(lmSubject);
         }
         return AjaxResult.success();
     }

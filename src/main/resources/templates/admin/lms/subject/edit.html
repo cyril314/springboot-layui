@@ -1,45 +1,36 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="include :: head('展示编辑')"></head>
+<head th:include="include :: head('考题编辑')"></head>
 <body style="background-color:#fff">
 <div class="yadmin-body animated fadeIn">
     <div class="layui-form layui-form-pane">
-        <input type="hidden" name="id" th:value="${top?.id}"/>
+        <input type="hidden" name="id" th:value="${subject?.id}"/>
         <div class="layui-form-item">
-            <label for="MOLD" class="layui-form-label"><span class="yadmin-red">*</span>搜索选择框</label>
+            <label for="title" class="layui-form-label"><span class="yadmin-red">*</span>题目</label>
             <div class="layui-input-block">
-                <select id="MOLD" name="mold" lay-verify="required" lay-search>
-                    <option value="1">首页推荐</option>
-                    <option value="2">横幅推荐</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="title" class="layui-form-label"><span class="yadmin-red">*</span>标题</label>
-            <div class="layui-input-block">
-                <input type="text" id="title" placeholder="请输入标题" name="title" th:value="${top?.title}"
+                <input type="text" id="title" placeholder="请输入题目" name="title" th:value="${subject?.title}"
                        lay-verify="required" lay-vertype="tips" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="content" class="layui-form-label"><span class="yadmin-red">*</span>内容</label>
+            <label for="content" class="layui-form-label">题目描述</label>
             <div class="layui-input-block">
-                <input type="text" id="content" placeholder="请输入内容" name="content" th:value="${top?.content}"
-                       lay-verify="required" lay-vertype="tips" autocomplete="off" class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="url" class="layui-form-label">访问地址</label>
-            <div class="layui-input-block">
-                <input type="text" id="url" placeholder="请输入内容" name="url" th:value="${top?.url}"
+                <input type="text" id="content" placeholder="请输入内容" name="content" th:value="${subject?.content}"
                        lay-vertype="tips" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
             <label for="sort" class="layui-form-label">排序</label>
             <div class="layui-input-block">
-                <input type="text" id="sort" placeholder="请输入序号" name="sort" th:value="${top?.sort}" autocomplete="off"
+                <input type="text" id="sort" placeholder="请输入序号" name="sort" th:value="${subject?.sort}" autocomplete="off"
                        class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="notes" class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input type="text" id="notes" placeholder="请输入内容" name="content" th:value="${subject?.notes}"
+                       lay-vertype="tips" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item" pane="">
@@ -61,7 +52,7 @@
         form.on('submit(submit-form)', function (obj) {
             $.ajax({
                 type: "POST",
-                url: '/admin/lms/top/save',
+                url: '/admin/lms/subject/save',
                 data: obj.field,
                 dataType: 'json',
                 cache: false,

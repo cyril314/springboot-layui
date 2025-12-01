@@ -27,17 +27,8 @@
     </div>
     <div class="error__title" th:text="${error != null ? error : '系统错误'}">System Error Page</div>
     <div class="error__description" th:text="${message != null ? message : '不好意思，您访问的页面出现问题~'}">Internal system error</div>
+    <div class="error__description" th:text="${path != null ? 'Path: ' + path : '不好意思，您访问的页面出现问题~'}">request path</div>
     <button class="action" onclick="window.location.href='/'">Go Home</button>
-
-    <!-- 开发环境下显示详细错误信息 -->
-    <div th:if="${@environment.getProperty('spring.profiles.active') == 'dev'}"
-         class="error__details">
-        <h4>Error Details:</h4>
-        <p th:if="${exception != null}" th:text="${exception.message}"></p>
-        <p th:if="${timestamp != null}" th:text="${timestamp}"></p>
-        <p th:if="${error != null}" th:text="${error}"></p>
-        <p th:if="${path != null}" th:text="'Path: ' + ${path}"></p>
-    </div>
 </div>
 
 <script th:inline="javascript">

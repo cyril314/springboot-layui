@@ -19,7 +19,8 @@
                     <ul class="layui-nav" style="background: transparent;">
                         <li class="layui-nav-item layui-this"><a href="/" style="color: #fff;">首页</a></li>
                         <li class="layui-nav-item LAY_TRIGGER">
-                            <a href="#" style="color: #fff;">课程中心 <i class="layui-icon layui-icon-down layui-font-12"></i></a>
+                            <a href="#" style="color: #fff;">课程中心 <i
+                                    class="layui-icon layui-icon-down layui-font-12"></i></a>
                         </li>
                         <li class="layui-nav-item"><a href="#" style="color: #fff;">知识库</a></li>
                         <li class="layui-nav-item"><a href="#" style="color: #fff;">实战项目</a></li>
@@ -31,7 +32,7 @@
                     <div class="layui-nav" style="background: transparent; float: right;">
                         <div class="layui-nav-item">
                             <a th:href="@{/login}" style="color: #fff;">
-                                <i class="layui-icon layui-icon-username"></i> 登录/注册
+                                <i class="layui-icon layui-icon-username"></i> 登录
                             </a>
                         </div>
                     </div>
@@ -46,9 +47,9 @@
         <div class="layui-row">
             <div class="layui-carousel" id="banner">
                 <div carousel-item>
-                    <div><img th:src="@{/images/none.png}" alt="轮播图1"></div>
-                    <div><img th:src="@{/images/none.png}" alt="轮播图2"></div>
-                    <div><img th:src="@{/images/none.png}" alt="轮播图3"></div>
+                    <div th:each="top : ${tops}">
+                        <img th:src="${#strings.isEmpty(top.url)?'/images/none.png':top.url}" th:alt="${top.title}"/>
+                    </div>
                 </div>
             </div>
             <div class="layui-col-md8 layui-col-md-offset2">
@@ -162,34 +163,54 @@
         <div class="layui-row" style="padding: 40px 0;">
             <div class="layui-col-md6">
                 <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #fff;">做题吧平台</div>
-                <div style="color: #bdc3c7; line-height: 1.6; margin-bottom: 20px;">专注于提供高质量的在线做题平台，帮助您实现成长。</div>
+                <div style="color: #bdc3c7; line-height: 1.6; margin-bottom: 20px;">
+                    专注于提供高质量的在线做题平台，帮助您实现成长。
+                </div>
             </div>
             <div class="layui-col-md2">
                 <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">学习资源</div>
                 <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">课程中心</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">知识库</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">实战项目</a></div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">课程中心</a>
+                    </div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">知识库</a></div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">实战项目</a>
+                    </div>
                 </div>
             </div>
             <div class="layui-col-md2">
                 <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">服务支持</div>
                 <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">帮助中心</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">常见问题</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">联系我们</a></div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">帮助中心</a>
+                    </div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">常见问题</a>
+                    </div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">联系我们</a>
+                    </div>
                 </div>
             </div>
             <div class="layui-col-md2">
                 <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">关于我们</div>
                 <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">公司介绍</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">加入我们</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#" style="color: #bdc3c7; text-decoration: none;">隐私政策</a></div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">公司介绍</a>
+                    </div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">加入我们</a>
+                    </div>
+                    <div style="margin-bottom: 8px;"><a href="#"
+                                                        style="color: #bdc3c7; text-decoration: none;">隐私政策</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="layui-row" style="border-top: 1px solid #34495e; padding: 20px 0; text-align: center; color: #bdc3c7;">
+        <div class="layui-row"
+             style="border-top: 1px solid #34495e; padding: 20px 0; text-align: center; color: #bdc3c7;">
             <div class="layui-col-md12">
                 © 2025 做题吧平台 版权所有 | 冀ICP备12345678号
             </div>

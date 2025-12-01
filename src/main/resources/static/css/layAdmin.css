@@ -135,7 +135,7 @@
 }
 
 .layui-form-label {
-    padding: 6px 15px;
+    padding: 6px 10px;
 }
 
 /* ----- 头部样式 ----- */
@@ -217,12 +217,10 @@
     align-items: center;
 }
 
-
 /* ----- 头部样式 ----- */
 
 
 /* ----- tab 样式 ----- */
-
 /* tab 底色 */
 .layui-layout-admin .layui-tab .layui-tab-title li.layui-this,
 .layui-layout-admin .layui-tab .layui-tab-title li:hover {
@@ -358,14 +356,14 @@
 .rightmenu {
     position: absolute;
     width: 100px;
-    z-index: 9999;
+    z-index: 9999999;
     display: none;
     background-color: #fff;
     padding: 2px;
     color: #333;
     border: 1px solid #eee;
     border-radius: 2px;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .rightmenu li {
@@ -380,7 +378,6 @@
     background-color: #f2f2f2;
     color: #000
 }
-
 
 /* ----- 导航样式 ----- */
 /* 导航背景颜色 */

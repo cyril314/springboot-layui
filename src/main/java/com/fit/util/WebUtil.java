@@ -31,7 +31,7 @@ public class WebUtil {
     /**
      * 后台登录地址
      */
-    public static String ADMIN_LOGIN_URL = "/admin/login.do";
+    public static String ADMIN_LOGIN_URL = "/admin/login";
     private static final String[] ADDR_HEADER = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
 
     private WebUtil() {

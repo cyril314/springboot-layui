@@ -2,9 +2,8 @@ package com.fit.web.admin.lms;
 
 import com.fit.base.AjaxResult;
 import com.fit.base.BaseController;
-import com.fit.entity.LmsTop;
-import com.fit.service.LmsTopService;
-import com.fit.service.ZtreeNodeService;
+import com.fit.entity.LmsSubjectAnswers;
+import com.fit.service.LmsSubjectAnswersService;
 import com.fit.util.BeanUtil;
 import com.fit.util.OftenUtil;
 import com.fit.util.WebUtil;
@@ -28,33 +27,31 @@ import java.util.Map;
  * @DATE 2019/4/26
  */
 @Controller
-@RequestMapping("/admin/lms/top")
-public class TopController extends BaseController {
+@RequestMapping("/admin/lms/subject/answer")
+public class SubjectAnswersController extends BaseController {
 
-    private static String PREFIX = "/admin/lms/top/";
+    private static String PREFIX = "/admin/lms/subject/";
 
     @Autowired
-    private LmsTopService service;
-    @Autowired
-    private ZtreeNodeService ztreeNodeService;
+    private LmsSubjectAnswersService subjectAnswersService;
 
     /**
-     * 列表页面
+     * 答案列表页面
      */
     @GetMapping("/list")
-    public String index() {
-        return PREFIX + "list";
+    public String answers() {
+        return PREFIX + "answers";
     }
 
     /**
-     * 查询列表
+     * 答案查询列表
      */
     @PostMapping("/list")
     @ResponseBody
-    public Object list(HttpServletRequest request) {
+    public Object answers(HttpServletRequest request) {
         Map<String, Object> params = WebUtil.getRequestMap(request);
-        List<LmsTop> list = this.service.findList(params);
-        int count = this.service.findCount(params);
+        List<LmsSubjectAnswers> list = this.subjectAnswersService.findList(params);
+        int count = this.subjectAnswersService.findCount(params);
         return AjaxResult.tables(count, list);
     }
 
@@ -64,10 +61,10 @@ public class TopController extends BaseController {
     @GetMapping("/edit")
     public String editView(Long id, Model model) {
         if (OftenUtil.isNotEmpty(id)) {
-            LmsTop top = this.service.get(id);
-            model.addAttribute("top", top);
+            LmsSubjectAnswers answers = this.subjectAnswersService.get(id);
+            model.addAttribute("answers", answers);
         }
-        return PREFIX + "edit";
+        return PREFIX + "answerEdit";
     }
 
     /**
@@ -75,18 +72,18 @@ public class TopController extends BaseController {
      */
     @PostMapping("/save")
     @ResponseBody
-    public Object save(LmsTop top) {
-        LmsTop lmsTop = this.service.get(top.getId());
+    public Object save(LmsSubjectAnswers answers) {
+        LmsSubjectAnswers subjectAnswers = this.subjectAnswersService.get(answers.getId());
         Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
-        if (null == lmsTop) {
-            top.setCtime(new Date());
-            top.setCuser(userId);
-            this.service.save(top);
+        if (null == subjectAnswersService) {
+            answers.setCtime(new Date());
+            answers.setCuser(userId);
+            this.subjectAnswersService.save(answers);
         } else {
-            BeanUtil.copyProperties(top, lmsTop);
-            lmsTop.setEtime(new Date());
-            lmsTop.setEuser(userId);
-            this.service.update(lmsTop);
+            BeanUtil.copyProperties(answers, subjectAnswers);
+            subjectAnswers.setEtime(new Date());
+            subjectAnswers.setEuser(userId);
+            this.subjectAnswersService.update(subjectAnswers);
         }
         return AjaxResult.success();
     }
@@ -100,7 +97,7 @@ public class TopController extends BaseController {
     @ResponseBody
     public Object del(String ids) {
         if (OftenUtil.isNotEmpty(ids)) {
-            this.service.batchDelete(ids.split(","));
+            this.subjectAnswersService.batchDelete(ids.split(","));
             return AjaxResult.success();
         } else {
             return AjaxResult.error("参数异常");

@@ -78,10 +78,10 @@ function modifyReq(url, dataParam, isReload) {
 layui.config({
     base: rootPath
 }).extend({
-    dtree: 'layDtree', iconPicker: 'layIconPicker', tableTree: 'layTableTree', yadmin: 'layAdmin'
-}).use(['table', "yadmin"], function () {
+    dtree: 'layDtree', iconPicker: 'layIconPicker', tableTree: 'layTableTree', layAdmin: 'layAdmin'
+}).use(['table', "layAdmin"], function () {
     // 渲染 tab 右键菜单.
-    layui.yadmin.tabPopup({
+    layui.layAdmin.tabPopup({
         filter: "lay-tab", pintabIDs: ["main", "home"], width: 110,
     });
 

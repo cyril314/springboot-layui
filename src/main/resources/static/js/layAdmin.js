@@ -1,5 +1,7 @@
 layui.define(["element", "layer"], function (exports) {
     var $ = jQuery = layui.jquery, element = layui.element, layer = layui.layer;
+    var modelName = 'layAdmin';
+    layui.link((layui.cache.modules[modelName] || '').replaceAll('js', 'css'));
 
     var tabLayFilter = "lay-tab";
     var navLayFilter = "lay-nav";
@@ -7,13 +9,15 @@ layui.define(["element", "layer"], function (exports) {
     var tabList = [];
     var tabsSelector = ".layui-pagetabs .layui-tab-title li[lay-id]";
 
-    var yadmin = {
+    var layAdmin = {
         tabAdd: function (o) {
             var id = o.id, url = o.url, title = o.title;
             if (!this.tabExist(id)) {
                 // 新增一个Tab项
                 element.tabAdd(tabLayFilter, {
-                    id: id, title: title, content: "<iframe data-frame-id='" + id + "' class='layui-iframe' src='" + url + "'></iframe>"
+                    id: id,
+                    title: title,
+                    content: "<iframe data-frame-id='" + id + "' class='layui-iframe' src='" + url + "'></iframe>"
                 });
                 if (rememberTab) {
                     tabList.push({
@@ -187,10 +191,25 @@ layui.define(["element", "layer"], function (exports) {
             if ($(".layui-tab[lay-filter='" + config.filter + "']").length === 0) {
                 return;
             }
+            this.filter = config.filter;
+            this.pintabIDs = config.pintabIDs;
+            config.navArr = config.navArr || [{eventName: "closeAll", title: "关闭所有"}, {
+                eventName: "closeOther", title: "关闭其它"
+            }, {eventName: "closeLeft", title: "关闭左侧"}, {eventName: "closeRight", title: "关闭右侧"}];
+
+            var li = "";
+            $.each(config.navArr, function (index, conf) {
+                if (conf.eventName === "line") {
+                    li += "<hr/>";
+                } else {
+                    li += "<li data-type='" + conf.eventName + "'><i class='layui-icon " + conf.icon + "'></i>" + conf.title + "</li>";
+                }
+            });
+            $(`<ul class='rightmenu'>${li}</ul>`).appendTo("body");
+
             $(".layui-nav-item").click(function () {
                 var elem = $(".layui-layout-admin");
-                var flag = elem.hasClass("admin-nav-mini");
-                if (flag) {
+                if (elem.hasClass("admin-nav-mini")) {
                     $(".layui-nav-item i").css("left", 25)
                     elem.removeClass("admin-nav-mini");
                     window.lock = true;
@@ -199,161 +218,72 @@ layui.define(["element", "layer"], function (exports) {
                 }
             });
 
-            if (!config.filter) {
-                console.error("[ERROR]使用 tabRightMenu 组件需要指定 'filter' 属性！");
-                return;
-            }
-
-            this.filter = config.filter;
-            this.width = config.width ? config.width : 110;
-            this.pintabIDs = config.pintabIDs;
-
-            var defaultNavArr = [{eventName: "closeThis", title: "关闭此页"}, {
-                eventName: "closeAll", title: "关闭所有"
-            }, {eventName: "closeOther", title: "关闭其它"}, {eventName: "closeLeft", title: "关闭左侧"}, {
-                eventName: "closeRight", title: "关闭右侧"
-            }];
-
-            config.navArr = config.navArr || defaultNavArr;
-
-            // 创建右键菜单
-            var li = "";
-            $.each(config.navArr, function (index, conf) {
-                if (conf.eventName === "line") {
-                    li += "<hr/>";
-                } else {
-                    li += "<li data-type='" + conf.eventName + "'><i class='layui-icon " + (conf.icon || '') + "'></i>" + conf.title + "</li>";
-                }
-            });
-
-            var ul = "<ul class='rightmenu'>" + li + "</ul>";
-            // 移除已存在的菜单，避免重复创建
-            $(".rightmenu").remove();
-            $(ul).appendTo("body");
-
-            // 当前激活的标签页ID
-            var currentActiveTabID = null;
-
-            /**
-             * 是否允许关闭
-             */
-            function isAllowClose(id) {
-                return !((layui.yadmin.pintabIDs && layui.yadmin.pintabIDs.indexOf(id) !== -1) || id === undefined);
-            }
-
             // tab 页点击右击
             $(".layui-layout.layui-layout-admin .layui-pagetabs").on("contextmenu", "li", function (e) {
                 var popupmenu = $(".rightmenu");
-                currentActiveTabID = $(this).attr("lay-id");
+                popupmenu.show();
+                currentActiveTabID = $(e.target).attr("lay-id");
 
-                // 如果当前标签页不允许关闭，禁用相关菜单项
-                if (!isAllowClose(currentActiveTabID)) {
-                    popupmenu.find("li[data-type='closeThis']").addClass("disabled");
-                } else {
-                    popupmenu.find("li[data-type='closeThis']").removeClass("disabled");
-                }
+                var l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX;
+                var t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
 
-                var popupWidth = popupmenu.outerWidth();
-                var popupHeight = popupmenu.outerHeight();
-                var docWidth = $(document).width();
-                var docHeight = $(document).height();
-
-                var left = (docWidth - e.clientX) < popupWidth ? (e.clientX - popupWidth) : e.clientX;
-                var top = (docHeight - e.clientY) < popupHeight ? (e.clientY - popupHeight) : e.clientY;
-
-                popupmenu.css({
-                    left: left + 'px', top: top + 'px'
-                }).show();
-
+                popupmenu.css({left: l, top: t}).show();
                 return false;
             });
 
-            // 点击空白处隐藏右键菜单
-            $(document).on("click", function (e) {
-                if (!$(e.target).closest('.rightmenu').length && !$(e.target).closest('.layui-pagetabs li[lay-id]').length) {
-                    $(".rightmenu").hide();
-                }
+            // 点击空白处隐藏右键菜单.
+            $(document).click(function (e) {
+                $(".rightmenu").hide();
             });
 
-            // 点击右键菜单的功能
-            $(".rightmenu").on("click", "li:not(.disabled)", function () {
-                var event = $(this).attr("data-type");
-                var tabs = $(".layui-tab[lay-filter='" + config.filter + "'] li[lay-id]");
+            /**
+             * 是否允许关闭.
+             */
+            function isAllowClose(id) {
+                return !(layui.layAdmin.pintabIDs && layui.layAdmin.pintabIDs.indexOf(id) !== -1 || id === undefined);
+            }
 
-                switch (event) {
-                    case "closeThis":
-                        if (isAllowClose(currentActiveTabID)) {
-                            element.tabDelete(config.filter, currentActiveTabID);
-                        } else {
-                            layer.msg("此页不允许关闭");
-                        }
-                        break;
-
+            // 点击右键菜单的功能时.
+            $(".rightmenu li").click(function () {
+                var tabs = $(".layui-tab[lay-filter='" + config.filter + "'] li");
+                switch ($(this).attr("data-type")) {
                     case "closeAll":
-                        var closeIds = [];
-                        tabs.each(function () {
+                        $.each(tabs, function (i) {
                             var id = $(this).attr("lay-id");
                             if (isAllowClose(id)) {
-                                closeIds.push(id);
+                                element.tabDelete(config.filter, id);
                             }
                         });
-                        // 从后往前关闭，避免索引变化
-                        for (var i = closeIds.length - 1; i >= 0; i--) {
-                            element.tabDelete(config.filter, closeIds[i]);
-                        }
                         break;
                     case "closeOther":
-                        var closeIds = [];
-                        tabs.each(function () {
+                        $.each(tabs, function (i) {
                             var id = $(this).attr("lay-id");
                             if (isAllowClose(id) && id !== currentActiveTabID) {
-                                closeIds.push(id);
+                                element.tabDelete(config.filter, id);
                             }
                         });
-                        for (var i = closeIds.length - 1; i >= 0; i--) {
-                            element.tabDelete(config.filter, closeIds[i]);
-                        }
                         break;
                     case "closeLeft":
-                        var closeIds = [];
-                        var foundCurrent = false;
-
-                        tabs.each(function () {
+                        $.each(tabs, function (i) {
                             var id = $(this).attr("lay-id");
-                            if (id === currentActiveTabID) {
-                                foundCurrent = true;
-                                return true; // 继续循环
-                            }
-
-                            if (!foundCurrent && isAllowClose(id)) {
-                                closeIds.push(id);
+                            if (isAllowClose(id) && id !== currentActiveTabID) {
+                                element.tabDelete(config.filter, id);
                             }
                         });
-
-                        for (var i = closeIds.length - 1; i >= 0; i--) {
-                            element.tabDelete(config.filter, closeIds[i]);
-                        }
                         break;
                     case "closeRight":
-                        var closeIds = [];
-                        var foundCurrent = false;
-
-                        tabs.each(function () {
+                        var flag = false;
+                        $.each(tabs, function (i) {
                             var id = $(this).attr("lay-id");
-
                             if (id === currentActiveTabID) {
-                                foundCurrent = true;
-                                return true; // 继续循环
+                                flag = true;
+                                return true;
                             }
 
-                            if (foundCurrent && isAllowClose(id)) {
-                                closeIds.push(id);
+                            if (flag && isAllowClose(id)) {
+                                element.tabDelete(config.filter, id);
                             }
                         });
-
-                        for (var i = closeIds.length - 1; i >= 0; i--) {
-                            element.tabDelete(config.filter, closeIds[i]);
-                        }
                         break;
                 }
                 $(".rightmenu").hide();
@@ -362,9 +292,9 @@ layui.define(["element", "layer"], function (exports) {
     };
 
     // 获取页面上所有的标有 lay-event 的元素, 点击时对应相应的事件.
-    $(document).on("click", "*[lay-event]", function () {
+    $(document).on("click", "*[lay-event]", function (e) {
         let event = $(this).attr("lay-event");
-        typeof yadmin[event] === "function" && yadmin[event].apply(this);
+        typeof layAdmin[event] === "function" && layAdmin[event].apply(this);
     });
 
     element.on("nav(" + navLayFilter + ")", function (elem) {
@@ -375,7 +305,7 @@ layui.define(["element", "layer"], function (exports) {
             var id = obj.attr("lay-id");
             var url = obj.attr("lay-url");
             if (url != '#') {
-                yadmin.tabAdd({id: id, title: title, url: url});
+                layAdmin.tabAdd({id: id, title: title, url: url});
             }
         }
     });
@@ -388,7 +318,7 @@ layui.define(["element", "layer"], function (exports) {
         //移除所有选中、获取当前tab选择导航、标注选中样式、展开条目
         navElem.find("li, dd").removeClass("layui-this").find("a[lay-id='" + id + "']").parent().first().addClass("layui-this").parents("li,dd").addClass("layui-nav-itemed");
 
-        yadmin.buildBreadcrumb();
+        layAdmin.buildBreadcrumb();
         if (rememberTab) {
             sessionStorage.setItem("currentTabId", id);
         }
@@ -421,14 +351,14 @@ layui.define(["element", "layer"], function (exports) {
             var tabs = JSON.parse(sessionStorage.getItem("tabs"));
             var currentTabId = sessionStorage.getItem("currentTabId");
             for (var i = 0; tabs != null && i < tabs.length; i++) {
-                yadmin.tabAdd({id: tabs[i].id, title: tabs[i].title, url: tabs[i].url});
+                layAdmin.tabAdd({id: tabs[i].id, title: tabs[i].title, url: tabs[i].url});
             }
-            yadmin.tabChange(currentTabId);
+            layAdmin.tabChange(currentTabId);
         }
     });
     // 移动端模式下, 点击遮罩收缩导航.
     $(".site-mobile-shade").click(function () {
-        yadmin.flexible();
+        layAdmin.flexible();
     });
     // 点击底部添加文件按钮
     $('.fileAdd').on('click touch', function (e) {
@@ -460,5 +390,5 @@ layui.define(["element", "layer"], function (exports) {
             }
         });
     });
-    exports('yadmin', yadmin);
+    exports(modelName, layAdmin);
 });

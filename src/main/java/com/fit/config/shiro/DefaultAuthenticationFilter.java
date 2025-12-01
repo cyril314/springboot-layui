@@ -186,7 +186,6 @@ public class DefaultAuthenticationFilter extends FormAuthenticationFilter {
         log.debug("=== 登录成功重定向 ===");
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-
         // 1. 优先使用 redirect 参数
         String redirectUrl = request.getParameter("redirect");
         if (StringUtils.hasLength(redirectUrl) && isValidRedirectUrl(redirectUrl)) {
@@ -197,7 +196,6 @@ public class DefaultAuthenticationFilter extends FormAuthenticationFilter {
             WebUtils.issueRedirect(request, response, redirectUrl, null, true);
             return;
         }
-
         // 2. 其次使用 SavedRequest（从 session 中拿并清除）
         SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(request);
         if (savedRequest != null) {
@@ -211,7 +209,6 @@ public class DefaultAuthenticationFilter extends FormAuthenticationFilter {
                 return;
             }
         }
-
         // 3. 根据当前请求判断是否是后台登录，设置默认成功页
         String successUrl = getSuccessUrl();
         if (isAdminRequest(request)) {
@@ -228,14 +225,7 @@ public class DefaultAuthenticationFilter extends FormAuthenticationFilter {
         if (!StringUtils.hasLength(url)) {
             return false;
         }
-
-        // 检查是否是后台路径
-        boolean isAdmin = url.startsWith("/admin") || url.startsWith("/admin/");
-
-        // 排除登录页面本身
-        boolean isLoginPage = url.contains("/admin/login") || url.equals("/admin/login");
-
-        return isAdmin && !isLoginPage;
+        return url.startsWith("/admin") || url.startsWith("/admin/");
     }
 
     /**
@@ -244,6 +234,19 @@ public class DefaultAuthenticationFilter extends FormAuthenticationFilter {
     private boolean isAdminRequest(HttpServletRequest request) {
         String uri = request.getRequestURI();
         return uri != null && (uri.startsWith("/admin") || uri.startsWith("/admin/"));
+    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String uri = httpRequest.getRequestURI();
+        log.debug("=== 认证过滤器检查访问 ===> URI: {}", uri);
+        // 如果是错误页面，直接允许访问
+        if (uri.startsWith("/error") || "/403".equals(uri)) {
+            log.debug("=== 错误页面，允许访问 ===");
+            return true;
+        }
+        return super.onAccessDenied(request, response);
     }
 
     /**

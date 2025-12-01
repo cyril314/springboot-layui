@@ -34,16 +34,11 @@ public class ZtreeNodeService {
         sb.append("(CASE WHEN (PID = 0 OR PID IS NULL) THEN 'true' ELSE 'false' END ) AS OPEN ");
         sb.append(" FROM sys_dept");
 
-        List<ZTreeNode> list = JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
-        return list;
+        return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }
 
     public List<ZTreeNode> dictZtree() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("SELECT `ID` AS id,`PID` AS parentId,`NAME`,");
-        sb.append("'false' AS OPEN ");
-        sb.append(" FROM `sys_dict`");
-
+        String sb = "SELECT `ID` AS id,`PID` AS parentId,`NAME`, 'false' AS OPEN FROM `sys_dict`";
         return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }
 
@@ -63,9 +58,15 @@ public class ZtreeNodeService {
      * 获取角色树节点集合
      */
     public List<ZTreeNode> roleZtree() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("SELECT ID AS id, '0' AS parentId, `ROLE_NAME` AS NAME, 'true' AS OPEN FROM sys_role");
+        String sb = "SELECT ID AS id, '0' AS parentId, `ROLE_NAME` AS NAME, 'true' AS OPEN FROM sys_role";
+        return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
+    }
 
+    public List<ZTreeNode> subjectTypeZtree() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT t.`ID`,t.`PID` AS parentId, t.`TYPE_NAME` AS `name`, t.`ID` AS `CODE`,");
+        sb.append("(CASE WHEN (t.`PID` = 0 OR t.`PID` IS NULL) THEN 'true' ELSE 'false' END ) AS OPEN");
+        sb.append(" FROM `lms_subject_type` t");
         return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }
 }

@@ -4,11 +4,11 @@ import com.fit.aop.BizLog;
 import com.fit.base.AjaxResult;
 import com.fit.base.BaseController;
 import com.fit.entity.SysUser;
+import com.fit.service.SysUserService;
 import com.fit.util.BeanUtil;
 import com.fit.util.DateUtils;
 import com.fit.util.OftenUtil;
 import com.fit.util.WebUtil;
-import com.fit.service.SysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -71,17 +72,20 @@ public class UserController extends BaseController {
 
     @PostMapping("/save")
     @ResponseBody
-    public void save(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, Object> map = WebUtil.getRequestMap(request);
-        SysUser sysUser = BeanUtil.map2Bean(SysUser.class, map);
-        if (OftenUtil.isNotEmpty(sysUser.getId())) {
-            sysUser.setEtime(DateUtils.nowDate());
-            userService.update(sysUser);
+    public Object save(SysUser user) {
+        SysUser sysUser = this.userService.get(user.getId());
+        Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
+        if (null == sysUser) {
+            user.setCtime(new Date());
+            user.setCuser(userId);
+            this.userService.save(user);
         } else {
-            sysUser.setCtime(DateUtils.nowDate());
-            userService.save(sysUser);
+            BeanUtil.copyProperties(user, sysUser);
+            sysUser.setEtime(new Date());
+            sysUser.setEuser(userId);
+            this.userService.update(sysUser);
         }
-        writeJson(response, AjaxResult.success("操作成功"));
+        return AjaxResult.success();
     }
 
     @PostMapping("/del")
