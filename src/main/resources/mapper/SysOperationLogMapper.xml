@@ -8,23 +8,16 @@
     <result column="LOG_NAME" jdbcType="VARCHAR" property="logName" />
     <result column="USER_ID" jdbcType="BIGINT" property="userId" />
     <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="METHOD" jdbcType="VARCHAR" property="method" />
     <result column="SUCCEED" jdbcType="VARCHAR" property="succeed" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fit.entity.SysOperationLog">
-    <result column="METHOD" jdbcType="LONGVARCHAR" property="method" />
-    <result column="MESSAGE" jdbcType="LONGVARCHAR" property="message" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, LOG_TYPE, LOG_NAME, USER_ID, CLASS_NAME, SUCCEED
+    ID, CTIME, LOG_TYPE, LOG_NAME, USER_ID, CLASS_NAME, `METHOD`, SUCCEED, MESSAGE
   </sql>
-  <sql id="Blob_Column_List">
-    `METHOD`, MESSAGE
-  </sql>
-  <select id="get" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from sys_operation_log
     where ID = #{id,jdbcType=BIGINT}
   </select>
@@ -53,11 +46,11 @@
       <if test="className != null">
         CLASS_NAME,
       </if>
-      <if test="succeed != null">
-        SUCCEED,
-      </if>
       <if test="method != null">
         `METHOD`,
+      </if>
+      <if test="succeed != null">
+        SUCCEED,
       </if>
       <if test="message != null">
         MESSAGE,
@@ -82,14 +75,14 @@
       <if test="className != null">
         #{className,jdbcType=VARCHAR},
       </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
       <if test="succeed != null">
         #{succeed,jdbcType=VARCHAR},
       </if>
-      <if test="method != null">
-        #{method,jdbcType=LONGVARCHAR},
-      </if>
       <if test="message != null">
-        #{message,jdbcType=LONGVARCHAR},
+        #{message,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,14 +104,14 @@
       <if test="className != null">
         CLASS_NAME = #{className,jdbcType=VARCHAR},
       </if>
+      <if test="method != null">
+        `METHOD` = #{method,jdbcType=VARCHAR},
+      </if>
       <if test="succeed != null">
         SUCCEED = #{succeed,jdbcType=VARCHAR},
       </if>
-      <if test="method != null">
-        `METHOD` = #{method,jdbcType=LONGVARCHAR},
-      </if>
       <if test="message != null">
-        MESSAGE = #{message,jdbcType=LONGVARCHAR},
+        MESSAGE = #{message,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -146,14 +139,14 @@
       <if test="className != null and className != ''">
          and CLASS_NAME = #{className,jdbcType=VARCHAR}
       </if>
+      <if test="method != null and method != ''">
+         and `METHOD` = #{method,jdbcType=VARCHAR}
+      </if>
       <if test="succeed != null and succeed != ''">
          and SUCCEED = #{succeed,jdbcType=VARCHAR}
       </if>
-      <if test="method != null and method != ''">
-         and `METHOD` = #{method,jdbcType=LONGVARCHAR}
-      </if>
       <if test="message != null and message != ''">
-         and MESSAGE = #{message,jdbcType=LONGVARCHAR}
+         and MESSAGE = #{message,jdbcType=VARCHAR}
       </if>
     </where>
   </sql>

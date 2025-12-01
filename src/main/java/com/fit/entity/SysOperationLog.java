@@ -18,9 +18,9 @@ public class SysOperationLog extends BaseEntity<SysOperationLog> {
 
     private String className;
 
-    private String succeed;
-
     private String method;
+
+    private String succeed;
 
     private String message;
 
@@ -36,8 +36,8 @@ public class SysOperationLog extends BaseEntity<SysOperationLog> {
         sb.append(", logName=").append(logName);
         sb.append(", userId=").append(userId);
         sb.append(", className=").append(className);
-        sb.append(", succeed=").append(succeed);
         sb.append(", method=").append(method);
+        sb.append(", succeed=").append(succeed);
         sb.append(", message=").append(message);
         sb.append("]");
         return sb.toString();

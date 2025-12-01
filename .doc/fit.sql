@@ -2,7 +2,8 @@
 SQLyog v10.2 
 MySQL - 5.7.9 : Database - fit
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -15,6 +16,56 @@ MySQL - 5.7.9 : Database - fit
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`fit` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 
 USE `fit`;
+
+/*Table structure for table `lms_exam_type` */
+
+DROP TABLE IF EXISTS `lms_exam_type`;
+
+CREATE TABLE `lms_exam_type` (
+                                 `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                 `CTIME` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `CUSER` bigint(20) DEFAULT NULL COMMENT '创建人',
+                                 `PID` bigint(20) DEFAULT NULL COMMENT '上级ID',
+                                 `MOLD` int(11) DEFAULT NULL COMMENT '类型: 0-考试,1-考卷',
+                                 `NAME` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '标题',
+                                 `NOTES` text COLLATE utf8_unicode_ci COMMENT '备注',
+                                 `SORT` int(1) DEFAULT NULL COMMENT '排序',
+                                 `ADMIN_AUTH` int(1) DEFAULT NULL COMMENT '管理权限',
+                                 `GRADE_AUTH` int(1) DEFAULT NULL COMMENT '阅卷权限',
+                                 `QUERY_AUTH` int(1) DEFAULT NULL COMMENT '查询权限',
+                                 `SUPER_AUTH` int(1) DEFAULT NULL COMMENT '超级权限',
+                                 `ENABLED` tinyint(1) DEFAULT '0' COMMENT '禁用状态: 0-禁用,1-正常',
+                                 `ETIME` datetime DEFAULT NULL COMMENT '修改时间',
+                                 `EUSER` bigint(20) DEFAULT NULL COMMENT '修改人',
+                                 PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='考试类型表';
+
+/*Data for the table `lms_exam_type` */
+
+/*Table structure for table `lms_paper` */
+
+DROP TABLE IF EXISTS `lms_paper`;
+
+CREATE TABLE `lms_paper` (
+                             `ID` bigint(30) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                             `CTIME` datetime DEFAULT NULL COMMENT '创建时间',
+                             `CUSER` bigint(30) DEFAULT NULL COMMENT '创建人',
+                             `UUID` varchar(32) COLLATE utf8_unicode_ci DEFAULT 'UUID()',
+                             `EXAM_TYPE_ID` bigint(30) DEFAULT NULL COMMENT '业务分类ID',
+                             `ADVICE_TIME` int(11) DEFAULT NULL COMMENT '建议答题时间',
+                             `TITLE` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '考卷名称',
+                             `INTRO` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '考卷简介',
+                             `NOTES` text COLLATE utf8_unicode_ci COMMENT '考卷说明',
+                             `SORT` int(11) DEFAULT NULL COMMENT '排序',
+                             `ENABLED` tinyint(1) DEFAULT '0' COMMENT '禁用状态: 0-禁用,1-正常',
+                             `ETIME` datetime DEFAULT NULL COMMENT '修改时间',
+                             `EUSER` bigint(30) DEFAULT NULL COMMENT '修改人',
+                             PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='考卷';
+
+/*Data for the table `lms_paper` */
+
+insert  into `lms_paper`(`ID`,`CTIME`,`CUSER`,`UUID`,`EXAM_TYPE_ID`,`ADVICE_TIME`,`TITLE`,`INTRO`,`NOTES`,`SORT`,`ENABLED`,`ETIME`,`EUSER`) values (1,'2025-12-01 17:17:44',1,'97678948-c205-11f0-81f1-fcaa144e',NULL,10,'默认测试答卷','默认','默认',0,1,'2025-12-01 17:52:15',1),(2,'2025-12-01 17:17:44',1,'b239086a-c205-11f0-81f1-fcaa144e',NULL,NULL,'测试答卷','测试答卷','测试答卷',1,0,'2025-12-01 17:25:06',1);
 
 /*Table structure for table `lms_top` */
 

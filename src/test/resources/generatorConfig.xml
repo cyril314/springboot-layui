@@ -59,7 +59,7 @@
             用于处理DB中的类型到Java中的类型，默认使用JavaTypeResolverDefaultImpl；
             注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型；
         -->
-        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+        <javaTypeResolver type="org.mybatis.generator.plugin.JavaTypeResolverExt">
             <!--
                 true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
                 false：默认,
@@ -161,8 +161,8 @@
         <table schema="" tableName="%" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!-- 生成指定表信息-->
-        <table tableName="%" enableSelectByExample="false" enableDeleteByExample="false"
-               enableCountByExample="false" enableUpdateByExample="false">
+        <table tableName="%" schema="kinde" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
         </table>
     </context>
 </generatorConfiguration>

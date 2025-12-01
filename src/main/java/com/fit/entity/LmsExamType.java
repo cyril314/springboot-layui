@@ -5,28 +5,30 @@ import java.util.Date;
 import lombok.*;
 
 @Data
-public class LmsTop extends BaseEntity<LmsTop> {
+public class LmsExamType extends BaseEntity<LmsExamType> {
     private Long id;
 
     private Date ctime;
 
     private Long cuser;
 
-    private Integer model;
-
-    private String title;
-
-    private String content;
-
-    private String url;
-
-    private Long imgId;
+    private Long pid;
 
     private Integer mold;
 
-    private Integer visits;
+    private String name;
+
+    private String notes;
 
     private Integer sort;
+
+    private Integer adminAuth;
+
+    private Integer gradeAuth;
+
+    private Integer queryAuth;
+
+    private Integer superAuth;
 
     private Boolean enabled;
 
@@ -43,14 +45,15 @@ public class LmsTop extends BaseEntity<LmsTop> {
         sb.append(", id=").append(id);
         sb.append(", ctime=").append(ctime);
         sb.append(", cuser=").append(cuser);
-        sb.append(", model=").append(model);
-        sb.append(", title=").append(title);
-        sb.append(", content=").append(content);
-        sb.append(", url=").append(url);
-        sb.append(", imgId=").append(imgId);
+        sb.append(", pid=").append(pid);
         sb.append(", mold=").append(mold);
-        sb.append(", visits=").append(visits);
+        sb.append(", name=").append(name);
+        sb.append(", notes=").append(notes);
         sb.append(", sort=").append(sort);
+        sb.append(", adminAuth=").append(adminAuth);
+        sb.append(", gradeAuth=").append(gradeAuth);
+        sb.append(", queryAuth=").append(queryAuth);
+        sb.append(", superAuth=").append(superAuth);
         sb.append(", enabled=").append(enabled);
         sb.append(", etime=").append(etime);
         sb.append(", euser=").append(euser);
