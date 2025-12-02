@@ -9,6 +9,7 @@
     <result column="TYPE_ID" jdbcType="BIGINT" property="typeId" />
     <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="ANSWER_ID" jdbcType="BIGINT" property="answerId" />
     <result column="NOTES" jdbcType="VARCHAR" property="notes" />
     <result column="VERSION" jdbcType="INTEGER" property="version" />
@@ -17,21 +18,13 @@
     <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
     <result column="EUSER" jdbcType="BIGINT" property="euser" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fit.entity.LmsSubject">
-    <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
-  </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, CUSER, UUID, TYPE_ID, TYPE_NAME, TITLE, ANSWER_ID, NOTES, VERSION, SORT, 
-    ENABLED, ETIME, EUSER
+    ID, CTIME, CUSER, UUID, TYPE_ID, TYPE_NAME, TITLE, CONTENT, ANSWER_ID, NOTES, VERSION, 
+    SORT, ENABLED, ETIME, EUSER
   </sql>
-  <sql id="Blob_Column_List">
-    CONTENT
-  </sql>
-  <select id="get" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from lms_subject
     where ID = #{id,jdbcType=BIGINT}
   </select>
@@ -63,6 +56,9 @@
       <if test="title != null">
         TITLE,
       </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
       <if test="answerId != null">
         ANSWER_ID,
       </if>
@@ -83,9 +79,6 @@
       </if>
       <if test="euser != null">
         EUSER,
-      </if>
-      <if test="content != null">
-        CONTENT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -110,6 +103,9 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
       <if test="answerId != null">
         #{answerId,jdbcType=BIGINT},
       </if>
@@ -130,9 +126,6 @@
       </if>
       <if test="euser != null">
         #{euser,jdbcType=BIGINT},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -157,6 +150,9 @@
       <if test="title != null">
         TITLE = #{title,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
       <if test="answerId != null">
         ANSWER_ID = #{answerId,jdbcType=BIGINT},
       </if>
@@ -177,9 +173,6 @@
       </if>
       <if test="euser != null">
         EUSER = #{euser,jdbcType=BIGINT},
-      </if>
-      <if test="content != null">
-        CONTENT = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -210,6 +203,9 @@
       <if test="title != null and title != ''">
          and TITLE = #{title,jdbcType=VARCHAR}
       </if>
+      <if test="content != null and content != ''">
+         and CONTENT = #{content,jdbcType=VARCHAR}
+      </if>
       <if test="answerId != null and answerId != ''">
          and ANSWER_ID = #{answerId,jdbcType=BIGINT}
       </if>
@@ -233,9 +229,6 @@
       </if>
       <if test="euser != null and euser != ''">
          and EUSER = #{euser,jdbcType=BIGINT}
-      </if>
-      <if test="content != null and content != ''">
-         and CONTENT = #{content,jdbcType=LONGVARCHAR}
       </if>
     </where>
   </sql>

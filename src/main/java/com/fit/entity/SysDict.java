@@ -6,26 +6,59 @@ import lombok.*;
 
 @Data
 public class SysDict extends BaseEntity<SysDict> {
+    /**
+     * 主键id
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 父级字典id
+     */
     private Long pid;
 
+    /**
+     * 字典名称
+     */
     private String name;
 
+    /**
+     * 字典的编码
+     */
     private String code;
 
+    /**
+     * 是否系统标识
+     */
     private String sign;
 
+    /**
+     * 描述
+     */
     private String notes;
 
+    /**
+     * 排序
+     */
     private Integer sort;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
     @Override

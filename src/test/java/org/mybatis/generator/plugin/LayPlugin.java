@@ -1,13 +1,15 @@
 package org.mybatis.generator.plugin;
 
+import org.apache.shiro.util.StringUtils;
 import org.mybatis.generator.api.*;
 import org.mybatis.generator.api.dom.java.*;
-import org.mybatis.generator.api.dom.xml.*;
+import org.mybatis.generator.api.dom.xml.Attribute;
+import org.mybatis.generator.api.dom.xml.Document;
+import org.mybatis.generator.api.dom.xml.TextElement;
+import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Types;
 import java.util.*;
 
@@ -269,6 +271,20 @@ public class LayPlugin extends PluginAdapter {
         topLevelClass.setSuperClass(new FullyQualifiedJavaType("BaseEntity<" + introspectedTable.getBaseRecordType() + ">"));
         topLevelClass.addImportedType(new FullyQualifiedJavaType("com.fit.base.BaseEntity"));
         this.addLombokAnnotation(topLevelClass, introspectedTable);
+        return true;
+    }
+
+    @Override
+    public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
+        // 获取字段注释
+        String columnComment = introspectedColumn.getRemarks();
+        if (StringUtils.hasLength(columnComment)) {
+            // 在字段上方添加 JavaDoc 注释
+            field.addJavaDocLine("/**");
+            field.addJavaDocLine(" * " + columnComment);
+            field.addJavaDocLine(" */");
+        }
+
         return true;
     }
 

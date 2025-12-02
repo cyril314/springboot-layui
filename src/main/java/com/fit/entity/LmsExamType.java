@@ -6,34 +6,79 @@ import lombok.*;
 
 @Data
 public class LmsExamType extends BaseEntity<LmsExamType> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 上级ID
+     */
     private Long pid;
 
+    /**
+     * 类型: 0-考试,1-考卷
+     */
     private Integer mold;
 
+    /**
+     * 标题
+     */
     private String name;
 
+    /**
+     * 备注
+     */
     private String notes;
 
+    /**
+     * 排序
+     */
     private Integer sort;
 
+    /**
+     * 管理权限
+     */
     private Integer adminAuth;
 
+    /**
+     * 阅卷权限
+     */
     private Integer gradeAuth;
 
+    /**
+     * 查询权限
+     */
     private Integer queryAuth;
 
+    /**
+     * 超级权限
+     */
     private Integer superAuth;
 
+    /**
+     * 禁用状态: 0-禁用,1-正常
+     */
     private Boolean enabled;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

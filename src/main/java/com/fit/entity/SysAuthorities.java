@@ -6,22 +6,49 @@ import lombok.*;
 
 @Data
 public class SysAuthorities extends BaseEntity<SysAuthorities> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 权限名称
+     */
     private String name;
 
+    /**
+     * 权限描述
+     */
     private String notes;
 
+    /**
+     * 是否被禁用 0禁用1正常
+     */
     private Boolean enabled;
 
+    /**
+     * 是否是超级权限 0非1是
+     */
     private Integer isys;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

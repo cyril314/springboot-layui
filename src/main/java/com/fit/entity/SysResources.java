@@ -6,36 +6,84 @@ import lombok.*;
 
 @Data
 public class SysResources extends BaseEntity<SysResources> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 父ID
+     */
     private Long pid;
 
+    /**
+     * 名称
+     */
     private String name;
 
+    /**
+     * 图标
+     */
     private String icon;
 
+    /**
+     * 类型,1:url 2:method
+     */
     private String type;
 
+    /**
+     * 链接
+     */
     private String url;
 
+    /**
+     * 优先权
+     */
     private Integer sort;
 
+    /**
+     * 描述
+     */
     private String notes;
 
+    /**
+     * 层级
+     */
     private Integer levels;
 
+    /**
+     * 是否是菜单
+     */
     private String ismenu;
 
+    /**
+     * 是否被禁用 0禁用1正常
+     */
     private Integer enabled;
 
+    /**
+     * 是否是超级权限 0非1是
+     */
     private Integer isys;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

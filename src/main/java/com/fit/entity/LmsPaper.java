@@ -6,30 +6,66 @@ import lombok.*;
 
 @Data
 public class LmsPaper extends BaseEntity<LmsPaper> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
     private String uuid;
 
+    /**
+     * 业务分类ID
+     */
     private Long examTypeId;
 
+    /**
+     * 建议答题时间
+     */
     private Integer adviceTime;
 
+    /**
+     * 考卷名称
+     */
     private String title;
 
+    /**
+     * 考卷简介
+     */
     private String intro;
 
+    /**
+     * 考卷说明
+     */
     private String notes;
 
+    /**
+     * 排序
+     */
     private Integer sort;
 
+    /**
+     * 禁用状态: 0-禁用,1-正常
+     */
     private Boolean enabled;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

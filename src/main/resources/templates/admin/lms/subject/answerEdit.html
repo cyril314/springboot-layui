@@ -38,8 +38,8 @@
         <div class="layui-form-item">
             <label for="score" class="layui-form-label">得分权重</label>
             <div class="layui-input-block">
-                <input type="number" id="score" placeholder="请输入序号" name="score" th:value="${answers?.score}" autocomplete="off"
-                       class="layui-input">
+                <input type="text" id="score" name="score" lay-affix="number" placeholder="得分权重"
+                       step="1" min="1" max="6" th:value="${answers?.score}" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">

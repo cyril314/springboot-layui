@@ -5,10 +5,19 @@ import lombok.*;
 
 @Data
 public class SysRoleAuth extends BaseEntity<SysRoleAuth> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 角色id
+     */
     private Long roleId;
 
+    /**
+     * 权限id
+     */
     private Long authId;
 
     @Override

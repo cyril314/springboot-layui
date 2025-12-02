@@ -5,9 +5,9 @@ import java.util.Date;
 import lombok.*;
 
 @Data
-public class SysDept extends BaseEntity<SysDept> {
+public class LmsSubjectKnow extends BaseEntity<LmsSubjectKnow> {
     /**
-     * 主键id
+     * 主键
      */
     private Long id;
 
@@ -22,24 +22,19 @@ public class SysDept extends BaseEntity<SysDept> {
     private Long cuser;
 
     /**
-     * 父部门id
+     * 上级ID
      */
     private Long pid;
 
     /**
-     * 父级ids
+     * 科目名称
      */
-    private String pids;
+    private String name;
 
     /**
-     * 简称
+     * 关键字
      */
-    private String simpleName;
-
-    /**
-     * 全称
-     */
-    private String fullName;
+    private String cruk;
 
     /**
      * 描述
@@ -47,14 +42,14 @@ public class SysDept extends BaseEntity<SysDept> {
     private String notes;
 
     /**
-     * 版本（乐观锁保留字段）
-     */
-    private Integer version;
-
-    /**
      * 排序
      */
     private Integer sort;
+
+    /**
+     * 禁用状态: 0-禁用,1-正常
+     */
+    private Boolean enabled;
 
     /**
      * 修改时间
@@ -76,12 +71,11 @@ public class SysDept extends BaseEntity<SysDept> {
         sb.append(", ctime=").append(ctime);
         sb.append(", cuser=").append(cuser);
         sb.append(", pid=").append(pid);
-        sb.append(", pids=").append(pids);
-        sb.append(", simpleName=").append(simpleName);
-        sb.append(", fullName=").append(fullName);
+        sb.append(", name=").append(name);
+        sb.append(", cruk=").append(cruk);
         sb.append(", notes=").append(notes);
-        sb.append(", version=").append(version);
         sb.append(", sort=").append(sort);
+        sb.append(", enabled=").append(enabled);
         sb.append(", etime=").append(etime);
         sb.append(", euser=").append(euser);
         sb.append("]");

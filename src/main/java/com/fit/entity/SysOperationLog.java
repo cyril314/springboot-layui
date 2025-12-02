@@ -6,22 +6,49 @@ import lombok.*;
 
 @Data
 public class SysOperationLog extends BaseEntity<SysOperationLog> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 日志类型(字典)
+     */
     private String logType;
 
+    /**
+     * 日志名称
+     */
     private String logName;
 
+    /**
+     * 用户id
+     */
     private Long userId;
 
+    /**
+     * 类名称
+     */
     private String className;
 
+    /**
+     * 方法名称
+     */
     private String method;
 
+    /**
+     * 是否成功(字典)
+     */
     private String succeed;
 
+    /**
+     * 备注
+     */
     private String message;
 
     @Override

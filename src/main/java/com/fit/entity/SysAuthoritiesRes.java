@@ -5,10 +5,19 @@ import lombok.*;
 
 @Data
 public class SysAuthoritiesRes extends BaseEntity<SysAuthoritiesRes> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 权限id
+     */
     private Long authId;
 
+    /**
+     * 资源id
+     */
     private Long resId;
 
     @Override

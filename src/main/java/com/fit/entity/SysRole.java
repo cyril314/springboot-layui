@@ -6,22 +6,49 @@ import lombok.*;
 
 @Data
 public class SysRole extends BaseEntity<SysRole> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 角色名字
+     */
     private String roleName;
 
+    /**
+     * 角色说明
+     */
     private String notes;
 
+    /**
+     * 是否被禁用 0禁用1正常
+     */
     private Boolean enabled;
 
+    /**
+     * 是否是超级权限 0非1是
+     */
     private Integer isys;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

@@ -6,28 +6,64 @@ import lombok.*;
 
 @Data
 public class SysUser extends BaseEntity<SysUser> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 角色ID
+     */
     private Long rid;
 
+    /**
+     * 用户姓名
+     */
     private String name;
 
+    /**
+     * 登陆用户名(登陆号)
+     */
     private String username;
 
+    /**
+     * 用户密码
+     */
     private String password;
 
+    /**
+     * 描述
+     */
     private String notes;
 
+    /**
+     * 禁用状态: 0-禁用,1-正常
+     */
     private Boolean enabled;
 
+    /**
+     * 是否是超级用户 0非1是
+     */
     private Integer isys;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

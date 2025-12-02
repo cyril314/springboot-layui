@@ -69,4 +69,12 @@ public class ZtreeNodeService {
         sb.append(" FROM `lms_subject_type` t");
         return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
     }
+
+    public List<ZTreeNode> subjectKnowZtree() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT t.`ID`,t.`PID` AS parentId, t.`NAME`, t.`ID` AS `CODE`,");
+        sb.append("(CASE WHEN (t.`PID` = 0 OR t.`PID` IS NULL) THEN 'true' ELSE 'false' END ) AS OPEN");
+        sb.append(" FROM `lms_subject_know` t");
+        return JdbcTemplateUtil.queryForListBean(jdbcTemplate, sb.toString(), ZTreeNode.class);
+    }
 }

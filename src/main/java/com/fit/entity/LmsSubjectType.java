@@ -6,24 +6,54 @@ import lombok.*;
 
 @Data
 public class LmsSubjectType extends BaseEntity<LmsSubjectType> {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 创建时间
+     */
     private Date ctime;
 
+    /**
+     * 创建人
+     */
     private Long cuser;
 
+    /**
+     * 上级ID
+     */
     private Long pid;
 
+    /**
+     * 名称
+     */
     private String typeName;
 
+    /**
+     * 描述
+     */
     private String notes;
 
+    /**
+     * 排序
+     */
     private Integer sort;
 
+    /**
+     * 禁用状态: 0-禁用,1-正常
+     */
     private Boolean enabled;
 
+    /**
+     * 修改时间
+     */
     private Date etime;
 
+    /**
+     * 修改人
+     */
     private Long euser;
 
     @Override

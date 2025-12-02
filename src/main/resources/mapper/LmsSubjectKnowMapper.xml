@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fit.dao.LmsSubjectAnswersDao">
-  <resultMap id="BaseResultMap" type="com.fit.entity.LmsSubjectAnswers">
+<mapper namespace="com.fit.dao.LmsSubjectKnowDao">
+  <resultMap id="BaseResultMap" type="com.fit.entity.LmsSubjectKnow">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
     <result column="CUSER" jdbcType="BIGINT" property="cuser" />
-    <result column="UUID" jdbcType="VARCHAR" property="uuid" />
-    <result column="QUESTION_ID" jdbcType="BIGINT" property="questionId" />
-    <result column="CORRECT" jdbcType="BIT" property="correct" />
-    <result column="ANSWER" jdbcType="VARCHAR" property="answer" />
-    <result column="ANSWER_CONTENT" jdbcType="VARCHAR" property="answerContent" />
-    <result column="SCORE" jdbcType="INTEGER" property="score" />
+    <result column="PID" jdbcType="BIGINT" property="pid" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CRUK" jdbcType="VARCHAR" property="cruk" />
     <result column="NOTES" jdbcType="VARCHAR" property="notes" />
     <result column="SORT" jdbcType="INTEGER" property="sort" />
     <result column="ENABLED" jdbcType="BIT" property="enabled" />
@@ -18,21 +15,20 @@
     <result column="EUSER" jdbcType="BIGINT" property="euser" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, CUSER, UUID, QUESTION_ID, CORRECT, ANSWER, ANSWER_CONTENT, SCORE, NOTES, 
-    SORT, ENABLED, ETIME, EUSER
+    ID, CTIME, CUSER, PID, `NAME`, CRUK, NOTES, SORT, ENABLED, ETIME, EUSER
   </sql>
   <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from lms_subject_answers
+    from lms_subject_know
     where ID = #{id,jdbcType=BIGINT}
   </select>
   <delete id="delete" parameterType="java.lang.Long">
-    delete from lms_subject_answers
+    delete from lms_subject_know
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="save" parameterType="com.fit.entity.LmsSubjectAnswers">
-    insert into lms_subject_answers
+  <insert id="save" parameterType="com.fit.entity.LmsSubjectKnow">
+    insert into lms_subject_know
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -43,23 +39,14 @@
       <if test="cuser != null">
         CUSER,
       </if>
-      <if test="uuid != null">
-        UUID,
+      <if test="pid != null">
+        PID,
       </if>
-      <if test="questionId != null">
-        QUESTION_ID,
+      <if test="name != null">
+        `NAME`,
       </if>
-      <if test="correct != null">
-        CORRECT,
-      </if>
-      <if test="answer != null">
-        ANSWER,
-      </if>
-      <if test="answerContent != null">
-        ANSWER_CONTENT,
-      </if>
-      <if test="score != null">
-        SCORE,
+      <if test="cruk != null">
+        CRUK,
       </if>
       <if test="notes != null">
         NOTES,
@@ -87,23 +74,14 @@
       <if test="cuser != null">
         #{cuser,jdbcType=BIGINT},
       </if>
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
+      <if test="pid != null">
+        #{pid,jdbcType=BIGINT},
       </if>
-      <if test="questionId != null">
-        #{questionId,jdbcType=BIGINT},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="correct != null">
-        #{correct,jdbcType=BIT},
-      </if>
-      <if test="answer != null">
-        #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="answerContent != null">
-        #{answerContent,jdbcType=VARCHAR},
-      </if>
-      <if test="score != null">
-        #{score,jdbcType=INTEGER},
+      <if test="cruk != null">
+        #{cruk,jdbcType=VARCHAR},
       </if>
       <if test="notes != null">
         #{notes,jdbcType=VARCHAR},
@@ -122,8 +100,8 @@
       </if>
     </trim>
   </insert>
-  <update id="update" parameterType="com.fit.entity.LmsSubjectAnswers">
-    update lms_subject_answers
+  <update id="update" parameterType="com.fit.entity.LmsSubjectKnow">
+    update lms_subject_know
     <set>
       <if test="ctime != null">
         CTIME = #{ctime,jdbcType=TIMESTAMP},
@@ -131,23 +109,14 @@
       <if test="cuser != null">
         CUSER = #{cuser,jdbcType=BIGINT},
       </if>
-      <if test="uuid != null">
-        UUID = #{uuid,jdbcType=VARCHAR},
+      <if test="pid != null">
+        PID = #{pid,jdbcType=BIGINT},
       </if>
-      <if test="questionId != null">
-        QUESTION_ID = #{questionId,jdbcType=BIGINT},
+      <if test="name != null">
+        `NAME` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="correct != null">
-        CORRECT = #{correct,jdbcType=BIT},
-      </if>
-      <if test="answer != null">
-        ANSWER = #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="answerContent != null">
-        ANSWER_CONTENT = #{answerContent,jdbcType=VARCHAR},
-      </if>
-      <if test="score != null">
-        SCORE = #{score,jdbcType=INTEGER},
+      <if test="cruk != null">
+        CRUK = #{cruk,jdbcType=VARCHAR},
       </if>
       <if test="notes != null">
         NOTES = #{notes,jdbcType=VARCHAR},
@@ -181,23 +150,14 @@
       <if test="cuser != null and cuser != ''">
          and CUSER = #{cuser,jdbcType=BIGINT}
       </if>
-      <if test="uuid != null and uuid != ''">
-         and UUID = #{uuid,jdbcType=VARCHAR}
+      <if test="pid != null and pid != ''">
+         and PID = #{pid,jdbcType=BIGINT}
       </if>
-      <if test="questionId != null and questionId != ''">
-         and QUESTION_ID = #{questionId,jdbcType=BIGINT}
+      <if test="name != null and name != ''">
+         and `NAME` = #{name,jdbcType=VARCHAR}
       </if>
-      <if test="correct != null and correct != ''">
-         and CORRECT = #{correct,jdbcType=BIT}
-      </if>
-      <if test="answer != null and answer != ''">
-         and ANSWER = #{answer,jdbcType=VARCHAR}
-      </if>
-      <if test="answerContent != null and answerContent != ''">
-         and ANSWER_CONTENT = #{answerContent,jdbcType=VARCHAR}
-      </if>
-      <if test="score != null and score != ''">
-         and SCORE = #{score,jdbcType=INTEGER}
+      <if test="cruk != null and cruk != ''">
+         and CRUK = #{cruk,jdbcType=VARCHAR}
       </if>
       <if test="notes != null and notes != ''">
          and NOTES = #{notes,jdbcType=VARCHAR}
@@ -222,7 +182,7 @@
   <select id="findList" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT 
     <include refid="Base_Column_List" />
-    FROM lms_subject_answers
+    FROM lms_subject_know
     <include refid="Base_Where_List" />
     order by ID desc
     <if test="pageNumber != null and pageSize != null">
@@ -230,7 +190,7 @@
     </if>
   </select>
   <select id="findCount" resultType="java.lang.Integer">
-    SELECT count(1) FROM lms_subject_answers
+    SELECT count(1) FROM lms_subject_know
     <include refid="Base_Where_List" />
   </select>
   <select id="selectBySQL" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -242,6 +202,6 @@
     </foreach>
   </delete>
   <update id="deleteTable">
-    truncate table lms_subject_answers
+    truncate table lms_subject_know
   </update>
 </mapper>
