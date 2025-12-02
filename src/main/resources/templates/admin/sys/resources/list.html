@@ -26,60 +26,40 @@
         </div>
     </div>
 </div>
-<script>
-    layui.use(['tableTree', 'layer'], function (tableTree, layer) {
-        layer.load(2);  //加载层
-        var table = tableTree.render({
-            id: 'menu',
+<script th:inline="none">
+    layui.use(['treeTable', 'layer'], function (treeTable, layer) {
+        treeTable.render({
+            id: 'test',
             elem: '#table-list',
-            url: '/admin/res/list',
-            height: 'full-150',
             method: 'post',
+            url: '/admin/res/list',
             tree: {
-                iconIndex: 2,
-                isPidData: true,
-                idName: 'id',//父ID
-                pidName: 'parentId',//子ID
-                openName: 'openFlag',// 是否默认展开的字段名
+                customName: {pid: 'pid'},
+                data: {isSimpleData: true},
+                view: {initExpandLevel: 2}
             },
+            smartReloadModel: true,
+            isSimpleData: true,
+            page: false,
             toolbar: '#toolbar',
-            cols: [
-                [
-                    {type: 'checkbox'},
-                    {field: 'id', title: '序号', minWidth: 30},
-                    {field: 'name', title: '名称', minWidth: 40},
-                    {field: 'code', title: '编码', minWidth: 40},
-                    {field: 'url', title: '请求地址', minWidth: 100},
-                    {field: 'sort', title: '排序', minWidth: 30},
-                    {field: 'levels', title: '层级', minWidth: 30},
-                    {
-                        field: 'ismenu', title: '类型', minWidth: 30, templet: function (res) {
-                            if (res.ismenu == "Y") {
-                                return "目录";
-                            }
-                            return "菜单";
-                        }
-                    },
-                    {field: 'enabled', title: '状态', align: 'center', templet: "#statusTpl", width: 100},
-                    {fixed: 'right', title: '操作', align: 'center', toolbar: '#column-toolbar'}
-                ]
-            ],
-            parseData: function (res) {
-                return {
-                    "code": res.code,
-                    "msg": res.msg,
-                    "data": res.data,
-                    "count": res.total
-                };
-            },
-            //数据渲染完的回调
-            done: function () {
-                //关闭加载
-                layer.closeAll('loading');
+            height: 'full-160',
+            cols: [[
+                {type: 'checkbox'},
+                {type: "numbers", title: '序号', minWidth: 80, templet: function (index) {return index + 1;}},
+                {field: 'name', title: '名称', minWidth: 100},
+                {field: 'url', title: '请求地址', minWidth: 100},
+                {field: 'sort', title: '排序', width: 30},
+                {field: 'levels', title: '层级', width: 30},
+                {field: 'ismenu', title: '类型', width: 30, templet: function (res) { return res.ismenu == "Y" ? "目录" : "菜单";}},
+                {field: 'enabled', title: '状态', align: 'center', templet: "#statusTpl", width: 100},
+                {fixed: 'right', title: '操作', align: 'center', toolbar: '#column-toolbar', width: 100}
+            ]],
+            done: function (res, curr, count) {
+                treeTable.expandNode('test', {index: 0, expandFlag: true});
             }
         });
 
-        tableTree.on('toolbar', function (obj) {
+        treeTable.on('toolbar', function (obj) {
             if (obj.event === 'add') {
                 editView("/admin/res/edit", "添加菜单");
             } else if (obj.event === 'del') {
@@ -98,7 +78,7 @@
             }
         });
 
-        tableTree.on('tool', function (obj) {
+        treeTable.on('tool', function (obj) {
             let data = obj.data, event = obj.event;
             if (event === 'edit') {
                 editView("/admin/res/edit?id=" + data.id, "编辑菜单");

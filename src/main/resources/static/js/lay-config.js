@@ -78,7 +78,7 @@ function modifyReq(url, dataParam, isReload) {
 layui.config({
     base: rootPath
 }).extend({
-    dtree: 'layDtree', iconPicker: 'layIconPicker', tableTree: 'layTableTree', layAdmin: 'layAdmin'
+    dtree: 'layDtree', iconPicker: 'layIconPicker', layAdmin: 'layAdmin'
 }).use(['table', "layAdmin"], function () {
     // 渲染 tab 右键菜单.
     layui.layAdmin.tabPopup({

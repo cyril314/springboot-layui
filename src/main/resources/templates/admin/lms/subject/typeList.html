@@ -51,11 +51,7 @@
             cols: [
                 [
                     {type: 'checkbox'},
-                    {
-                        type: "numbers", title: '序号', minWidth: 80, templet: function (index) {
-                            return index + 1;
-                        }
-                    },
+                    {type: "numbers", title: '序号', minWidth: 80, templet: function (index) {return index + 1;}},
                     {field: 'typeName', title: '名称', minWidth: 80},
                     {field: 'sort', title: '排序', minWidth: 80},
                     {field: 'notes', title: '备注', minWidth: 80},

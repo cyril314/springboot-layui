@@ -52,14 +52,14 @@ public class SysDict extends BaseEntity<SysDict> {
     private Integer sort;
 
     /**
-     * 修改人
-     */
-    private Long euser;
-
-    /**
      * 修改时间
      */
     private Date etime;
+
+    /**
+     * 修改人
+     */
+    private Long euser;
 
     @Override
     public String toString() {
@@ -76,8 +76,8 @@ public class SysDict extends BaseEntity<SysDict> {
         sb.append(", sign=").append(sign);
         sb.append(", notes=").append(notes);
         sb.append(", sort=").append(sort);
-        sb.append(", euser=").append(euser);
         sb.append(", etime=").append(etime);
+        sb.append(", euser=").append(euser);
         sb.append("]");
         return sb.toString();
     }

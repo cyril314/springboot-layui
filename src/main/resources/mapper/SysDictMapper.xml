@@ -11,11 +11,11 @@
     <result column="SIGN" jdbcType="VARCHAR" property="sign" />
     <result column="NOTES" jdbcType="VARCHAR" property="notes" />
     <result column="SORT" jdbcType="INTEGER" property="sort" />
-    <result column="EUSER" jdbcType="BIGINT" property="euser" />
     <result column="ETIME" jdbcType="TIMESTAMP" property="etime" />
+    <result column="EUSER" jdbcType="BIGINT" property="euser" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, CUSER, PID, `NAME`, CODE, SIGN, NOTES, SORT, EUSER, ETIME
+    ID, CTIME, CUSER, PID, `NAME`, CODE, SIGN, NOTES, SORT, ETIME, EUSER
   </sql>
   <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -57,11 +57,11 @@
       <if test="sort != null">
         SORT,
       </if>
-      <if test="euser != null">
-        EUSER,
-      </if>
       <if test="etime != null">
         ETIME,
+      </if>
+      <if test="euser != null">
+        EUSER,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -92,11 +92,11 @@
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
       </if>
-      <if test="euser != null">
-        #{euser,jdbcType=BIGINT},
-      </if>
       <if test="etime != null">
         #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="euser != null">
+        #{euser,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -127,11 +127,11 @@
       <if test="sort != null">
         SORT = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="euser != null">
-        EUSER = #{euser,jdbcType=BIGINT},
-      </if>
       <if test="etime != null">
         ETIME = #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="euser != null">
+        EUSER = #{euser,jdbcType=BIGINT},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -168,14 +168,14 @@
       <if test="sort != null and sort != ''">
          and SORT = #{sort,jdbcType=INTEGER}
       </if>
-      <if test="euser != null and euser != ''">
-         and EUSER = #{euser,jdbcType=BIGINT}
-      </if>
       <if test="ctime != null ">
          and ETIME &gt;= #{ctime }
       </if>
       <if test="etime != null ">
          and ETIME &lt;= #{etime } 
+      </if>
+      <if test="euser != null and euser != ''">
+         and EUSER = #{euser,jdbcType=BIGINT}
       </if>
     </where>
   </sql>
