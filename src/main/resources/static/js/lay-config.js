@@ -20,7 +20,7 @@ function copy_to_clipboard(txt_str) {
 }
 
 function editView(url, title) {
-    openView(url, title, '40%', '65%', false);
+    openView(url, title, '45%', '65%', false);
 }
 
 function openView(url, title, widthParam, heightParam, isFull) {

@@ -24,22 +24,24 @@ CREATE TABLE `lms_exam_type` (
   `ID` bigint(30) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `CTIME` datetime DEFAULT NULL COMMENT '创建时间',
   `CUSER` bigint(30) DEFAULT NULL COMMENT '创建人',
-  `PID` bigint(30) DEFAULT NULL COMMENT '上级ID',
-  `MOLD` int(11) DEFAULT NULL COMMENT '类型: 0-考试,1-考卷',
+  `PID` bigint(30) DEFAULT '0' COMMENT '上级ID',
+  `MOLD` int(1) DEFAULT '0' COMMENT '类型: 0-考试,1-考卷',
   `NAME` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '标题',
   `NOTES` text COLLATE utf8_unicode_ci COMMENT '备注',
-  `SORT` int(1) DEFAULT NULL COMMENT '排序',
-  `ADMIN_AUTH` int(1) DEFAULT NULL COMMENT '管理权限',
-  `GRADE_AUTH` int(1) DEFAULT NULL COMMENT '阅卷权限',
-  `QUERY_AUTH` int(1) DEFAULT NULL COMMENT '查询权限',
-  `SUPER_AUTH` int(1) DEFAULT NULL COMMENT '超级权限',
+  `SORT` int(1) DEFAULT '1' COMMENT '排序',
+  `ADMIN_AUTH` int(1) DEFAULT '0' COMMENT '管理权限',
+  `GRADE_AUTH` int(1) DEFAULT '0' COMMENT '阅卷权限',
+  `QUERY_AUTH` int(1) DEFAULT '0' COMMENT '查询权限',
+  `SUPER_AUTH` int(1) DEFAULT '0' COMMENT '超级权限',
   `ENABLED` tinyint(1) DEFAULT '0' COMMENT '禁用状态: 0-禁用,1-正常',
   `ETIME` datetime DEFAULT NULL COMMENT '修改时间',
   `EUSER` bigint(30) DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='考试类型表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='考试类型表';
 
 /*Data for the table `lms_exam_type` */
+
+insert  into `lms_exam_type`(`ID`,`CTIME`,`CUSER`,`PID`,`MOLD`,`NAME`,`NOTES`,`SORT`,`ADMIN_AUTH`,`GRADE_AUTH`,`QUERY_AUTH`,`SUPER_AUTH`,`ENABLED`,`ETIME`,`EUSER`) values (1,'2017-11-11 00:00:00',1,0,0,'默认答题室',NULL,1,0,0,0,0,0,NULL,NULL),(2,'2017-11-11 00:00:00',1,0,1,'默认答卷',NULL,1,0,0,0,0,0,NULL,NULL);
 
 /*Table structure for table `lms_paper` */
 
@@ -81,8 +83,9 @@ CREATE TABLE `lms_room` (
   `NOTES` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '考场备注',
   `ENABLED` int(1) DEFAULT '0' COMMENT '考场状态: 0-停用,1-新建,2-发布,3-结束,4-归档''',
   `EXAM_TYPE_ID` bigint(30) DEFAULT NULL COMMENT '考试类型ID',
+  `EXAM_TYPE_NAME` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '考试类型标题',
   `EXAM_MODE` int(1) DEFAULT '0' COMMENT '答卷模式: 0-标准答题模式,1-随机抽取模式,2-习题练习模式,3-只读学习模式',
-  `TIME_MODE` int(1) DEFAULT '0' COMMENT '时间类型: 0-永久,1-限时',
+  `TIME_MODE` tinyint(1) DEFAULT '0' COMMENT '时间类型: 0-永久,1-限时',
   `TIME_LEN` int(5) DEFAULT NULL COMMENT '答题时长(分钟)',
   `TIME_ON` datetime DEFAULT NULL COMMENT '开始时间',
   `TIME_END` datetime DEFAULT NULL COMMENT '结束时间',
@@ -91,8 +94,8 @@ CREATE TABLE `lms_room` (
   `EXAMINEE_COUNT` int(1) DEFAULT '1' COMMENT '答题次数',
   `SUBJECT_SORT_MODE` tinyint(1) DEFAULT '0' COMMENT '答卷展示题目排序: 0-固定,1-随机',
   `SUBJECT_OPT_SORT_MODE` tinyint(1) DEFAULT '0' COMMENT '答卷展示选项排序: 0-固定,1-随机',
-  `ADJUDGE_MODE` int(1) DEFAULT '0' COMMENT '判卷类型: 0-用户交卷后,1-全场收卷后',
-  `MARK_MODE` int(1) DEFAULT '0' COMMENT '阅卷类型: 0-自动/人工,1-自动,2-人工',
+  `ADJUDGE_MODE` tinyint(1) DEFAULT '0' COMMENT '判卷类型: 0-用户交卷后,1-全场收卷后',
+  `MARK_MODE` tinyint(1) DEFAULT '0' COMMENT '阅卷类型: 0-自动&人工,1-人工',
   `MARK_SHOW_MODE` int(1) DEFAULT '0' COMMENT '成绩类型: 0-得分&答卷,1-得分,2-答卷',
   `MARK_TIME_MODE` int(1) DEFAULT '0' COMMENT '成绩时间类型: 0-不发布,1-全场阅卷后,2-答卷阅卷后',
   `SORT` int(1) DEFAULT NULL COMMENT '排序',
@@ -103,7 +106,7 @@ CREATE TABLE `lms_room` (
 
 /*Data for the table `lms_room` */
 
-insert  into `lms_room`(`ID`,`CTIME`,`CUSER`,`UUID`,`IMG_ID`,`NAME`,`CONTENT`,`NOTES`,`ENABLED`,`EXAM_TYPE_ID`,`EXAM_MODE`,`TIME_MODE`,`TIME_LEN`,`TIME_ON`,`TIME_END`,`EXAMINEE_TYPE`,`EXAMINEE_MODE`,`EXAMINEE_COUNT`,`SUBJECT_SORT_MODE`,`SUBJECT_OPT_SORT_MODE`,`ADJUDGE_MODE`,`MARK_MODE`,`MARK_SHOW_MODE`,`MARK_TIME_MODE`,`SORT`,`ETIME`,`EUSER`) values (1,NULL,1,'2c084b62-c24a-11f0-81f1-fcaa144eb7f0',NULL,'测试答题室',NULL,NULL,0,NULL,0,1,10,NULL,NULL,NULL,0,1,0,1,0,0,0,0,NULL,NULL,NULL);
+insert  into `lms_room`(`ID`,`CTIME`,`CUSER`,`UUID`,`IMG_ID`,`NAME`,`CONTENT`,`NOTES`,`ENABLED`,`EXAM_TYPE_ID`,`EXAM_TYPE_NAME`,`EXAM_MODE`,`TIME_MODE`,`TIME_LEN`,`TIME_ON`,`TIME_END`,`EXAMINEE_TYPE`,`EXAMINEE_MODE`,`EXAMINEE_COUNT`,`SUBJECT_SORT_MODE`,`SUBJECT_OPT_SORT_MODE`,`ADJUDGE_MODE`,`MARK_MODE`,`MARK_SHOW_MODE`,`MARK_TIME_MODE`,`SORT`,`ETIME`,`EUSER`) values (1,NULL,1,'2c084b62-c24a-11f0-81f1-fcaa144eb7f0',NULL,'测试答题室',NULL,NULL,1,1,'默认答题室',0,0,10,NULL,NULL,NULL,0,1,1,1,1,0,0,2,NULL,'2025-12-03 16:19:05',1);
 
 /*Table structure for table `lms_subject` */
 
