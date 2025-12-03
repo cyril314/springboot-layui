@@ -48,7 +48,7 @@
 </div>
 <script>
     document.querySelector("#lay-get-captcha").addEventListener("click", function() {
-        this.src = "/kaptcha?p=" + Math.random();
+        this.src = "/captcha?p=" + Math.random();
     });
     layui.use(['jquery', 'form', 'layer'], function ($, form, layer) {
         if (top.location != self.location) top.location = self.location;

@@ -2,11 +2,8 @@ package com.fit.web.admin.lms;
 
 import com.fit.base.AjaxResult;
 import com.fit.base.BaseController;
-import com.fit.entity.LmsPaper;
 import com.fit.entity.LmsRoom;
-import com.fit.service.LmsPaperService;
 import com.fit.service.LmsRoomService;
-import com.fit.service.ZtreeNodeService;
 import com.fit.util.BeanUtil;
 import com.fit.util.OftenUtil;
 import com.fit.util.WebUtil;

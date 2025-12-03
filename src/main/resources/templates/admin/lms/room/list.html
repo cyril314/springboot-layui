@@ -8,7 +8,7 @@
             <div class="layui-form yadmin-search-area input">
                 <form class="layui-form-item">
                     <div class="layui-inline">
-                        <label for="name" class="layui-form-label">答题室名称</label>
+                        <label for="name" class="layui-form-label">名称</label>
                         <div class="layui-input-inline">
                             <input type="text" name="name" id="name" placeholder="名称" class="layui-input"/>
                         </div>
@@ -46,7 +46,7 @@
             method: 'post',
             dataType: 'JSON',
             page: true,
-            height: 'full-160',
+            height: 'full-150',
             toolbar: '#toolbar',
             smartReloadModel: true,
             cols: [
@@ -57,7 +57,7 @@
                     {field: 'content', title: '考场说明', width: 100},
                     {field: 'enabled', title: '考场状态', align: 'center', width: 100},
                     {field: 'examMode', title: '答卷模式', align: 'center', width: 100},
-                    {field: 'timeMode', title: '答题时间类型', align: 'center', width: 110},
+                    {field: 'timeMode', title: '答题时间类型', align: 'center', width: 120},
                     {field: 'timeLen', title: '答题时长', align: 'center', width: 100},
                     {field: 'timeOn', title: '答题开始时间', align: 'center', width: 120},
                     {field: 'examineeType', title: '答题类型', align: 'center', width: 100},
@@ -92,7 +92,7 @@
         // 工具条点击事件
         table.on('toolbar', function (obj) {
             if (obj.event === 'add') {
-                editView("/admin/lms/room/add", "添加通知");
+                openView("/admin/lms/room/edit", "添加", '50%', '70%', false);
             } else if (obj.event === 'del') {
                 layer.confirm('真的删除行么?', function (index) {
                     let selectData = table.checkStatus('table-list').data;
@@ -110,16 +110,13 @@
         });
 
         table.on('tool', function (obj) {
-            let data = obj.data, event = obj.event;
-            if (event === 'edit') {
-                editView("/admin/lms/room/update?id=" + data.id, "编辑通知");
+            if (obj.event === 'edit') {
+                openView("/admin/lms/room/edit?id=" + obj.data.id, "编辑", '50%', '70%', false);
             }
         });
 
         form.on('submit(search)', function (form) {
-            table.reload('table-list', {
-                where: form.field
-            });
+            table.reload('table-list', {where: form.field});
             return false;
         });
     });
