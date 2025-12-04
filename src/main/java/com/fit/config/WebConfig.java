@@ -3,6 +3,7 @@ package com.fit.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,12 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${file.upload-dir:/uploads}")
+    private String uploadDir;
+
+    @Value("${file.static-access-path:/uploads/**}")
+    private String staticAccessPath;
+
     /**
      * 访问根路径默认跳转 index.html页面 （简化部署方案： 可以把前端打包直接放到项目的 webapp，上面的配置）
      */
@@ -41,6 +49,17 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/favicon.ico");
+        String uploadPath = String.format("%s/%s", System.getProperty("user.dir"), uploadDir);
+        String currentDir = System.getProperty("user.dir");
+        if (uploadDir.startsWith("./") || uploadDir.startsWith(".\\")) {
+            uploadPath = String.format("file:%s/%s/", currentDir, uploadDir.substring(2));
+        } else if (uploadDir.startsWith("/") || uploadDir.matches("^[A-Za-z]:.*")) {
+            // 绝对路径（Linux 或 Windows）
+            uploadPath = String.format("file:%s/", uploadDir);
+        } else {// 默认相对路径
+            uploadPath = String.format("file:%s/%s/", currentDir, uploadDir);
+        }
+        registry.addResourceHandler(staticAccessPath).addResourceLocations(uploadPath);
     }
 
     @Override

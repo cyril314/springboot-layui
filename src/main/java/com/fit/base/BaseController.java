@@ -1,6 +1,7 @@
 package com.fit.base;
 
 import com.fit.util.JSONUtil;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,9 @@ public class BaseController {
 
     protected final String REDIRECT = "redirect:";
     protected final String FORWARD = "forward:";
+
+    @Value("${file.upload-dir}")
+    protected String uploadDir = "/uploads";
 
     /**
      * 将数据保存到session

@@ -13,6 +13,10 @@ server:
   error:
     path: /error
 
+file:
+  upload-dir: ./uploads
+  static-access-path: /uploads/**
+
 Fit:
   captcha-open: true #是否开启登录时验证码 (true/false)
 
@@ -73,7 +77,13 @@ spring:
       content-type: text/html
   web:
     resources:
-      static-locations: classpath:/static/,classpath:/html/
+      static-locations:
+        - classpath:/META-INF/resources/
+        - classpath:/resources/
+        - classpath:/static/
+        - classpath:/public/
+        - classpath:/html/
+        - file:${file.upload-dir}
 
 mybatis:
   configuration:

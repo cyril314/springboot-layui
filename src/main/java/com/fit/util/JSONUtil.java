@@ -28,7 +28,6 @@ public class JSONUtil {
 		features |= Feature.SortFeidFastMatch.getMask();
 		features |= Feature.IgnoreNotMatch.getMask();
 		JSONObject.DEFAULT_PARSER_FEATURE = features;
-
 	}
 
 	/**

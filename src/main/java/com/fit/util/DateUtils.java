@@ -88,6 +88,10 @@ public class DateUtils {
         return simpleDateFormat.format(calender.getTime());
     }
 
+    public static String data4ToShortStr(Date date) {
+        return dateFormatToString(date, STR_DATE_SHORT);
+    }
+
     /**
      * 获取系统当前时间(指定返回类型)
      *
@@ -114,7 +118,7 @@ public class DateUtils {
     }
 
     /**
-     * 获取系统当前日期(精确到毫秒)，格式：yyyy-MM-dd HH:mm:ss
+     * 获取系统当前日期(精确到毫秒)，格式：yyyy-MM-dd
      */
     public static String getDateNowSMALL() {
         return dateFormatToString(STR_DATE_SMALL);

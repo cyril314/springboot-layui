@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:include="include :: head('文件列表')"></head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="yadmin-body animated fadeIn">
+            <div class="layui-form yadmin-search-area input">
+                <form class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">时间范围</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="search-time" placeholder="开始 到 结束"/>
+                        </div>
+                        <input type="hidden" id="startDate" name="startDate"/>
+                        <input type="hidden" id="stopDate" name="stopDate"/>
+                        <button lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm layui-btn-primary table-action">
+                            <i class="layui-icon layui-icon-search"></i>
+                        </button>
+                        <button type="reset" lay-filter="search" class="layui-btn layui-btn-sm layui-btn-primary table-action">
+                            <i class="layui-icon layui-icon-refresh"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <table class="layui-hide" id="table-list"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'form', 'laydate'], function ($, table, form, layDate) {
+        layDate.render({
+            elem: '#search-time',
+            type: 'datetime',
+            range: '~',
+            format: 'yyyy-M-d',
+            done: function (value) {
+                let timeArr = value.split(" ~ ");
+                $("#startDate").val(timeArr[0]);
+                $("#stopDate").val(timeArr[1]);
+            }
+        });
+        table.render({
+            elem: '#table-list',
+            url: '/admin/file/list',
+            method: 'post',
+            dataType: 'JSON',
+            page: true,
+            cols: [
+                [
+                    {type: 'checkbox'},
+                    {field: 'fileMold', title: '类型', minWidth: 80},
+                    {field: 'fileName', title: '类名', minWidth: 80},
+                    {field: 'cTime', title: '时间', minWidth: 80},
+                ]
+            ], parseData: function (res) {
+                return {
+                    "code": res.code,
+                    "msg": res.msg,
+                    "data": res.data,
+                    "count": res.total
+                };
+            }
+        });
+        form.on('submit(search)', function (form) {
+            table.reload('table-list', {
+                where: form.field
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

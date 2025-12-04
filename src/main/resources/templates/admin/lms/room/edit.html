@@ -5,6 +5,7 @@
 <div class="yadmin-body animated fadeIn">
     <div class="layui-form layui-form-pane">
         <input type="hidden" name="id" th:value="${bean?.id}"/>
+        <input type="hidden" name="imgId" th:value="${bean?.imgId}"/>
         <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
             <ul class="layui-tab-title">
                 <li class="layui-this">设置答题室</li>
@@ -192,13 +193,13 @@
                 <div class="layui-tab-item">
                     <label class="layui-form-label">考场图标</label>
                     <div class="layui-input-block">
-                        <button type="button" class="layui-btn" id="ID-upload-demo-btn">
+                        <button type="button" class="layui-btn" id="ID-upload-btn">
                             <i class="layui-icon layui-icon-upload"></i> 单图片上传
                         </button>
                         <div style="width: 132px;">
                             <div class="layui-upload-list">
-                                <img class="layui-upload-img" id="ID-upload-demo-img" style="width: 100%; height: 130px;">
-                                <div id="ID-upload-demo-text"></div>
+                                <img class="layui-upload-img" id="ID_IMG" width="200" height="200" th:src="${image?:'/images/exam.png'}">
+                                <div id="ID-upload-text"></div>
                             </div>
                             <div class="layui-progress layui-progress-big" lay-showPercent="yes" lay-filter="filter-demo">
                                 <div class="layui-progress-bar" lay-percent=""></div>
@@ -216,16 +217,40 @@
     </div>
 </div>
 <script>
-    layui.use(['jquery', 'form', 'layer'], function ($, form, layer) {
+    layui.use(['jquery', 'form', 'layer', 'element', 'upload'], function ($, form, layer, element, upload) {
         form.on('select(etiFilter)', function (data) {
             $('#EXAM_TYPE_NAME').val($(data.elem).find('option:selected').text());
         });
 
-        form.on('switch', function (data) {
-            data.elem.value = data.elem.checked ? '1' : '0';
+        upload.render({
+            elem: '#ID-upload-btn',  //绑定元素
+            url: '/admin/file/doUpload',
+            before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#ID_IMG').attr('src', result); // 图片链接（base64）
+                });
+                element.progress('filter-demo', '0%'); // 进度条复位
+                layer.msg('上传中', {icon: 16, time: 0});
+            },
+            done: function (res) {
+                console.log(res)
+                if (res.code == -1) {
+                    layer.msg(res.msg, {icon: 5, time: 2000});
+                }
+            },
+            error: function () {
+                layer.msg("上传文件失败", {icon: 5, time: 2000});
+            },
+            progress: function (n, elem, e) {
+                element.progress('filter-demo', n + '%');
+            }
         });
 
-        $(function(){
+        $(function () {
+            form.on('switch', function (data) {
+                data.elem.value = data.elem.checked ? '1' : '0';
+            });
+
             $('input[lay-skin="switch"]').each(function () {
                 var $this = $(this);
                 if ($this.prop('checked')) {
@@ -240,7 +265,7 @@
 
         form.on('submit(submit-form)', function (obj) {
             var formData = obj.field;
-            $('input[lay-skin="switch"]').each(function() {
+            $('input[lay-skin="switch"]').each(function () {
                 var $this = $(this);
                 formData[$this.attr('name')] = $this.val();
             });

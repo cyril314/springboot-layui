@@ -3,8 +3,11 @@ package com.fit.web.admin.lms;
 import com.fit.base.AjaxResult;
 import com.fit.base.BaseController;
 import com.fit.entity.LmsRoom;
+import com.fit.entity.SysFiles;
 import com.fit.service.LmsRoomService;
+import com.fit.service.SysFilesService;
 import com.fit.util.BeanUtil;
+import com.fit.util.DateUtils;
 import com.fit.util.OftenUtil;
 import com.fit.util.WebUtil;
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +39,8 @@ public class RoomController extends BaseController {
 
     @Autowired
     private LmsRoomService service;
+    @Autowired
+    private SysFilesService filesService;
 
     /**
      * 列表页面
@@ -63,6 +70,13 @@ public class RoomController extends BaseController {
         if (OftenUtil.isNotEmpty(id)) {
             LmsRoom bean = this.service.get(id);
             model.addAttribute("bean", bean);
+            SysFiles sysFiles = this.filesService.get(bean.getImgId());
+            String imgData = "/images/exam.png";
+            String path = String.format("/%s/%s/%s", uploadDir, DateUtils.data4ToShortStr(sysFiles.getCtime()), sysFiles.getFileName());
+            if (sysFiles != null && Files.exists(Paths.get(System.getProperty("user.dir") + path))) {
+                imgData = path;
+            }
+            model.addAttribute("image", imgData);
         }
         return PREFIX + "edit";
     }

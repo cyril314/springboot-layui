@@ -114,5 +114,4 @@ public class OftenUtil {
 	public static boolean isNullOrBlank(CharSequence str) {
 		return str == null || containsOnlyWhitespaces(str);
 	}
-
 }
