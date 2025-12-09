@@ -1,8 +1,10 @@
 package com.fit.web.front;
 
 import com.fit.base.BaseController;
+import com.fit.entity.LmsRoom;
 import com.fit.entity.LmsTop;
 import com.fit.entity.MenuNode;
+import com.fit.service.LmsRoomService;
 import com.fit.service.LmsTopService;
 import com.fit.service.MenuNodeService;
 import com.fit.util.WebUtil;
@@ -31,6 +33,8 @@ public class IndexController extends BaseController {
     private MenuNodeService menuService;
     @Autowired
     private LmsTopService topService;
+    @Autowired
+    private LmsRoomService roomService;
 
     @GetMapping(value = {"/", "/index"})
     public String index(HttpServletRequest request, Model model) {
@@ -40,6 +44,11 @@ public class IndexController extends BaseController {
         List<LmsTop> tops = topService.findList(map);
         model.addAttribute("menus", menus);
         model.addAttribute("tops", tops);
+        map.clear();
+        map.put("limit", 3);
+        map.put("enabled", 2);
+        List<LmsRoom> rooms = this.roomService.findList(map);
+        model.addAttribute("rooms", rooms);
         return "front/index";
     }
 }

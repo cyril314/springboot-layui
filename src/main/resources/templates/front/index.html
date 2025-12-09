@@ -19,8 +19,7 @@
                     <ul class="layui-nav" style="background: transparent;">
                         <li class="layui-nav-item layui-this"><a href="/" style="color: #fff;">首页</a></li>
                         <li class="layui-nav-item LAY_TRIGGER">
-                            <a href="#" style="color: #fff;">课程中心 <i
-                                    class="layui-icon layui-icon-down layui-font-12"></i></a>
+                            <a href="#" style="color: #fff;">课程中心 <i class="layui-icon">&#xe61a;</i></a>
                         </li>
                         <li class="layui-nav-item"><a href="#" style="color: #fff;">知识库</a></li>
                         <li class="layui-nav-item"><a href="#" style="color: #fff;">实战项目</a></li>
@@ -62,7 +61,7 @@
                     <div class="layui-input-group" style="width: 100%;">
                         <input type="text" class="layui-input layui-search" placeholder="搜索课程、知识库内容..."/>
                         <div class="layui-input-suffix">
-                            <button class="layui-btn layui-btn-normal layui-search-btn">
+                            <button class="layui-btn layui-bg-purple layui-search-btn">
                                 <i class="layui-icon layui-icon-search"></i> 搜索
                             </button>
                         </div>
@@ -82,76 +81,47 @@
             </div>
         </div>
     </div>
-
     <div class="layui-row layui-col-space20">
-        <div class="layui-col-md3">
-            <div class="course-card layui-bg-white">
-                <div style="height: 160px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
-                    Vue3实战
+        <div class="layui-col-md4 layui-col-sm6" th:each="room : ${rooms}">
+            <div class="layui-card" style="border: 1px solid #EEEEEE">
+                <div class="layui-card-header" style="background: #E2E2E2; color: black;">
+                    <i class="layui-icon layui-icon-component"></i> <span th:text="${room?.name}">答题室标题</span>
+                    <span class="layui-badge" style="float: right; color: white;"
+                          th:text="${room?.timeMode==1?'限时答题':'永久有效'}">永久有效</span>
                 </div>
-                <div style="padding: 15px;">
-                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; height: 44px; overflow: hidden;">
-                        Vue 3.0 从入门到实战项目开发
+                <div class="layui-card-body layui-row">
+                    <p class="layui-font-14" style="color: #666; margin: 10px 0;" th:text="${root?.content}">
+                        答题室内容</p>
+                    <div class="layui-col-md8">
+                        <div class="layui-row">
+                            <div class="layui-col-xs12">
+                                <span class="layui-badge layui-bg-blue">标准答题</span>
+                                <span class="layui-badge" th:text="${root?.timelen}">15</span>分钟
+                            </div>
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <span class="layui-badge layui-bg-green">进行中</span>
+                            <span style="color: #666; margin-left: 10px;">考试分类</span>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-bottom: 10px;">
-                        <span>高级 · 128课时</span>
-                        <span>2564人学习</span>
+                    <div class="layui-col-md4">
+                        <img src="/images/logo.png" style="height: 120px;padding: 8px;display: flex;"/>
                     </div>
-                    <div style="color: #ff5722; font-size: 18px; font-weight: bold;">¥299</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-col-md3">
-            <div class="course-card layui-bg-white">
-                <div style="height: 160px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
-                    React
-                </div>
-                <div style="padding: 15px;">
-                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; height: 44px; overflow: hidden;">
-                        React全栈开发实战指南
+                    <div class="layui-row layui-col-space5" style="margin-top: 10px;">
+                        <div class="layui-col-xs6">
+                            <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-red">
+                                <i class="layui-icon layui-icon-edit"></i> 阅卷
+                            </button>
+                        </div>
+                        <div class="layui-col-xs6">
+                            <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-orange">
+                                <i class="layui-icon layui-icon-file-b"></i> 报告
+                            </button>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-bottom: 10px;">
-                        <span>中级 · 96课时</span>
-                        <span>1895人学习</span>
-                    </div>
-                    <div style="color: #ff5722; font-size: 18px; font-weight: bold;">¥268</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-col-md3">
-            <div class="course-card layui-bg-white">
-                <div style="height: 160px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
-                    Spring
-                </div>
-                <div style="padding: 15px;">
-                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; height: 44px; overflow: hidden;">
-                        Spring Boot企业级应用开发
-                    </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-bottom: 10px;">
-                        <span>高级 · 112课时</span>
-                        <span>2156人学习</span>
-                    </div>
-                    <div style="color: #ff5722; font-size: 18px; font-weight: bold;">¥328</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-col-md3">
-            <div class="course-card layui-bg-white">
-                <div style="height: 160px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
-                    Python
-                </div>
-                <div style="padding: 15px;">
-                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; height: 44px; overflow: hidden;">
-                        Python数据分析与可视化实战
-                    </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-bottom: 10px;">
-                        <span>中级 · 84课时</span>
-                        <span>1789人学习</span>
-                    </div>
-                    <div style="color: #ff5722; font-size: 18px; font-weight: bold;">¥248</div>
+                    <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-purple">
+                        <i class="layui-icon layui-icon-play"></i> 进入答题室
+                    </button>
                 </div>
             </div>
         </div>
@@ -170,41 +140,41 @@
             <div class="layui-col-md2">
                 <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">学习资源</div>
                 <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">课程中心</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">课程中心</a>
                     </div>
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">知识库</a></div>
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">实战项目</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">知识库</a></div>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">实战项目</a>
                     </div>
                 </div>
             </div>
             <div class="layui-col-md2">
                 <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">服务支持</div>
                 <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">帮助中心</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">帮助中心</a>
                     </div>
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">常见问题</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">常见问题</a>
                     </div>
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">联系我们</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">联系我们</a>
                     </div>
                 </div>
             </div>
             <div class="layui-col-md2">
                 <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">关于我们</div>
                 <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">公司介绍</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">公司介绍</a>
                     </div>
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">加入我们</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">加入我们</a>
                     </div>
-                    <div style="margin-bottom: 8px;"><a href="#"
-                                                        style="color: #bdc3c7; text-decoration: none;">隐私政策</a>
+                    <div style="margin-bottom: 8px;">
+                        <a href="#" style="color: #bdc3c7; text-decoration: none;">隐私政策</a>
                     </div>
                 </div>
             </div>
