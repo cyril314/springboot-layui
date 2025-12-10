@@ -40,44 +40,60 @@
         </div>
     </div>
 </div>
-<!-- 搜索区域 -->
-<div class="search-section">
-    <div class="layui-container">
-        <div class="layui-row">
-            <div class="layui-carousel" id="banner">
-                <div carousel-item>
-                    <div th:each="top : ${tops}">
-                        <img th:src="${#strings.isEmpty(top.url)?'/images/none.png':top.url}" th:alt="${top.title}"/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md8 layui-col-md-offset2">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="font-size: 28px; color: #333; margin-bottom: 20px;">探索知识，提升技能</h1>
-                    <p style="color: #666; font-size: 16px;">专业的IT技能学习平台，助力您的职业成长</p>
-                </div>
-
-                <div class="layui-form">
-                    <div class="layui-input-group" style="width: 100%;">
-                        <input type="text" class="layui-input layui-search" placeholder="搜索课程、知识库内容..."/>
-                        <div class="layui-input-suffix">
-                            <button class="layui-btn layui-bg-purple layui-search-btn">
-                                <i class="layui-icon layui-icon-search"></i> 搜索
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 热门课程 -->
 <div class="layui-container" style="margin-bottom: 40px;">
-    <div class="layui-row">
-        <div class="layui-col-md12">
-            <div class="section-title">
-                <span>热门课程</span>
-                <a th:href="@{/rooms}" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;">更多课程</a>
+    <div class="layui-row layui-card">
+        <div class="layui-card-header" style="background-color: #E2E2E2">分类筛选</div>
+        <div class="layui-card-body layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">区域：</label>
+                <div class="layui-input-block">
+                    <span class="filter-tag active">全部</span>
+                    <span class="filter-tag">美国</span>
+                    <span class="filter-tag">日本</span>
+                    <span class="filter-tag">韩国</span>
+                    <span class="filter-tag">香港</span>
+                    <span class="filter-tag">台湾</span>
+                    <span class="filter-tag">英国</span>
+                    <span class="filter-tag">法国</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型：</label>
+                <div class="layui-input-block">
+                    <span class="filter-tag active">全部</span>
+                    <span class="filter-tag">喜剧</span>
+                    <span class="filter-tag">爱情</span>
+                    <span class="filter-tag">动作</span>
+                    <span class="filter-tag">科幻</span>
+                    <span class="filter-tag">悬疑</span>
+                    <span class="filter-tag">剧情</span>
+                    <span class="filter-tag">犯罪</span>
+                    <span class="filter-tag">惊悚</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">年份：</label>
+                <div class="layui-input-block">
+                    <span class="filter-tag active">全部</span>
+                    <span class="filter-tag">2025</span>
+                    <span class="filter-tag">2024</span>
+                    <span class="filter-tag">2023</span>
+                    <span class="filter-tag">2022</span>
+                    <span class="filter-tag">2021</span>
+                    <span class="filter-tag">2020</span>
+                    <span class="filter-tag">2019</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序：</label>
+                <div class="layui-input-block">
+                    <span class="filter-tag active">最热</span>
+                    <span class="filter-tag">最新</span>
+                    <span class="filter-tag">好评</span>
+                </div>
             </div>
         </div>
     </div>
@@ -124,6 +140,7 @@
             </div>
         </div>
     </div>
+    <div style="text-align: center" id="demo-laypage-theme"></div>
 </div>
 <!-- 底部信息 -->
 <div class="footer">
@@ -181,30 +198,15 @@
     </div>
 </div>
 <script>
-    layui.use(['element', 'form', 'carousel', 'dropdown'], function (element, form, carousel, dropdown) {
-        carousel.render({
-            elem: '#banner',        // 绑定容器
-            width: '100%',           // 宽度自适应
-            height: '300px',         // 高度可调
-            interval: 3000,          // 切换间隔
-            anim: 'fade',            // 动画效果（可选：fade/updown）
-            arrow: 'hover',          // 箭头显示方式
-            indicator: 'outside'     // 指示器位置
-        });
-
-        dropdown.render({
-            elem: '.LAY_TRIGGER',
-            trigger: 'click',
-            data: [{
-                title: 'menu item 1',
-                id: 100
-            }, {
-                title: 'menu item 2',
-                id: 101
-            }, {
-                title: 'menu item 3',
-                id: 102
-            }]
+    layui.use(['element', 'form', 'laypage',], function (element, form, laypage) {
+        laypage.render({
+            elem: 'demo-laypage-theme',
+            count: 100,
+            theme: '#B55AD0',
+            first: '首页',
+            last: '尾页',
+            prev: '<em>←</em>',
+            next: '<em>→</em>'
         });
     });
 </script>

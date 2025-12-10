@@ -44,11 +44,53 @@
     height: 50px;
     font-size: 16px;
 }
-.layui-search-btn{
-    height: 50px; width: 120px; font-size: 16px;
+
+.layui-search-btn {
+    height: 50px;
+    width: 120px;
+    font-size: 16px;
 }
 
-.layui-input-group>.layui-input-suffix {
+.layui-input-group > .layui-input-suffix {
     width: 140px;
     border-left: 0;
+}
+
+.fixed-content-height {
+    min-height: 240px;
+    flex-direction: column;
+}
+
+.fixed-content-height .content-area {
+    flex: 1;
+    font-size: 16px;
+    max-height: 80px;
+    margin: 10px 0;
+    min-height: 60px;
+    overflow-y: auto;
+}
+
+.filter-tag {
+    display: inline-block;
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    background: #f6f6f6;
+    color: #666;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+
+.filter-tag:hover {
+    background: #e8f4ff;
+    color: #1E9FFF;
+}
+
+.filter-tag.active {
+    background: #1E9FFF;
+    color: white;
+    border-color: #1E9FFF;
 }

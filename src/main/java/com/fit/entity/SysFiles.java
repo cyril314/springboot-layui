@@ -32,6 +32,11 @@ public class SysFiles extends BaseEntity<SysFiles> {
     private String fileName;
 
     /**
+     * 文件后缀
+     */
+    private String fileSuffix;
+
+    /**
      * base64编码的文件
      */
     private String fileData;
@@ -57,6 +62,7 @@ public class SysFiles extends BaseEntity<SysFiles> {
         sb.append(", cuser=").append(cuser);
         sb.append(", fileMold=").append(fileMold);
         sb.append(", fileName=").append(fileName);
+        sb.append(", fileSuffix=").append(fileSuffix);
         sb.append(", fileData=").append(fileData);
         sb.append(", enabled=").append(enabled);
         sb.append(", isys=").append(isys);

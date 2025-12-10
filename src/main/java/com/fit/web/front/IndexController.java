@@ -36,7 +36,7 @@ public class IndexController extends BaseController {
     @Autowired
     private LmsRoomService roomService;
 
-    @GetMapping(value = {"/", "/index"})
+    @GetMapping(value = {"", "/", "/index"})
     public String index(HttpServletRequest request, Model model) {
         Map<String, Object> map = WebUtil.getRequestMap(request);
         List<MenuNode> menus = menuService.getUserMenuNodes(Arrays.asList(Long.valueOf("1")), request);
@@ -45,10 +45,49 @@ public class IndexController extends BaseController {
         model.addAttribute("menus", menus);
         model.addAttribute("tops", tops);
         map.clear();
-        map.put("limit", 3);
+        map.put("pageNumber", 0);
+        map.put("pageSize", 3);
         map.put("enabled", 2);
         List<LmsRoom> rooms = this.roomService.findList(map);
         model.addAttribute("rooms", rooms);
         return "front/index";
+    }
+
+    @GetMapping("/rooms")
+    public String rooms(HttpServletRequest request, Model model) {
+        Map<String, Object> map = WebUtil.getRequestMap(request);
+        List<MenuNode> menus = menuService.getUserMenuNodes(Arrays.asList(Long.valueOf("1")), request);
+        map.put("mold", 2);
+        List<LmsTop> tops = topService.findList(map);
+        model.addAttribute("menus", menus);
+        model.addAttribute("tops", tops);
+        map.clear();
+        int pageSize = 12;
+        int pageNumber = toInt(request.getParameter("pageNumber")) * pageSize;
+        map.put("pageNumber", pageNumber);
+        map.put("pageSize", pageSize);
+        map.put("enabled", 2);
+        List<LmsRoom> rooms = this.roomService.findList(map);
+        model.addAttribute("rooms", rooms);
+        return "front/rooms";
+    }
+
+    @GetMapping("/detail")
+    public String detail(HttpServletRequest request, Model model) {
+        Map<String, Object> map = WebUtil.getRequestMap(request);
+        List<MenuNode> menus = menuService.getUserMenuNodes(Arrays.asList(Long.valueOf("1")), request);
+        map.put("mold", 2);
+        List<LmsTop> tops = topService.findList(map);
+        model.addAttribute("menus", menus);
+        model.addAttribute("tops", tops);
+        map.clear();
+        int pageSize = 12;
+        int pageNumber = toInt(request.getParameter("pageNumber")) * pageSize;
+        map.put("pageNumber", pageNumber);
+        map.put("pageSize", pageSize);
+        map.put("enabled", 2);
+        List<LmsRoom> rooms = this.roomService.findList(map);
+        model.addAttribute("rooms", rooms);
+        return "front/detail";
     }
 }

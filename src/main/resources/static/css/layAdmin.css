@@ -1049,6 +1049,10 @@ html {
     z-index: 999;
 }
 
+.layui-footer a {
+    color: #f9d4d4 !important;
+}
+
 .layui-footer .tabbar {
     position: absolute;
     top: 10px;

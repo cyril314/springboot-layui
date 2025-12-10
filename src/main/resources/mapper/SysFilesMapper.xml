@@ -7,12 +7,13 @@
     <result column="CUSER" jdbcType="BIGINT" property="cuser" />
     <result column="FILE_MOLD" jdbcType="INTEGER" property="fileMold" />
     <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="FILE_SUFFIX" jdbcType="VARCHAR" property="fileSuffix" />
     <result column="FILE_DATA" jdbcType="VARCHAR" property="fileData" />
     <result column="ENABLED" jdbcType="BIT" property="enabled" />
     <result column="ISYS" jdbcType="INTEGER" property="isys" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CTIME, CUSER, FILE_MOLD, FILE_NAME, FILE_DATA, ENABLED, ISYS
+    ID, CTIME, CUSER, FILE_MOLD, FILE_NAME, FILE_SUFFIX, FILE_DATA, ENABLED, ISYS
   </sql>
   <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -42,6 +43,9 @@
       <if test="fileName != null">
         FILE_NAME,
       </if>
+      <if test="fileSuffix != null">
+        FILE_SUFFIX,
+      </if>
       <if test="fileData != null">
         FILE_DATA,
       </if>
@@ -68,6 +72,9 @@
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
+      <if test="fileSuffix != null">
+        #{fileSuffix,jdbcType=VARCHAR},
+      </if>
       <if test="fileData != null">
         #{fileData,jdbcType=VARCHAR},
       </if>
@@ -93,6 +100,9 @@
       </if>
       <if test="fileName != null">
         FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSuffix != null">
+        FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR},
       </if>
       <if test="fileData != null">
         FILE_DATA = #{fileData,jdbcType=VARCHAR},
@@ -125,6 +135,9 @@
       </if>
       <if test="fileName != null and fileName != ''">
          and FILE_NAME = #{fileName,jdbcType=VARCHAR}
+      </if>
+      <if test="fileSuffix != null and fileSuffix != ''">
+         and FILE_SUFFIX = #{fileSuffix,jdbcType=VARCHAR}
       </if>
       <if test="fileData != null and fileData != ''">
          and FILE_DATA = #{fileData,jdbcType=VARCHAR}

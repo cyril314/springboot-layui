@@ -28,7 +28,7 @@
     <div class="error__title" th:text="${error != null ? error : '系统错误'}">System Error Page</div>
     <div class="error__description" th:text="${message != null ? message : '不好意思，您访问的页面出现问题~'}">Internal system error</div>
     <div class="error__description" th:text="${path != null ? 'Path: ' + path : '不好意思，您访问的页面出现问题~'}">request path</div>
-    <button class="action" onclick="window.location.href='/'">Go Home</button>
+    <button class="action" onclick="window.location.href='/index'">Go Home</button>
 </div>
 
 <script th:inline="javascript">
