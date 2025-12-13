@@ -39,15 +39,23 @@
     </div>
 </div>
 <script>
-    layui.use(['jquery', 'table', 'form', 'layer'], function ($, table, form, layer) {
-        table.render({
+    layui.use(['jquery', 'treeTable', 'form', 'layer'], function ($, treeTable, form, layer) {
+        treeTable.render({
+            id: 'test',
             elem: '#table-list',
             url: '/admin/lms/subject/know/list',
             method: 'post',
             dataType: 'JSON',
-            page: true,
-            toolbar: '#toolbar',
+            tree: {
+                customName: {pid: 'pid'},
+                data: {isSimpleData: true},
+                view: {initExpandLevel: 2}
+            },
             smartReloadModel: true,
+            isSimpleData: true,
+            page: false,
+            height: 'full-160',
+            toolbar: '#toolbar',
             cols: [
                 [
                     {type: 'checkbox'},
@@ -71,11 +79,13 @@
                     "data": res.data,
                     "count": res.total
                 };
+            }, done: function (res, curr, count) {
+                treeTable.expandNode('test', {index: 0, expandFlag: true});
             }
         });
 
         // 工具条点击事件
-        table.on('toolbar', function (obj) {
+        treeTable.on('toolbar', function (obj) {
             if (obj.event === 'add') {
                 editView("/admin/lms/subject/know/edit", "添加");
             } else if (obj.event === 'del') {
@@ -94,7 +104,7 @@
             }
         });
 
-        table.on('tool', function (obj) {
+        treeTable.on('tool', function (obj) {
             let data = obj.data, event = obj.event;
             if (event === 'edit') {
                 editView("/admin/lms/subject/know/edit?id=" + data.id, "编辑");

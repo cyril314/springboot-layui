@@ -50,6 +50,7 @@ public class IndexController extends BaseController {
         map.put("enabled", 2);
         List<LmsRoom> rooms = this.roomService.findList(map);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("role", 5);
         return "front/index";
     }
 
@@ -73,20 +74,8 @@ public class IndexController extends BaseController {
     }
 
     @GetMapping("/detail")
-    public String detail(HttpServletRequest request, Model model) {
-        Map<String, Object> map = WebUtil.getRequestMap(request);
-        List<MenuNode> menus = menuService.getUserMenuNodes(Arrays.asList(Long.valueOf("1")), request);
-        map.put("mold", 2);
-        List<LmsTop> tops = topService.findList(map);
-        model.addAttribute("menus", menus);
-        model.addAttribute("tops", tops);
-        map.clear();
-        int pageSize = 12;
-        int pageNumber = toInt(request.getParameter("pageNumber")) * pageSize;
-        map.put("pageNumber", pageNumber);
-        map.put("pageSize", pageSize);
-        map.put("enabled", 2);
-        List<LmsRoom> rooms = this.roomService.findList(map);
+    public String detail(Model model, Long id) {
+        LmsRoom rooms = this.roomService.get(id);
         model.addAttribute("rooms", rooms);
         return "front/detail";
     }

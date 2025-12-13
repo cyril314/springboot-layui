@@ -1,54 +1,16 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vue3实战 - 答题室</title>
-    <!-- 引入 LayUI CSS -->
-    <link href="/css/layui.css" rel="stylesheet">
-    <style>
-        /* 仅保留必要的自定义样式 */
-        body {
-            background-color: #f2f2f2;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-        .exam-status {
-            margin-top: 10px;
-        }
-        .price-tag {
-            font-size: 28px;
-            color: #ff5722;
-            font-weight: bold;
-        }
-    </style>
-</head>
+<head th:include="include :: head('做题吧 - 答题室')"></head>
 <body>
+<div th:include="include :: f_header"></div>
 <div class="container layui-fluid">
-    <!-- 页面标题 -->
-    <div class="layui-row">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header" style="text-align: center; font-size: 24px; font-weight: bold;">
-                    Vue3实战学习平台
-                </div>
-                <div class="layui-card-body" style="text-align: center; color: #666;">
-                    Vue 3.0 从入门到实战项目开发 - 在线答题室
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="layui-row layui-col-space20">
         <!-- 左侧：课程信息 -->
         <div class="layui-col-md8">
             <!-- 课程卡片 -->
             <div class="layui-card">
-                <div class="layui-card-header" style="background: #009688; color: white; font-size: 18px;">
-                    <i class="layui-icon layui-icon-template-1"></i> Vue3实战课程
+                <div class="layui-card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                    <span style="color: #fff;"><i class="layui-icon layui-icon-template-1"></i> Vue3实战课程</span>
                 </div>
                 <div class="layui-card-body">
                     <h2 style="margin-bottom: 10px;">Vue 3.0 从入门到实战项目开发</h2>
@@ -78,14 +40,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div style="text-align: center; margin-top: 20px; padding: 20px; background: #f2f2f2; border-radius: 4px;">
                         <span class="price-tag">¥299</span>
                         <span style="color: #999; margin-left: 5px;">元</span>
                     </div>
                 </div>
             </div>
-
             <!-- 课程特点 -->
             <div class="layui-card" style="margin-top: 20px;">
                 <div class="layui-card-header">
@@ -118,14 +78,13 @@
                 </div>
             </div>
         </div>
-
         <!-- 右侧：答题室信息 -->
         <div class="layui-col-md4">
             <!-- 答题室卡片 -->
             <div class="layui-card">
-                <div class="layui-card-header" style="background: #1E9FFF; color: white;">
+                <div class="layui-card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                     <i class="layui-icon layui-icon-list"></i> 测试答题室
-                    <span class="layui-badge layui-bg-white" style="float: right; color: #1E9FFF;">永久有效</span>
+                    <span class="layui-badge layui-bg-white" style="float: right; color: #FFF;">永久有效</span>
                 </div>
                 <div class="layui-card-body">
                     <!-- 答题室信息 -->
@@ -161,7 +120,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- 答题室人数 -->
                     <div class="layui-card" style="background: #f8f8f8; text-align: center; margin: 20px 0;">
                         <div class="layui-card-body">
@@ -169,22 +127,16 @@
                             <div style="color: #666;">进入答题室人数</div>
                         </div>
                     </div>
-
                     <!-- 操作按钮 -->
                     <div class="layui-row layui-col-space10">
                         <div class="layui-col-xs6">
-                            <button class="layui-btn layui-btn-fluid layui-bg-blue">
-                                <i class="layui-icon layui-icon-list"></i> 进入答题室
+                            <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-purple">
+                                <i class="layui-icon layui-icon-play"></i> 进入答题室
                             </button>
                         </div>
                         <div class="layui-col-xs6">
-                            <button class="layui-btn layui-btn-fluid layui-bg-orange">
-                                <i class="layui-icon layui-icon-edit"></i> 阅卷/查理
-                            </button>
-                        </div>
-                        <div class="layui-col-xs12" style="margin-top: 10px;">
-                            <button class="layui-btn layui-btn-fluid layui-btn-primary">
-                                <i class="layui-icon layui-icon-file-b"></i> 查看报告
+                            <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-orange">
+                                <i class="layui-icon layui-icon-file-b"></i> 报告
                             </button>
                         </div>
                     </div>
@@ -219,31 +171,15 @@
             </div>
         </div>
     </div>
-
-    <!-- 页脚 -->
-    <div class="layui-row" style="margin-top: 30px;">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-body" style="text-align: center; color: #999;">
-                    <p>© 2023 Vue3实战学习平台 | 在线答题系统</p>
-                    <p style="margin-top: 5px; font-size: 14px;">本答题室永久有效，可随时进入练习</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-
+<div th:include="include :: f_footer"></div>
 <!-- 引入 LayUI JS -->
 <script src="/js/layui.js"></script>
 <script>
-    layui.use(['element', 'form', 'layer'], function(){
-        var element = layui.element;
-        var form = layui.form;
-        var layer = layui.layer;
-
+    layui.use(['element', 'form', 'layer'], function (element, form, layer) {
         // 按钮点击事件
-        document.querySelectorAll('.layui-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
+        document.querySelectorAll('.layui-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
                 var btnText = this.textContent.trim();
 
                 if (btnText.includes('进入答题室')) {

@@ -39,7 +39,7 @@ public class ResourcesController extends BaseController {
     private ZtreeNodeService ztreeNodeService;
 
     @GetMapping("/list")
-    public String adminUser(Model model) {
+    public String list(Model model) {
         model.addAttribute("title", "资源列表");
         return PREFIX + "list";
     }
@@ -49,7 +49,7 @@ public class ResourcesController extends BaseController {
      */
     @PostMapping("/list")
     @ResponseBody
-    public void adminUser(HttpServletRequest request, HttpServletResponse response) {
+    public void list(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = WebUtil.getRequestMap(request);
         List<SysResources> userList = resourcesService.findList(map);
         int count = resourcesService.findCount(map);

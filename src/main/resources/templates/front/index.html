@@ -3,43 +3,7 @@
 <head th:include="include :: head('做题吧 - 首页')"></head>
 <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}"/>
 <body>
-<div class="header-bg">
-    <div class="layui-container">
-        <div class="layui-header">
-            <div class="layui-row layui-col-space20">
-                <!-- Logo -->
-                <div class="layui-col-md2">
-                    <div class="layui-logo" style="color: #fff; font-size: 22px; height: 60px; line-height: 45px;">
-                        <img th:src="@{/images/logo.png}" alt="logo" height="30px"/>
-                        <cite>做题吧</cite>
-                    </div>
-                </div>
-                <!-- 导航菜单 -->
-                <div class="layui-col-md7">
-                    <ul class="layui-nav" style="background: transparent;">
-                        <li class="layui-nav-item layui-this"><a href="/" style="color: #fff;">首页</a></li>
-                        <li class="layui-nav-item LAY_TRIGGER">
-                            <a href="#" style="color: #fff;">课程中心 <i class="layui-icon">&#xe61a;</i></a>
-                        </li>
-                        <li class="layui-nav-item"><a href="#" style="color: #fff;">知识库</a></li>
-                        <li class="layui-nav-item"><a href="#" style="color: #fff;">实战项目</a></li>
-                        <li class="layui-nav-item"><a href="#" style="color: #fff;">问答社区</a></li>
-                    </ul>
-                </div>
-                <!-- 用户操作 -->
-                <div class="layui-col-md3">
-                    <div class="layui-nav" style="background: transparent; float: right;">
-                        <div class="layui-nav-item">
-                            <a th:href="@{/login}" style="color: #fff;">
-                                <i class="layui-icon layui-icon-username"></i> 登录
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:include="include :: f_header"></div>
 <!-- 搜索区域 -->
 <div class="search-section">
     <div class="layui-container">
@@ -77,12 +41,13 @@
         <div class="layui-col-md12">
             <div class="section-title">
                 <span>热门课程</span>
-                <a th:href="@{/rooms}" class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;">更多课程</a>
+                <a th:href="@{/rooms}" class="layui-btn layui-btn-primary layui-btn-sm"
+                   style="float: right;">更多课程</a>
             </div>
         </div>
     </div>
-    <div class="layui-row layui-col-space20">
-        <div class="layui-col-md4 layui-col-sm6" th:each="room : ${rooms}">
+    <div class="rooms layui-row layui-col-space20">
+        <div class="layui-col-md4 layui-col-sm6" th:each="room : ${rooms}" th:data-room-id="${room.id}">
             <div class="layui-card" style="border: 1px solid #EEEEEE">
                 <div class="layui-card-header" style="background: #E2E2E2; color: black;">
                     <i class="layui-icon layui-icon-component"></i> <span th:text="${room?.name}">答题室标题</span>
@@ -107,8 +72,8 @@
                     <hr/>
                     <div class="layui-row layui-col-space5" style="margin-top: 10px;">
                         <div class="layui-col-xs6">
-                            <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-red">
-                                <i class="layui-icon layui-icon-edit"></i> 阅卷
+                            <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-purple">
+                                <i class="layui-icon layui-icon-play"></i> 进入答题室
                             </button>
                         </div>
                         <div class="layui-col-xs6">
@@ -117,8 +82,9 @@
                             </button>
                         </div>
                     </div>
-                    <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-purple">
-                        <i class="layui-icon layui-icon-play"></i> 进入答题室
+                    <button class="layui-btn layui-btn-fluid layui-btn-primary layui-border-red"
+                            th:classappend="${role==5?'layui-hide':''}">
+                        <i class="layui-icon layui-icon-edit"></i> 阅卷
                     </button>
                 </div>
             </div>
@@ -126,62 +92,9 @@
     </div>
 </div>
 <!-- 底部信息 -->
-<div class="footer">
-    <div class="layui-container">
-        <div class="layui-row" style="padding: 40px 0;">
-            <div class="layui-col-md6">
-                <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #fff;">做题吧平台</div>
-                <div style="color: #bdc3c7; line-height: 1.6; margin-bottom: 20px;">
-                    专注于提供高质量的在线做题平台，帮助您实现成长。
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">学习资源</div>
-                <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">课程中心</a>
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">知识库</a></div>
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">实战项目</a>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">服务支持</div>
-                <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">帮助中心</a>
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">常见问题</a>
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">联系我们</a>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md2">
-                <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">关于我们</div>
-                <div style="color: #bdc3c7;">
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">公司介绍</a>
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">加入我们</a>
-                    </div>
-                    <div style="margin-bottom: 8px;">
-                        <a href="#" style="color: #bdc3c7; text-decoration: none;">隐私政策</a>
-                    </div>
-                </div>
-            </div>
-            <div th:include="include :: footer"></div>
-        </div>
-    </div>
-</div>
+<div th:include="include :: f_footer"></div>
 <script>
-    layui.use(['element', 'form', 'carousel', 'dropdown'], function (element, form, carousel, dropdown) {
+    layui.use(['jquery', 'element', 'form', 'carousel', 'dropdown'], function ($, element, form, carousel, dropdown) {
         carousel.render({
             elem: '#banner',        // 绑定容器
             width: '100%',           // 宽度自适应
@@ -205,6 +118,21 @@
                 title: 'menu item 3',
                 id: 102
             }]
+        });
+
+        $('.rooms').on('click', '.layui-btn', function (e) {
+            e.stopPropagation();
+            var $btn = $(this);
+            var $card = $btn.closest('.layui-card');
+            var roomId = $card.parent().data('roomId');
+            if ($btn.hasClass('layui-border-purple')) {
+                console.log("答题室" + roomId)
+                location.href = "/detail?id=" + roomId;
+            } else if ($btn.hasClass('layui-border-orange')) {
+                console.log("报告" + roomId)
+            } else if ($btn.hasClass('layui-border-red')) {
+                console.log("阅卷" + roomId)
+            }
         });
     });
 </script>

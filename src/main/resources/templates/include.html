@@ -58,8 +58,7 @@
             <li class="layui-nav-item user-selection">
                 <a>
                     <img th:src="@{/images/logo.png}" class="layui-nav-img" alt="头像">
-                    <cite> [[${username?:'用户'}]]</cite>
-                    <span class="layui-nav-more"></span>
+                    <cite style="margin: 0 10px;">[[${session.username?:'用户'}]]</cite>
                 </a>
                 <dl class="layui-nav-child">
                     <dd lay-unselect><a lay-event="userInfo">基本资料</a></dd>
@@ -79,5 +78,116 @@
     </div>
     <!-- 移动端遮罩 -->
     <div class="site-mobile-shade"></div>
+</div>
+
+<div th:fragment="f_header">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <div class="layui-container">
+            <div class="layui-header">
+                <div class="layui-row layui-col-space20">
+                    <!-- Logo -->
+                    <div class="layui-col-md2">
+                        <div class="layui-logo" style="color: #fff; font-size: 22px; height: 60px; line-height: 45px;">
+                            <img th:src="@{/images/logo.png}" alt="logo" height="30px"/>
+                            <cite>做题吧</cite>
+                        </div>
+                    </div>
+                    <!-- 导航菜单 -->
+                    <div class="layui-col-md7">
+                        <ul class="layui-nav" style="background: transparent;">
+                            <li class="layui-nav-item layui-this">
+                                <a href="/" style="color: #fff;">首页</a>
+                            </li>
+                            <li class="layui-nav-item LAY_TRIGGER">
+                                <a href="#" style="color: #fff;">课程中心 <i class="layui-icon">&#xe61a;</i></a>
+                            </li>
+                            <li class="layui-nav-item"><a href="#" style="color: #fff;">知识库</a></li>
+                            <li class="layui-nav-item"><a href="#" style="color: #fff;">实战项目</a></li>
+                            <li class="layui-nav-item"><a href="#" style="color: #fff;">问答社区</a></li>
+                        </ul>
+                    </div>
+                    <!-- 用户操作 -->
+                    <div class="layui-col-md3">
+                        <div class="layui-nav" style="background: transparent; float: right;">
+                            <div th:if="${session.username!= null}" class="layui-nav-item">
+                                <a>
+                                    <img th:src="@{/images/logo.png}" class="layui-nav-img" alt="头像">
+                                    <cite style="margin: 0 10px;">[[${session.username?:'用户'}]]</cite>
+                                </a>
+                                <dl class="layui-nav-child">
+                                    <dd lay-unselect><a lay-event="userInfo">基本资料</a></dd>
+                                    <dd lay-unselect><a lay-event="editPwd">修改密码</a></dd>
+                                    <hr>
+                                    <dd lay-unselect><a th:href="@{/logout}">退出</a></dd>
+                                </dl>
+                            </div>
+                            <div th:unless="${session.username!= null}" class="layui-nav-item">
+                                <a th:href="@{/login}" style="color: #fff;">
+                                    <i class="layui-icon layui-icon-username"></i> 登录
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="f_footer">
+    <div class="footer">
+        <div class="layui-container">
+            <div class="layui-row" style="padding: 40px 0;">
+                <div class="layui-col-md6">
+                    <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #fff;">做题吧平台</div>
+                    <div style="color: #bdc3c7; line-height: 1.6; margin-bottom: 20px;">
+                        专注于提供高质量的在线做题平台，帮助您实现成长。
+                    </div>
+                </div>
+                <div class="layui-col-md2">
+                    <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">学习资源</div>
+                    <div style="color: #bdc3c7;">
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">课程中心</a>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">知识库</a></div>
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">实战项目</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md2">
+                    <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">服务支持</div>
+                    <div style="color: #bdc3c7;">
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">帮助中心</a>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">常见问题</a>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">联系我们</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md2">
+                    <div style="color: #ecf0f1; font-weight: bold; margin-bottom: 15px;">关于我们</div>
+                    <div style="color: #bdc3c7;">
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">公司介绍</a>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">加入我们</a>
+                        </div>
+                        <div style="margin-bottom: 8px;">
+                            <a href="#" style="color: #bdc3c7; text-decoration: none;">隐私政策</a>
+                        </div>
+                    </div>
+                </div>
+                <div th:include="include :: footer"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </html>

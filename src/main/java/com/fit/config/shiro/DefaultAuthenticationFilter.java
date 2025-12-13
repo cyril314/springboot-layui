@@ -102,6 +102,7 @@ public class DefaultAuthenticationFilter extends FormAuthenticationFilter {
             if (oldSavedRequest != null) {
                 try {
                     subject.getSession().setAttribute(WebUtils.SAVED_REQUEST_KEY, oldSavedRequest);
+                    subject.getSession().setAttribute("username", loginName);
                 } catch (Exception ex) {
                     log.warn("恢复 SavedRequest 失败: {}", ex.getMessage(), ex);
                 }
